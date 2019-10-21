@@ -3,7 +3,7 @@
     <name>or_test</name>
     <version>1.0.0</version>
     <description>
-        The or_test package provides quick bringup for OrchardRover system
+        The or_test package provides quick test for OrchardRover system
     </description>
     <author>Leonard Chen</author>
     <maintainer email="1344618323@qq.com">Leonard Chen</maintainer>
