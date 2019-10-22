@@ -1,9 +1,18 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "or_msgs/TrunkAngleMsg.h"
 
-void chatterCallback(const std_msgs::String::ConstPtr& msg)
+// void chatterCallback(const std_msgs::String::ConstPtr& msg)
+// {
+//   ROS_INFO("I heard: [%s]", msg->data.c_str());
+// }
+
+void chatterCallback(const or_msgs::TrunkAngleMsg::ConstPtr& msg)
 {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  for(int i=0;i<msg->angle.size();i++){
+    std::cout<<msg->angle[i]<<",";
+  }
+  std::cout<<std::endl;
 }
 
 int main(int argc, char **argv)

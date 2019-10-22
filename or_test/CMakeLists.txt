@@ -9,7 +9,10 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs 
   cv_bridge 
   image_transport 
-  sensor_msgs)
+  sensor_msgs
+  rospy
+  or_msgs
+  )
 
 ## System dependencies are found with CMake's conventions
 find_package(OpenCV REQUIRED)
@@ -28,6 +31,8 @@ add_executable(testpublish
 target_link_libraries(testpublish
   ${catkin_LIBRARIES}
 )
+add_dependencies(testpublish or_msgs_generate_messages)
+
 
 add_executable(testlistener
   src/testlistener.cpp
@@ -35,6 +40,7 @@ add_executable(testlistener
 target_link_libraries(testlistener
   ${catkin_LIBRARIES}
 )
+add_dependencies(testlistener or_msgs_generate_messages)
 
 add_executable(robot_vision
   src/robot_vision.cpp
@@ -42,4 +48,11 @@ add_executable(robot_vision
 target_link_libraries(robot_vision
   ${catkin_LIBRARIES}
   ${OpenCV_LIBS}
+)
+
+
+catkin_install_python(PROGRAMS
+  scripts/testpylistener.py
+  scripts/testpytalker.py
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
 )

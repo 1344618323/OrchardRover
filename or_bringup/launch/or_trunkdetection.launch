@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="or_detection" name="trunkdetection_node" type="trunk_detection.py" output="screen"/>
+</launch>

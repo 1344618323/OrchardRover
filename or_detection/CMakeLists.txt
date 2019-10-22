@@ -4,6 +4,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   message_generation 
   std_msgs
+  or_msgs
 )
 
 catkin_package()

@@ -1,0 +1,4 @@
+<launch>
+<node pkg="or_test" name="testpublic_c" type="testpublish" />
+<node pkg="or_test" name="testpublic_python" type="testpylistener.py" output="screen"/>
+</launch>

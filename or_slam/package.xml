@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>or_detection</name>
+    <name>or_slam</name>
     <version>1.0.0</version>
     <description>
-        The or_detection package provides detectioin for OrchardRover system
+        The or_slam package provides slam for OrchardRover system
     </description>
     <author>Leonard Chen</author>
     <maintainer email="1344618323@qq.com">Leonard Chen</maintainer>
@@ -12,13 +12,20 @@
 
     <buildtool_depend>catkin</buildtool_depend>
 
-    <!-- <build_depend>message_generation</build_depend> -->
-    <build_depend>rospy</build_depend>
-    <build_depend>std_msgs</build_depend>
+    <build_depend>roscpp</build_depend>
+    <exec_depend>roscpp</exec_depend>
 
-    <!-- <run_depend>message_runtime</run_depend> -->
-    <exec_depend>rospy</exec_depend>
+    <build_depend>std_msgs</build_depend>
     <exec_depend>std_msgs</exec_depend>
+
+    <build_depend>sensor_msgs</build_depend>
+    <exec_depend>sensor_msgs</exec_depend>
+    
+    <build_depend>tf2</build_depend>
+    <exec_depend>tf2</exec_depend>
+
+    <build_depend>tf2_ros</build_depend>
+    <exec_depend>tf2_ros</exec_depend>
 
     <build_depend>or_msgs</build_depend>
     <exec_depend>or_msgs</exec_depend>
