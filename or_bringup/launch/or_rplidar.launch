@@ -1,6 +1,5 @@
 <launch>
   <master auto="start"/>
-  <!-- Run the robot sdk interface -->
   <include file="$(find rplidar_ros)/launch/view_rplidar_s1.launch" />
 
 </launch>

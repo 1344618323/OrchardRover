@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find rplidar_ros)/launch/rplidar_s1.launch"/>
+  <node pkg="or_slam" name="fastslam_node" type="fastslam_node" output="screen"/>
+</launch>

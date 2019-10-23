@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(or_test)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD 14)
 
 find_package(catkin REQUIRED COMPONENTS 
   roscpp 
@@ -12,6 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   rospy
   or_msgs
+  message_filters
+  nav_msgs
+  tf
   )
 
 ## System dependencies are found with CMake's conventions
@@ -41,6 +44,27 @@ target_link_libraries(testlistener
   ${catkin_LIBRARIES}
 )
 add_dependencies(testlistener or_msgs_generate_messages)
+
+add_executable(timesynchronizer
+  src/timesynchronizer.cpp
+        )
+target_link_libraries(timesynchronizer
+  ${catkin_LIBRARIES}
+)
+
+add_executable(turtle_tf_broadcaster
+  src/turtle_tf_broadcaster.cpp
+        )
+target_link_libraries(turtle_tf_broadcaster
+  ${catkin_LIBRARIES}
+)
+
+add_executable(turtle_tf_listener
+  src/turtle_tf_listener.cpp
+        )
+target_link_libraries(turtle_tf_listener
+  ${catkin_LIBRARIES}
+)
 
 add_executable(robot_vision
   src/robot_vision.cpp

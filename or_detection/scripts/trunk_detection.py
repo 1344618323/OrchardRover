@@ -113,15 +113,28 @@ if __name__ == '__main__':
     # if cap.isOpened():
     #     cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
     #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
+
+    fs=cv2.FileStorage('/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_detection/camparams/LongFCamCalib.yaml',cv2.FileStorage_READ)
+    intrinsicMatrix=fs.getNode('intrinsicMatrix').mat()
+    distCoeffs=fs.getNode('distCoeffs').mat()
+    fs.release()
+
+    print intrinsicMatrix
+    print distCoeffs
+
     while cap.isOpened() and not rospy.is_shutdown():
         ret, im = cap.read()
-        # cv2.imshow('frame',im)
-        boxes=detecte_and_draw(net, im)
+        out=np.zeros_like(im)
+        cv2.undistort(im,intrinsicMatrix,distCoeffs,out)
+        # cv2.imshow('frame',out)
+
+        # boxes=detecte_and_draw(net, im)
+        boxes=detecte_and_draw(net, out)
         if boxes !=[]:
             angle=[]
             for box in boxes:
-                angle.append(math.atan2((CAMERAux-box[2]),CAMERAFdSx)*180/math.pi)
-                angle.append(math.atan2((CAMERAux-box[0]),CAMERAFdSx)*180/math.pi)
+                angle.append(math.atan2((intrinsicMatrix[0][2]-box[2]),intrinsicMatrix[0][0])*180/math.pi)
+                angle.append(math.atan2((intrinsicMatrix[0][2]-box[0]),intrinsicMatrix[0][0])*180/math.pi)
             angle_pub.publish(TrunkAngleMsg(None,angle))
         cv2.waitKey(5)
     cap.release()

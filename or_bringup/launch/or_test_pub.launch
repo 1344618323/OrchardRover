@@ -1,4 +1,7 @@
 <launch>
 <node pkg="or_test" name="testpublic_c" type="testpublish" />
-<node pkg="or_test" name="testpublic_python" type="testpylistener.py" output="screen"/>
+<!-- <node pkg="or_test" name="testpublic_python" type="testpytalker.py"/>
+<node pkg="or_test" name="timesynchronizer" type="timesynchronizer" output="screen"/> -->
+<node pkg="or_test" name="turtle_tf_broadcaster" type="turtle_tf_broadcaster"/> 
+<node pkg="or_test" name="turtle_tf_listener" type="turtle_tf_listener" output="screen"/> 
 </launch>

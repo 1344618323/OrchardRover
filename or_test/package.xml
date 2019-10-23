@@ -36,6 +36,15 @@
     <build_depend>or_msgs</build_depend>
     <exec_depend>or_msgs</exec_depend>
 
+    <build_depend>message_filters</build_depend>
+    <exec_depend>message_filters</exec_depend>
+  
+    <build_depend>nav_msgs</build_depend>
+    <exec_depend>nav_msgs</exec_depend>
+
+    <build_depend>tf</build_depend>
+    <exec_depend>tf</exec_depend>
+
     <export>
     </export>
 
