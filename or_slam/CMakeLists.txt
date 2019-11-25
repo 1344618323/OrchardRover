@@ -18,18 +18,22 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package()
 
+add_subdirectory(fastslamalgs)
+
 include_directories(
   include 
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
 )
 
-add_executable(fastslam_node
-  src/fastslam_node.cpp
-  include/fastslam_node.h
+add_executable(${PROJECT_NAME}_node
+        src/slam_node.cpp
+        include/slam_node.h
 )
-target_link_libraries(fastslam_node
-  ${catkin_LIBRARIES}
+target_link_libraries(${PROJECT_NAME}_node
+        ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
   ${GLOG_LIBRARY}
+        fastslamalgs
 )
-add_dependencies(fastslam_node or_msgs_generate_messages)
+add_dependencies(${PROJECT_NAME}_node  or_msgs_generate_messages)

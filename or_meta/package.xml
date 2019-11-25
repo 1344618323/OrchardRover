@@ -15,6 +15,7 @@
     <run_depend>or_bringup</run_depend>
     <run_depend>or_detection</run_depend>
     <run_depend>or_msgs</run_depend>
+    <run_depend>hk_camera</run_depend>
 
     <export>
         <metapackage/>

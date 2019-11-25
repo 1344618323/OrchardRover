@@ -1,3 +1,5 @@
 <launch>
   <node pkg="or_detection" name="trunkdetection_node" type="trunk_detection.py" output="screen"/>
+  <include file="$(find rplidar_ros)/launch/rplidar_s1.launch"/>
+  <node pkg="or_slam" name="fastslam_node" type="fastslam_node" output="screen"/>
 </launch>

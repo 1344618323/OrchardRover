@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     ros::NodeHandle n;
     ros::Publisher chatter_pub = n.advertise<or_msgs::TrunkAngleMsg>("chatter", 1000);
     ros::Publisher chatter_pub2 = n.advertise<or_msgs::TrunkAngleMsg>("chatter2", 1000);
-    ros::Rate loop_rate(10);
+    ros::Rate loop_rate(0.5);
     int count = 0;
     while (ros::ok())
     {

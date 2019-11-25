@@ -16,14 +16,20 @@ from utils.timer import Timer
 import matplotlib.pyplot as plt
 from or_msgs.msg import TrunkAngleMsg
 
+from sensor_msgs.msg import Image
+import cv_bridge
+import copy
+
+
 CLASSES = ('__background__',
            'tree', 'pine_tree')
 
-CAMERAFdSx= 752.9652
-CAMERAux= 308.3392
+CAMERAFdSx = 752.9652
+CAMERAux = 308.3392
 
 # CAMERAFdSx= 1435.2
 # CAMERAux= 595.4
+
 
 def vis_detections(im, class_name, dets, thresh=0.9):
     """Draw detected bounding boxes."""
@@ -92,12 +98,24 @@ def detecte_and_draw(net, im):
     return pubbox
 
 
+cfg.TEST.HAS_RPN = True  # Use RPN for proposals
+
+
+class DetectTrunk:
+    def __init__(self):
+        self.bridge = cv_bridge.CvBridge()
+        self.image_sub = rospy.Subscriber(
+            'hk_image', Image, self.image_callback)
+        self.procimg = []
+
+    def image_callback(self, msg):
+        self.procimg = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+
 if __name__ == '__main__':
     rospy.init_node('talker', anonymous=True)
-    angle_pub = rospy.Publisher('trunkAngle', TrunkAngleMsg, queue_size=10)
 
-    #faster-RCNN
-    cfg.TEST.HAS_RPN = True  # Use RPN for proposals
+    # 加载 faster-RCNN 模型
     prototxt = '/home/cxn/myfile/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
     caffemodel = '/home/cxn/myfile/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
     if not osp.isfile(caffemodel):
@@ -107,38 +125,81 @@ if __name__ == '__main__':
     net = caffe.Net(prototxt, caffemodel, caffe.TEST)
     print '\n\nLoaded network {:s}'.format(caffemodel)
 
-    # cap = cv2.VideoCapture(
-    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
-    cap = cv2.VideoCapture(1)
-    # if cap.isOpened():
-    #     cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
-    #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
+    detect_trunk = DetectTrunk()
 
-    fs=cv2.FileStorage('/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_detection/camparams/LongFCamCalib.yaml',cv2.FileStorage_READ)
-    intrinsicMatrix=fs.getNode('intrinsicMatrix').mat()
-    distCoeffs=fs.getNode('distCoeffs').mat()
-    fs.release()
+    angle_pub = rospy.Publisher(
+        'trunk_angle', TrunkAngleMsg, queue_size=10)
 
-    print intrinsicMatrix
-    print distCoeffs
-
-    while cap.isOpened() and not rospy.is_shutdown():
-        ret, im = cap.read()
-        out=np.zeros_like(im)
-        cv2.undistort(im,intrinsicMatrix,distCoeffs,out)
+    while not rospy.is_shutdown():
+        if detect_trunk.procimg == []:
+            continue
+        out = copy.deepcopy(detect_trunk.procimg)
         # cv2.imshow('frame',out)
 
-        # boxes=detecte_and_draw(net, im)
-        boxes=detecte_and_draw(net, out)
-        if boxes !=[]:
-            angle=[]
-            for box in boxes:
-                angle.append(math.atan2((intrinsicMatrix[0][2]-box[2]),intrinsicMatrix[0][0])*180/math.pi)
-                angle.append(math.atan2((intrinsicMatrix[0][2]-box[0]),intrinsicMatrix[0][0])*180/math.pi)
-            angle_pub.publish(TrunkAngleMsg(None,angle))
+        boxes = detecte_and_draw(net, out)
+        # if boxes != []:
+        #     angle = []
+        #     for box in boxes:
+        #         angle.append(math.atan2(
+        #             (intrinsicMatrix[0][2]-box[2]), intrinsicMatrix[0][0])*180/math.pi)
+        #         angle.append(math.atan2(
+        #             (intrinsicMatrix[0][2]-box[0]), intrinsicMatrix[0][0])*180/math.pi)
+        #         boxwidth = box[2]-box[0]
+        #         angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
+        #     angle_pub.publish(TrunkAngleMsg(None, angle))
         cv2.waitKey(5)
-    cap.release()
     cv2.destroyAllWindows()
+
+    rospy.spin()
+
+    # angle_pub = rospy.Publisher('trunkAngle', TrunkAngleMsg, queue_size=10)
+
+    # # 加载 faster-RCNN 模型
+    # cfg.TEST.HAS_RPN = True  # Use RPN for proposals
+    # prototxt = '/home/cxn/myfile/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
+    # caffemodel = '/home/cxn/myfile/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
+    # if not osp.isfile(caffemodel):
+    #     raise IOError(('{:s} not found.').format(caffemodel))
+    # caffe.set_mode_gpu()
+    # caffe.set_device(0)
+    # net = caffe.Net(prototxt, caffemodel, caffe.TEST)
+    # print '\n\nLoaded network {:s}'.format(caffemodel)
+
+    # cap = cv2.VideoCapture(
+    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
+    # # cap = cv2.VideoCapture(1)
+    # # if cap.isOpened():
+    # #     cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
+    # #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
+
+    # fs=cv2.FileStorage('/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_detection/camparams/LongFCamCalib.yaml',cv2.FileStorage_READ)
+    # intrinsicMatrix=fs.getNode('intrinsicMatrix').mat()
+    # distCoeffs=fs.getNode('distCoeffs').mat()
+    # fs.release()
+
+    # print intrinsicMatrix
+    # print distCoeffs
+
+    # while cap.isOpened() and not rospy.is_shutdown():
+    #     ret, im = cap.read()
+    #     # out=np.zeros_like(im)
+    #     # cv2.undistort(im,intrinsicMatrix,distCoeffs,out)
+    #     out=im
+    #     # cv2.imshow('frame',out)
+
+    #     # boxes=detecte_and_draw(net, im)
+    #     boxes=detecte_and_draw(net, out)
+    #     if boxes !=[]:
+    #         angle=[]
+    #         for box in boxes:
+    #             angle.append(math.atan2((intrinsicMatrix[0][2]-box[2]),intrinsicMatrix[0][0])*180/math.pi)
+    #             angle.append(math.atan2((intrinsicMatrix[0][2]-box[0]),intrinsicMatrix[0][0])*180/math.pi)
+    #             boxwidth=box[2]-box[0]
+    #             angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
+    #         angle_pub.publish(TrunkAngleMsg(None,angle))
+    #     cv2.waitKey(5)
+    # cap.release()
+    # cv2.destroyAllWindows()
 
     # im_names = ['/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_171646.jpg',
     #     '/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_181206.jpg']

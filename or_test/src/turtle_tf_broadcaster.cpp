@@ -4,7 +4,7 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "my_tf_broadcaster");
     ros::NodeHandle node;
-    ros::Rate loop_rate(0.5);
+    ros::Rate loop_rate(10);
     double count = 0;
     tf::TransformBroadcaster br;
 

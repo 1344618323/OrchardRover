@@ -5,6 +5,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation 
   std_msgs
   or_msgs
+  cv_bridge
+  sensor_msgs
 )
 
 catkin_package()

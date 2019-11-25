@@ -56,8 +56,8 @@ class fuck
 public:
     fuck()
     {
-        point_sub = std::make_shared<message_filters::Subscriber<or_msgs::TrunkAngleMsg>>(nh, "chatter", 5);
-        tf_filter = std::make_shared<tf::MessageFilter<or_msgs::TrunkAngleMsg>>(*point_sub, tfl, "map", 1);
+        point_sub = std::make_shared<message_filters::Subscriber<or_msgs::TrunkAngleMsg>>(nh, "chatter", 20);
+        tf_filter = std::make_shared<tf::MessageFilter<or_msgs::TrunkAngleMsg>>(*point_sub, tfl, "map", 10);
         tf_filter->registerCallback(boost::bind(&fuck::msgCallback, this, _1));
     }
     //  Callback to register with tf::MessageFilter to be called when transforms are available
