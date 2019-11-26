@@ -6,7 +6,7 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
     nh->param<double>("odom_alpha2", odom_alpha2_, 0.005);
     nh->param<double>("odom_alpha3", odom_alpha3_, 0.01);
     nh->param<double>("odom_alpha4", odom_alpha4_, 0.005);
-    nh->param<double>("update_min_d", update_min_d_, 0.2); //dji官方给值0.05(50mm)与0.03（1.7度）
+    nh->param<double>("update_min_d", update_min_d_, 0.2); //0.05(50mm)与0.03（1.7度）
     // 在执行滤波更新前平移运动的距离
     nh->param<double>("update_min_a", update_min_a_, 0.5);
 
@@ -31,21 +31,33 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
 }
 
 FastSlam::~FastSlam() {
-
+    LOG_INFO << "FastSlam Delete!";
 }
 
-int FastSlam::Update(const Vec3d &pose,
-                     const std::vector<Vec2d> land_marks) {
+int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> land_marks,
+                     geometry_msgs::PoseArray &particle_cloud_pose_msg) {
     UpdateOdomPoseData(pose);
     if (land_marks.size() != 0) {
         UpdateObserveData(land_marks);
         //resample
-        Resample(pf_ptr_);
+        //pf_ptr_->UpdateResample();
     }
-
+    particle_cloud_pose_msg = GetParticlesCloudMsg();
     return 0;
 }
 
+geometry_msgs::PoseArray FastSlam::GetParticlesCloudMsg() {
+    geometry_msgs::PoseArray particle_cloud_pose_msg;
+    particle_cloud_pose_msg.poses.resize(pf_ptr_->GetCurrentSampleSetPtr()->sample_count);
+    for (int i = 0; i < pf_ptr_->GetCurrentSampleSetPtr()->sample_count; i++) {
+        tf::poseTFToMsg(tf::Pose(tf::createQuaternionFromYaw(pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i].pose[2]),
+                                 tf::Vector3(pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i].pose[0],
+                                             pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i].pose[1],
+                                             0)),
+                        particle_cloud_pose_msg.poses[i]);
+    }
+    return particle_cloud_pose_msg;
+}
 
 void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
     Vec3d delta;
@@ -75,6 +87,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
             odom_data.pose = pose;
             odom_data.delta = delta;
             odom_model_ptr_->UpdateAction(pf_ptr_->GetCurrentSampleSetPtr(), odom_data);
+            pf_odom_pose_ = pose;
         }
     }
 }
@@ -82,6 +95,10 @@ void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
 
 void FastSlam::SetSensorPose(const Vec3d &sensor_pose) {
     sensor_pose_ = sensor_pose;
+    DLOG_INFO << "sensor pose: " <<
+              sensor_pose_[0] << ", " <<
+              sensor_pose_[1] << ", " <<
+              sensor_pose_[2];
 }
 
 
@@ -241,39 +258,4 @@ void FastSlam::UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &
     Mat2d K = W1 * QjCholInv.transpose();
     lm_pose = lm_pose + K * dz;
     lm_cov = lm_cov - W1 * W1.transpose();
-}
-
-
-void FastSlam::NormalizeWeight(const SampleSetPtr &set_ptr) {
-    double sum = 0;
-    for (int k = 0; k < set_ptr->sample_count; k++) {
-        sum += set_ptr->samples_vec[k].weight;
-    }
-    for (int k = 0; k < set_ptr->sample_count; k++) {
-        set_ptr->samples_vec[k].weight /= sum;
-    }
-}
-
-void FastSlam::Resample(const ParticleFilterPtr &pf_ptr) {
-    SampleSetPtr set_ptr = pf_ptr->GetCurrentSampleSetPtr();
-    SampleSetPtr next_set_ptr = pf_ptr->GetNextSampleSetPtr();
-    NormalizeWeight(set_ptr);
-    int sample_count = set_ptr->sample_count;
-    double pw[sample_count];
-    double sample_base[sample_count];
-    pw[0] = set_ptr->samples_vec[0].weight;
-    sample_base[0] = drand48() / sample_count;
-    for (int k = 1; k < sample_count; k++) {
-        pw[k] = pw[k - 1] + set_ptr->samples_vec[k].weight;
-        sample_base[k] = sample_base[k - 1] + 1.0 / sample_count;
-    }
-    int ind = 0;
-    for (int k = 0; k < sample_count; k++) {
-        while (ind < set_ptr->sample_count && sample_base[k] > pw[ind]) {
-            ind++;
-        }
-        next_set_ptr->samples_vec[k] = set_ptr->samples_vec[ind];
-        next_set_ptr->samples_vec[k].weight = 1.0 / sample_count;
-    }
-    pf_ptr->ExchSetIndex();
 }

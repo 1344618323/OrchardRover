@@ -24,17 +24,10 @@ public:
         return this->sample_set_ptr_array_[current_set_];
     }
 
-    SampleSetPtr GetNextSampleSetPtr() const {
-        return this->sample_set_ptr_array_[(current_set_ + 1) % 2];
-    }
-
-    void ExchSetIndex() {
-        current_set_ = (current_set_ + 1) % 2;
-    }
-
 
 private:
     void InitByGuassian(const Vec3d &mean, const Mat3d &cov);
+    void NormalizeWeight();
 
 private:
     int samples_num_;

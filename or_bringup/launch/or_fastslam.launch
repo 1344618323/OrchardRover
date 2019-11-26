@@ -1,4 +1,8 @@
 <launch>
-  <include file="$(find rplidar_ros)/launch/rplidar_s1.launch"/>
-  <node pkg="or_slam" name="fastslam_node" type="fastslam_node" output="screen"/>
+
+  <!-- <include file="$(find rplidar_ros)/launch/rplidar_s1.launch"/> -->
+  
+  <rosparam command="load" file="$(find or_slam)/config/or_slam.yaml" />
+  <rosparam command="load" file="$(find or_slam)/fastslamalgs/config/fastslam.yaml" />
+  <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
 </launch>

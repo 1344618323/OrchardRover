@@ -21,7 +21,7 @@ void SensorOdom::SetModelDiff(double alpha1, double alpha2, double alpha3, doubl
     alpha4_ = alpha4;
 }
 
-bool SensorOdom::UpdateAction(std::shared_ptr<ParticleFilterSampleSet> sample_set_ptr, const SensorOdomData &odom_data) {
+bool SensorOdom::UpdateAction(SampleSetPtr sample_set_ptr, const SensorOdomData &odom_data) {
 
     DLOG_INFO << "Compute the new sample poses by motion model";
 

@@ -17,14 +17,27 @@ define frontcamera camera
 define rplidar ranger
 (
   sensor(
-    range_max 8.0
-    fov 270
-    samples 270
+    range_max 5.0
+    fov 150
+    samples 150
   )
   # generic model properties
   color "black"
   size [ 0.050 0.050 0.100 ]
 )
+
+define rplidar2 ranger
+(
+  sensor(
+    range_max 5.0
+    fov 70
+    samples 70
+  )
+  # generic model properties
+  color "black"
+  size [ 0.050 0.050 0.100 ]
+)
+
 
 define rmcar position
 (
@@ -33,7 +46,9 @@ define rmcar position
   gui_nose 1
   drive "omni"
   # frontcamera(pose [ 0 0 0 0 ])
-  rplidar(pose [ 0 0 0 0 ])
+  rplidar(pose [ 0 0.225 0 10 ])
+  # rplidar(pose [ 0 0.225 0 40 ])
+  # rplidar2(pose [ 0 -0.225 0 -40 ])
   odom_error [0.03 0.03 0.00 0.05]
   # [ xmin xmax ymin ymax zmin zmax amin amax ]				
   velocity_bounds [-2 2 -2 2 -2 2 -90 90 ]					
@@ -76,11 +91,11 @@ floorplan
 ( 
   name "RoboMaster Map"
   bitmap "../maps/orchard.pgm"
-  size [25.0 20.0 1.000]
-  pose [12.5  10.0  0 0 ]
+  size [37.0 20.0 1.000]
+  pose [18.5  10.0  0 0 ]
 )
 
 # throw in a robot
- rmcar(pose [ 1 1 0 0 ] name "rmcar0" color "blue" )
+ rmcar(pose [ 2.5 8 0 0 ] name "rmcar0" color "blue" )
 # throw in a block for test
- block(pose [ 7.79 3.45 0 0.3 ] color "red"  )
+# block(pose [ 7.79 3.45 0 0.3 ] color "red"  )

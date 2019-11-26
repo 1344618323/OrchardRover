@@ -18,6 +18,7 @@
 #include "types.h"
 
 #include "fastslam.h"
+
 #define THREAD_NUM 4 // ROS SPIN THREAD NUM
 
 
@@ -28,21 +29,25 @@ public:
     bool Init();
 
     void LaserScanCallbackForCheck(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
-    // void PublishVisualize();
 
     void TrunkAngleMsgCallback(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
 
     void LaserScanCallback(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
+
+    void TrunkAngleMsgCallbackForCheck(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
 
 private:
     //ROS Node handle
     ros::NodeHandle nh_;
     ros::Subscriber laser_scan_sub_;
     std::string laser_topic_;
+    std::string laser_topic_1_;
 
-    tf::TransformListener tf_listener;
-    std::shared_ptr<message_filters::Subscriber<or_msgs::TrunkAngleMsg>> trunk_angle_sub;
-    std::shared_ptr<tf::MessageFilter<or_msgs::TrunkAngleMsg>> tf_filter;
+    std::unique_ptr<tf::TransformListener> tf_listener_ptr_;
+    std::unique_ptr<tf::TransformBroadcaster> tf_broadcaster_ptr_;
+
+    std::unique_ptr<message_filters::Subscriber<or_msgs::TrunkAngleMsg>> trunk_angle_sub_;
+    std::unique_ptr<tf::MessageFilter<or_msgs::TrunkAngleMsg>> tf_filter_;
     std::string trunk_topic_;
     std::string odom_frame_;
     std::string base_frame_;
@@ -60,8 +65,18 @@ private:
     std::vector<Vec2d> trunk_pos_vec_;
     //Algorithm object
     std::unique_ptr<FastSlam> slam_ptr_;
+
+    ros::Publisher test_trunk_angle_pub_;
+    ros::Subscriber test_trunk_angle_sub_;
+
+    ros::Publisher particlecloud_pub_;
+    geometry_msgs::PoseArray particlecloud_msg_;
+
+    double trunk_radius_avg_ = 0.1;
+    double trunk_radius_sigma_ = 0.02;
 private:
     void GetLaserPose();
+
     sensor_msgs::LaserScan ChooseLaserScan(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
 
     bool GetPoseFromTf(const std::string &target_frame,
@@ -69,7 +84,14 @@ private:
                        const ros::Time &timestamp,
                        Vec3d &pose);
 
-    bool GetTrunkPosition(const sensor_msgs::LaserScan &laser_scan_msg,const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+    void GetTrunkPosition(const sensor_msgs::LaserScan &laser_scan_msg,
+                          const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+
+    void GetTrunkPosition(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+
+    void PublishVisualize();
+
+    bool PublishTf();
 };
 
 #endif

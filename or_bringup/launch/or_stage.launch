@@ -8,11 +8,15 @@
 
   <!-- Run the stage simulator -->
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(find or_bringup)/worlds/$(arg map).world" respawn="false" >
-    <remap from="base_scan" to="scan" />
+    <!-- <remap from="base_scan" to="scan" /> -->
     <param name="base_watchdog_timeout" value="0.01" />
   </node>
 
-  <node pkg="or_slam" type="fastslam_test" name="fastslam_test" respawn="false" />
+  <rosparam command="load" file="$(find or_slam)/config/or_slam.yaml" />
+  <rosparam command="load" file="$(find or_slam)/fastslamalgs/config/fastslam.yaml" />
+  <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
+
+  <!-- <node pkg="or_slam" type="fastslam_test" name="fastslam_test" respawn="false" /> -->
 
   <!-- Run the rviz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find or_bringup)/rviz/roborts.rviz" />

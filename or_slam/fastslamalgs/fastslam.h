@@ -22,7 +22,7 @@ public:
     ~FastSlam();
 
     int Update(const Vec3d &pose,
-               const std::vector<Vec2d> land_marks);
+               const std::vector<Vec2d> land_marks,  geometry_msgs::PoseArray &particle_cloud_pose_msg );
 
     void SetSensorPose(const Vec3d &sensor_pose);
 
@@ -44,11 +44,9 @@ private:
                        double &max_w, int &max_i);
 
     //def update_KF_with_cholesky(xf, Pf, v, Q, Hf):
-    void UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj);
+    void UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj);\
 
-    void NormalizeWeight(const SampleSetPtr &set_ptr);
-
-    void Resample(const ParticleFilterPtr &pf_ptr);
+    geometry_msgs::PoseArray GetParticlesCloudMsg();
 
 protected:
     Vec3d init_pose_;
@@ -76,10 +74,9 @@ protected:
 
     std::unique_ptr<SensorOdom> odom_model_ptr_;
 
-    std::shared_ptr<ParticleFilter> pf_ptr_;
+    ParticleFilterPtr pf_ptr_;
     bool pf_init_;
     Vec3d pf_odom_pose_;
-
     Vec3d sensor_pose_;
 };
 

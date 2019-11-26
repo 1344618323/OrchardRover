@@ -4,11 +4,11 @@
 #include "memory"
 #include "log.h"
 #include "particle_filter/particle_filter_sample.h"
+#include "particle_filter/particle_filter.h"
 #include "fastslam_math.h"
 
 enum OdomModel{
   ODOM_MODEL_DIFF = 0,
-  ODOM_MODEL_OMNI = 1
 };
 
 
