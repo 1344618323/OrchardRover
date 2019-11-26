@@ -13,7 +13,7 @@
 #include "sensors/sensor_odom.h"
 #include "particle_filter/particle_filter.h"
 #include "../include/types.h"
-
+#include <visualization_msgs/Marker.h>
 
 class FastSlam {
 public:
@@ -22,7 +22,8 @@ public:
     ~FastSlam();
 
     int Update(const Vec3d &pose,
-               const std::vector<Vec2d> land_marks,  geometry_msgs::PoseArray &particle_cloud_pose_msg );
+               const std::vector<Vec2d> land_marks, geometry_msgs::PoseArray &particle_cloud_pose_msg,
+               visualization_msgs::Marker &lm_cloud_msg);
 
     void SetSensorPose(const Vec3d &sensor_pose);
 
@@ -44,9 +45,10 @@ private:
                        double &max_w, int &max_i);
 
     //def update_KF_with_cholesky(xf, Pf, v, Q, Hf):
-    void UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj);\
+    void UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj);
 
-    geometry_msgs::PoseArray GetParticlesCloudMsg();
+    void
+    GetParticlesCloudMsg(geometry_msgs::PoseArray &particle_cloud_pose_msg, visualization_msgs::Marker &lm_cloud_msg);
 
 protected:
     Vec3d init_pose_;
@@ -68,7 +70,7 @@ protected:
     double new_ld_weight = 0.2;
 
     //每次update函数最后置为false，若里程计测到的位移大于阈值，就不会专门置为true，
-    bool odom_update_ = true;
+    bool odom_update_ = false;
 
     bool resampled_ = false;
 

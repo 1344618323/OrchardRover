@@ -17,7 +17,7 @@ ParticleFilter::ParticleFilter(int samples_num, const Vec3d &mean, const Mat3d &
     }
 
     InitByGuassian(mean, cov);
-    LOG_INFO << "ParticleFilter Init!!";
+    LOG_INFO << "ParticleFilter Init!";
 }
 
 

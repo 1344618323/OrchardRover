@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /TF1/Frames1
         - /PoseArray1
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 843
   - Class: rviz/Selection
@@ -28,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
   - Class: rviz/Tool Properties
     Expanded: ~
     Name: Tool Properties
@@ -181,10 +182,10 @@ Visualization Manager:
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /lmekfcloud
+      Marker Topic: /lmcloud
       Name: Marker
       Namespaces:
-        {}
+        lm: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -212,7 +213,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 49.0585251
+      Distance: 8.65949726
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -227,10 +228,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.219795823
+      Pitch: 1.05479586
       Target Frame: map
       Value: ThirdPersonFollower (rviz)
-      Yaw: 2.41761088
+      Yaw: 4.88761139
     Saved: ~
 Window Geometry:
   Displays:

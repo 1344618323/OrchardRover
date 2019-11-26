@@ -6,8 +6,7 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
     nh->param<double>("odom_alpha2", odom_alpha2_, 0.005);
     nh->param<double>("odom_alpha3", odom_alpha3_, 0.01);
     nh->param<double>("odom_alpha4", odom_alpha4_, 0.005);
-    nh->param<double>("update_min_d", update_min_d_, 0.2); //0.05(50mm)与0.03（1.7度）
-    // 在执行滤波更新前平移运动的距离
+    nh->param<double>("update_min_d", update_min_d_, 0.2); //在执行滤波更新前平移运动的距离0.05(50mm)与0.03（1.7度）
     nh->param<double>("update_min_a", update_min_a_, 0.5);
 
     observe_cov_.setZero();
@@ -35,28 +34,41 @@ FastSlam::~FastSlam() {
 }
 
 int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> land_marks,
-                     geometry_msgs::PoseArray &particle_cloud_pose_msg) {
+                     geometry_msgs::PoseArray &particle_cloud_pose_msg,
+                     visualization_msgs::Marker &lm_cloud_msg) {
     UpdateOdomPoseData(pose);
-    if (land_marks.size() != 0) {
+    if (land_marks.size() != 0 && odom_update_) {
         UpdateObserveData(land_marks);
         //resample
-        //pf_ptr_->UpdateResample();
+        pf_ptr_->UpdateResample();
     }
-    particle_cloud_pose_msg = GetParticlesCloudMsg();
+    GetParticlesCloudMsg(particle_cloud_pose_msg, lm_cloud_msg);
     return 0;
 }
 
-geometry_msgs::PoseArray FastSlam::GetParticlesCloudMsg() {
-    geometry_msgs::PoseArray particle_cloud_pose_msg;
+void FastSlam::GetParticlesCloudMsg(geometry_msgs::PoseArray &particle_cloud_pose_msg,
+                                    visualization_msgs::Marker &lm_cloud_msg) {
     particle_cloud_pose_msg.poses.resize(pf_ptr_->GetCurrentSampleSetPtr()->sample_count);
+
+    lm_cloud_msg.points.clear();
+
     for (int i = 0; i < pf_ptr_->GetCurrentSampleSetPtr()->sample_count; i++) {
-        tf::poseTFToMsg(tf::Pose(tf::createQuaternionFromYaw(pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i].pose[2]),
-                                 tf::Vector3(pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i].pose[0],
-                                             pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i].pose[1],
+
+        ParticleFilterSample &sample = pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i];
+        tf::poseTFToMsg(tf::Pose(tf::createQuaternionFromYaw(sample.pose[2]),
+                                 tf::Vector3(sample.pose[0],
+                                             sample.pose[1],
                                              0)),
                         particle_cloud_pose_msg.poses[i]);
+
+        for (int j = 0; j < sample.landmark_num; j++) {
+            geometry_msgs::Point temp;
+            temp.x = sample.lm_poses[j](0);
+            temp.y = sample.lm_poses[j](1);
+            temp.z = 0;
+            lm_cloud_msg.points.push_back(temp);
+        }
     }
-    return particle_cloud_pose_msg;
 }
 
 void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
@@ -105,12 +117,20 @@ void FastSlam::SetSensorPose(const Vec3d &sensor_pose) {
 void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
     SampleSetPtr set_ptr = pf_ptr_->GetCurrentSampleSetPtr();
 
+    std::cout << "!!!!!!!!!!! Update observe data: " << zs.size() << " !!!!!!!!!!!" << std::endl;
+
     for (int N = 0; N < zs.size(); N++) {
 
+        std::cout << "<<<<<<<<<< zs " << N << " <<<<<<<<<<" << std::endl;
         for (int k = 0; k < set_ptr->sample_count; k++) {
             ParticleFilterSample &sample = set_ptr->samples_vec[k];
             //获得雷达坐标
-            Vec3d sensor_pose = sample.pose + sensor_pose_;
+            Vec3d sensor_pose = CoordAdd(sample.pose, sensor_pose_);
+
+            std::cout << "sample index: " << k << std::endl;
+            std::cout << "sensor pose: " << sensor_pose[0] << "," << sensor_pose[1] << ","
+                      << sensor_pose[2] << ", sample pose: " << sample.pose[0] << "," << sample.pose[1] << ","
+                      << sample.pose[2] << std::endl;
 
             double max_w;
             int max_i;
@@ -128,6 +148,11 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
                 sample.lm_poses.push_back(new_ld_pose);
                 sample.lm_covs.push_back(new_ld_cov);
                 sample.lm_cnt.push_back(1);
+                sample.landmark_num++;
+
+                std::cout << "sample " << k << " add a new landmark: " <<
+                          new_ld_pose[0] << "," << new_ld_pose[1] << std::endl;
+
             } else {
                 //update EKF
                 Mat2d Hj;
@@ -187,7 +212,13 @@ double FastSlam::ComputeWeight(const Mat2d &Qj, const Vec2d &dz) {
         return -1;
     }
     double mahalanobis_dis = dz.transpose() * invQj * dz;
-    return exp(-0.5 * mahalanobis_dis) / sqrt(fabs(2 * M_PI * Qj.determinant()));
+
+    std::cout << "!!!!!!!!!!!!!!!" << mahalanobis_dis << "!!!!!!!!!!!!!!!" << std::endl;
+
+    double weight = exp(-0.5 * mahalanobis_dis) / sqrt(fabs(2 * M_PI * Qj.determinant()));
+    assert(weight >= 0);
+
+    return weight;
 //    return dz.transpose() * invQj * dz + log(Qj.determinant());
 }
 
@@ -236,15 +267,23 @@ FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sa
     }
     weights.push_back(new_ld_weight);
 
+    std::cout << "weights:" << std::endl;
+
     max_w = -FLT_MIN;
 
     // obtain the max weight
     for (int wi = 0; wi < weights.size(); wi++) {
+        std::cout << weights[wi] << " , ";
         if (weights[wi] > max_w) {
             max_w = weights[wi];
             max_i = wi;
         }
     }
+
+    std::cout << std::endl;
+
+    std::cout << "max index: " << max_i << " ,max weight: " << max_w << std::endl;
+
 }
 
 

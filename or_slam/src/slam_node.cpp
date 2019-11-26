@@ -49,6 +49,29 @@ bool SlamNode::Init() {
     slam_ptr_ = std::make_unique<FastSlam>(init_pose_, init_cov_, &nh_);
 
     particlecloud_pub_ = nh_.advertise<geometry_msgs::PoseArray>("particlecloud", 2, true);
+    particlecloud_msg_.header.frame_id = global_frame_;
+
+    lmcloud_pub_ = nh_.advertise<visualization_msgs::Marker>("lmcloud", 2);
+
+    lmcloud_msg_.header.frame_id = global_frame_;
+    lmcloud_msg_.action = visualization_msgs::Marker::ADD;
+    lmcloud_msg_.type = visualization_msgs::Marker::POINTS;
+    lmcloud_msg_.pose.position.x = 0;
+    lmcloud_msg_.pose.position.y = 0;
+    lmcloud_msg_.pose.position.z = 0;
+    lmcloud_msg_.pose.orientation.x = 0.0;
+    lmcloud_msg_.pose.orientation.y = 0.0;
+    lmcloud_msg_.pose.orientation.z = 0.0;
+    lmcloud_msg_.pose.orientation.w = 1.0;
+    lmcloud_msg_.scale.x = 0.2;
+    lmcloud_msg_.scale.y = 0.2;
+    lmcloud_msg_.color.r = 0.0;
+    lmcloud_msg_.color.g = 0.0;
+    lmcloud_msg_.color.b = 1.0;
+    lmcloud_msg_.color.a = 1.0;//一定要初始化，否则默认为0，看不见！
+    lmcloud_msg_.ns = "lm";
+    lmcloud_msg_.id = 0;
+
 
     GetLaserPose();
 
@@ -62,7 +85,7 @@ void SlamNode::GetLaserPose() {
     Vec3d laser_pose;
     laser_pose.setZero();
     GetPoseFromTf(base_frame_, laser_scan_msg->header.frame_id, ros::Time(), laser_pose);
-//    laser_pose[2] = 0; // No need for rotation, or will be error
+    laser_pose[2] = 0; // No need for rotation, or will be error
     DLOG_INFO << "Received laser's pose wrt robot: " <<
               laser_pose[0] << ", " <<
               laser_pose[1] << ", " <<
@@ -70,9 +93,21 @@ void SlamNode::GetLaserPose() {
 
     slam_ptr_->SetSensorPose(laser_pose);
 
+    TransformLaserscanToBaseFrame(laser_angle_min_, laser_angle_increment_, *laser_scan_msg);
+
     // 收集雷达数据
 //    if (laser_msg_queue_.size() >= 10)
-//        laser_msg_queue_.erase(std::begin(laser_msg_queue_));
+//        l  if (lmcloud_pub_.getNumSubscribers() > 0) {
+//                // Publish the resulting particle cloud
+//                lmcloud_msg_.points.resize(1000);
+//                for (int i = 0; i < 1000; i++) {
+//                    lmcloud_msg_.points[i].x = drand48() * 5 + 7;
+//                    lmcloud_msg_.points[i].y = drand48() * 5 + 10;
+//                    lmcloud_msg_.points[i].z = 0;
+//                }
+//                lmcloud_msg_.header.stamp = ros::Time::now();
+//                lmcloud_pub_.publish(lmcloud_msg_);
+//            }aser_msg_queue_.erase(std::begin(laser_msg_queue_));
 //    laser_msg_queue_.push_back(*laser_scan_msg);
 }
 
@@ -87,14 +122,9 @@ void SlamNode::TrunkAngleMsgCallback(const or_msgs::TrunkAngleMsg::ConstPtr &tru
 
 //    GetTrunkPosition(laser_scan_msg, trunk_angle_msg);
 
-    std::cout << "Pose in odom: " <<
-              pose_in_odom[0] << ", " <<
-              pose_in_odom[1] << ", " <<
-              pose_in_odom[2] << std::endl;
-
     GetTrunkPosition(trunk_angle_msg);
 
-    slam_ptr_->Update(pose_in_odom, trunk_pos_vec_, particlecloud_msg_);
+    slam_ptr_->Update(pose_in_odom, trunk_pos_vec_, particlecloud_msg_, lmcloud_msg_);
 
     PublishVisualize();
 
@@ -117,12 +147,48 @@ bool SlamNode::PublishTf() {
     tf_broadcaster_ptr_->sendTransform(gimbal_tf_);
 }
 
+void SlamNode::TransformLaserscanToBaseFrame(double &angle_min,
+                                             double &angle_increment,
+                                             const sensor_msgs::LaserScan &laser_scan_msg) {
+    tf::Quaternion q;
+    q.setRPY(0.0, 0.0, laser_scan_msg.angle_min);
+    tf::Stamped<tf::Quaternion> min_q(q, laser_scan_msg.header.stamp,
+                                      laser_scan_msg.header.frame_id);
+    q.setRPY(0.0, 0.0, laser_scan_msg.angle_min
+                       + laser_scan_msg.angle_increment);
+    tf::Stamped<tf::Quaternion> inc_q(q, laser_scan_msg.header.stamp,
+                                      laser_scan_msg.header.frame_id);
+
+    try {
+        tf_listener_ptr_->transformQuaternion(base_frame_,
+                                              min_q,
+                                              min_q);
+        tf_listener_ptr_->transformQuaternion(base_frame_,
+                                              inc_q,
+                                              inc_q);
+    }
+    catch (tf::TransformException &e) {
+        LOG_WARNING << "Unable to transform min/max laser angles into base frame: " << e.what();
+        return;
+    }
+
+    angle_min = tf::getYaw(min_q);
+    angle_increment = (tf::getYaw(inc_q) - angle_min);
+
+    // Wrapping angle to [-pi .. pi]
+    angle_increment = (std::fmod(angle_increment + 5 * M_PI, 2 * M_PI) - M_PI);
+}
+
 
 void SlamNode::PublishVisualize() {
     if (particlecloud_pub_.getNumSubscribers() > 0) {
         particlecloud_msg_.header.stamp = ros::Time::now();
-        particlecloud_msg_.header.frame_id = global_frame_;
         particlecloud_pub_.publish(particlecloud_msg_);
+    }
+
+    if (lmcloud_pub_.getNumSubscribers() > 0) {
+        lmcloud_msg_.header.stamp = ros::Time::now();
+        lmcloud_pub_.publish(lmcloud_msg_);
     }
 };
 
@@ -148,8 +214,8 @@ void SlamNode::GetTrunkPosition(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_an
     trunk_pos_vec_.shrink_to_fit();
     for (int i = 0; i < trunk_angle_msg->angle.size(); i = i + 2) {
         Vec2d tp;
-        tp(0) = trunk_angle_msg->angle[0];
-        tp(1) = trunk_angle_msg->angle[1];
+        tp(0) = trunk_angle_msg->angle[i];
+        tp(1) = trunk_angle_msg->angle[i + 1];
         trunk_pos_vec_.push_back(tp);
     }
 }
@@ -206,7 +272,7 @@ void SlamNode::LaserScanCallback(const sensor_msgs::LaserScan::ConstPtr &laser_s
             start_ind = end_ind = -1;
             angle_array.push_back(laser_scan_msg->ranges[mid_ind] + trunk_radius_avg_ +
                                   RandomGaussianNumByStdDev(trunk_radius_sigma_));
-            angle_array.push_back(laser_scan_msg->angle_min + mid_ind * laser_scan_msg->angle_increment);
+            angle_array.push_back(laser_angle_min_ + mid_ind * laser_angle_increment_);
         }
     }
     msg.header.stamp = ros::Time::now();

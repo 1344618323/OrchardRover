@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
     geometry_msgs::PoseArray particlecloud_msg_;
     particlecloud_msg_.header.frame_id = "map";
 
-    ros::Publisher marker_pub_ = n.advertise<visualization_msgs::Marker>("lmekfcloud", 2);
+    ros::Publisher marker_pub_ = n.advertise<visualization_msgs::Marker>("lmcloud_msg_", 2);
     visualization_msgs::Marker lmekfcloud;
     lmekfcloud.header.frame_id = "map";
     lmekfcloud.action = visualization_msgs::Marker::ADD;

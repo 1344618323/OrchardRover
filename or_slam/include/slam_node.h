@@ -16,7 +16,7 @@
 #include "writetxt.h"
 #include <vector>
 #include "types.h"
-
+#include <visualization_msgs/Marker.h>
 #include "fastslam.h"
 
 #define THREAD_NUM 4 // ROS SPIN THREAD NUM
@@ -67,10 +67,16 @@ private:
     std::unique_ptr<FastSlam> slam_ptr_;
 
     ros::Publisher test_trunk_angle_pub_;
+    double laser_angle_min_;
+    double laser_angle_increment_;
+
     ros::Subscriber test_trunk_angle_sub_;
 
     ros::Publisher particlecloud_pub_;
     geometry_msgs::PoseArray particlecloud_msg_;
+    ros::Publisher lmcloud_pub_;
+    visualization_msgs::Marker lmcloud_msg_;
+
 
     double trunk_radius_avg_ = 0.1;
     double trunk_radius_sigma_ = 0.02;
@@ -88,6 +94,10 @@ private:
                           const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
 
     void GetTrunkPosition(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+
+    void TransformLaserscanToBaseFrame(double &angle_min,
+                                       double &angle_increment,
+                                       const sensor_msgs::LaserScan &laser_scan_msg);
 
     void PublishVisualize();
 
