@@ -12,6 +12,7 @@
 #include "fastslam_config.h"
 #include "sensors/sensor_odom.h"
 #include "particle_filter/particle_filter.h"
+#include "../include/types.h"
 
 
 class FastSlam {
@@ -47,9 +48,9 @@ private:
 
     void NormalizeWeight(const SampleSetPtr &set_ptr);
 
-    void Resample(const SampleSetPtr &set_ptr);
+    void Resample(const ParticleFilterPtr &pf_ptr);
 
-private:
+protected:
     Vec3d init_pose_;
     Mat3d init_cov_;
 
@@ -66,7 +67,7 @@ private:
     double update_min_a_;//a_thresh_
 
     Mat2d observe_cov_;
-    double p0;
+    double new_ld_weight = 0.2;
 
     //每次update函数最后置为false，若里程计测到的位移大于阈值，就不会专门置为true，
     bool odom_update_ = true;
@@ -75,7 +76,7 @@ private:
 
     std::unique_ptr<SensorOdom> odom_model_ptr_;
 
-    std::unique_ptr<ParticleFilter> pf_ptr_;
+    std::shared_ptr<ParticleFilter> pf_ptr_;
     bool pf_init_;
     Vec3d pf_odom_pose_;
 

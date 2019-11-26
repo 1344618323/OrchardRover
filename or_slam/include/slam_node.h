@@ -41,7 +41,7 @@ private:
     std::string laser_topic_;
 
     tf::TransformListener tf_listener;
-    std::shared_ptr<message_filters::Subscriber<or_msgs::TrunkAngleMsg>> trunkangle_sub;
+    std::shared_ptr<message_filters::Subscriber<or_msgs::TrunkAngleMsg>> trunk_angle_sub;
     std::shared_ptr<tf::MessageFilter<or_msgs::TrunkAngleMsg>> tf_filter;
     std::string trunk_topic_;
     std::string odom_frame_;

@@ -168,6 +168,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named fastslam_test
+
+# Build rule for target.
+fastslam_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fastslam_test
+.PHONY : fastslam_test
+
+# fast build rule for target.
+fastslam_test/fast:
+	$(MAKE) -f CMakeFiles/fastslam_test.dir/build.make CMakeFiles/fastslam_test.dir/build
+.PHONY : fastslam_test/fast
+
+#=============================================================================
 # Target rules for targets named or_msgs_generate_messages_nodejs
 
 # Build rule for target.
@@ -1025,32 +1038,59 @@ fastslamalgs/fast:
 	$(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/build
 .PHONY : fastslamalgs/fast
 
-src/fastslam_node.o: src/fastslam_node.cpp.o
+src/fastslam_test.o: src/fastslam_test.cpp.o
 
-.PHONY : src/fastslam_node.o
+.PHONY : src/fastslam_test.o
 
 # target to build an object file
-src/fastslam_node.cpp.o:
-	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/fastslam_node.cpp.o
-.PHONY : src/fastslam_node.cpp.o
+src/fastslam_test.cpp.o:
+	$(MAKE) -f CMakeFiles/fastslam_test.dir/build.make CMakeFiles/fastslam_test.dir/src/fastslam_test.cpp.o
+.PHONY : src/fastslam_test.cpp.o
 
-src/fastslam_node.i: src/fastslam_node.cpp.i
+src/fastslam_test.i: src/fastslam_test.cpp.i
 
-.PHONY : src/fastslam_node.i
+.PHONY : src/fastslam_test.i
 
 # target to preprocess a source file
-src/fastslam_node.cpp.i:
-	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/fastslam_node.cpp.i
-.PHONY : src/fastslam_node.cpp.i
+src/fastslam_test.cpp.i:
+	$(MAKE) -f CMakeFiles/fastslam_test.dir/build.make CMakeFiles/fastslam_test.dir/src/fastslam_test.cpp.i
+.PHONY : src/fastslam_test.cpp.i
 
-src/fastslam_node.s: src/fastslam_node.cpp.s
+src/fastslam_test.s: src/fastslam_test.cpp.s
 
-.PHONY : src/fastslam_node.s
+.PHONY : src/fastslam_test.s
 
 # target to generate assembly for a file
-src/fastslam_node.cpp.s:
-	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/fastslam_node.cpp.s
-.PHONY : src/fastslam_node.cpp.s
+src/fastslam_test.cpp.s:
+	$(MAKE) -f CMakeFiles/fastslam_test.dir/build.make CMakeFiles/fastslam_test.dir/src/fastslam_test.cpp.s
+.PHONY : src/fastslam_test.cpp.s
+
+src/slam_node.o: src/slam_node.cpp.o
+
+.PHONY : src/slam_node.o
+
+# target to build an object file
+src/slam_node.cpp.o:
+	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o
+.PHONY : src/slam_node.cpp.o
+
+src/slam_node.i: src/slam_node.cpp.i
+
+.PHONY : src/slam_node.i
+
+# target to preprocess a source file
+src/slam_node.cpp.i:
+	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/slam_node.cpp.i
+.PHONY : src/slam_node.cpp.i
+
+src/slam_node.s: src/slam_node.cpp.s
+
+.PHONY : src/slam_node.s
+
+# target to generate assembly for a file
+src/slam_node.cpp.s:
+	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/slam_node.cpp.s
+.PHONY : src/slam_node.cpp.s
 
 # Help Target
 help:
@@ -1059,6 +1099,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... list_install_components"
+	@echo "... fastslam_test"
 	@echo "... or_msgs_generate_messages_nodejs"
 	@echo "... or_msgs_generate_messages_lisp"
 	@echo "... or_msgs_generate_messages_eus"
@@ -1131,9 +1172,12 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... fastslamalgs"
-	@echo "... src/fastslam_node.o"
-	@echo "... src/fastslam_node.i"
-	@echo "... src/fastslam_node.s"
+	@echo "... src/fastslam_test.o"
+	@echo "... src/fastslam_test.i"
+	@echo "... src/fastslam_test.s"
+	@echo "... src/slam_node.o"
+	@echo "... src/slam_node.i"
+	@echo "... src/slam_node.s"
 .PHONY : help
 
 

@@ -27,6 +27,72 @@
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="fastslam_test">
+				<Option output="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/lib/or_slam/fastslam_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/lib/or_slam"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DROS_BUILD_SHARED_LIBS=1"/>
+					<Add option="-DROS_PACKAGE_NAME=&quot;or_slam&quot;"/>
+					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/include"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/devel/include"/>
+					<Add directory="/opt/ros/kinetic/include"/>
+					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/../include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 fastslam_test"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="fastslam_test/fast">
+				<Option output="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/lib/or_slam/fastslam_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/lib/or_slam"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DROS_BUILD_SHARED_LIBS=1"/>
+					<Add option="-DROS_PACKAGE_NAME=&quot;or_slam&quot;"/>
+					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/include"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/devel/include"/>
+					<Add directory="/opt/ros/kinetic/include"/>
+					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs"/>
+					<Add directory="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/../include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 fastslam_test/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="or_msgs_generate_messages_nodejs">
 				<Option working_dir="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug"/>
 				<Option type="4"/>
@@ -1064,10 +1130,16 @@
 		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/sensors/sensor_odom.h">
 			<Option target="fastslamalgs"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/include/fastslam_node.h">
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/include/fastslam_test.h">
+			<Option target="fastslam_test"/>
+		</Unit>
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/include/slam_node.h">
 			<Option target="or_slam_node"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/src/fastslam_node.cpp">
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/src/fastslam_test.cpp">
+			<Option target="fastslam_test"/>
+		</Unit>
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/src/slam_node.cpp">
 			<Option target="or_slam_node"/>
 		</Unit>
 		<Unit filename="/usr/src/gmock/src/gmock-all.cc">

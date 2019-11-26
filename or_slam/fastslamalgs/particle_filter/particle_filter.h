@@ -7,6 +7,7 @@
 #include "particle_filter_gaussian_pdf.h"
 
 class ParticleFilter;
+
 using ParticleFilterPtr = std::shared_ptr<ParticleFilter>;
 using SampleSetPtr = std::shared_ptr<ParticleFilterSampleSet>;
 
@@ -19,8 +20,16 @@ public:
 
     void UpdateResample();
 
-    SampleSetPtr GetSampleSetPtr()const {
-        return this->sample_set_ptr_;
+    SampleSetPtr GetCurrentSampleSetPtr() const {
+        return this->sample_set_ptr_array_[current_set_];
+    }
+
+    SampleSetPtr GetNextSampleSetPtr() const {
+        return this->sample_set_ptr_array_[(current_set_ + 1) % 2];
+    }
+
+    void ExchSetIndex() {
+        current_set_ = (current_set_ + 1) % 2;
     }
 
 
@@ -29,7 +38,8 @@ private:
 
 private:
     int samples_num_;
-    SampleSetPtr sample_set_ptr_;
+    std::array<SampleSetPtr, 2> sample_set_ptr_array_;
+    int current_set_;
 };
 
 #endif

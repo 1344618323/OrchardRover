@@ -21,7 +21,7 @@ catkin_package()
 add_subdirectory(fastslamalgs)
 
 include_directories(
-  include 
+  include
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
@@ -32,8 +32,19 @@ add_executable(${PROJECT_NAME}_node
 )
 target_link_libraries(${PROJECT_NAME}_node
         ${catkin_LIBRARIES}
-  ${EIGEN3_LIBRARIES}
-  ${GLOG_LIBRARY}
+        ${EIGEN3_LIBRARIES}
+        ${GLOG_LIBRARY}
         fastslamalgs
 )
 add_dependencies(${PROJECT_NAME}_node  or_msgs_generate_messages)
+
+add_executable(fastslam_test
+        src/fastslam_test.cpp
+        include/fastslam_test.h
+        )
+target_link_libraries(fastslam_test
+        ${catkin_LIBRARIES}
+        ${EIGEN3_LIBRARIES}
+        ${GLOG_LIBRARY}
+        fastslamalgs
+        )

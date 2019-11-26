@@ -24,7 +24,7 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
     init_cov_(0, 0) = init_cov(0);
     init_cov_(0, 0) = init_cov(1);
     init_cov_(0, 0) = init_cov(2);
-    pf_ptr_ = std::make_unique<ParticleFilter>(particles_num_, init_pose_, init_cov_);
+    pf_ptr_ = std::make_shared<ParticleFilter>(particles_num_, init_pose_, init_cov_);
     pf_init_ = false;
 
     LOG_INFO << "FastSlam Init!";
@@ -40,7 +40,7 @@ int FastSlam::Update(const Vec3d &pose,
     if (land_marks.size() != 0) {
         UpdateObserveData(land_marks);
         //resample
-
+        Resample(pf_ptr_);
     }
 
     return 0;
@@ -74,7 +74,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
             SensorOdomData odom_data;
             odom_data.pose = pose;
             odom_data.delta = delta;
-            odom_model_ptr_->UpdateAction(pf_ptr_->GetSampleSetPtr(), odom_data);
+            odom_model_ptr_->UpdateAction(pf_ptr_->GetCurrentSampleSetPtr(), odom_data);
         }
     }
 }
@@ -86,7 +86,8 @@ void FastSlam::SetSensorPose(const Vec3d &sensor_pose) {
 
 
 void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
-    SampleSetPtr set_ptr = pf_ptr_->GetSampleSetPtr();
+    SampleSetPtr set_ptr = pf_ptr_->GetCurrentSampleSetPtr();
+
     for (int N = 0; N < zs.size(); N++) {
 
         for (int k = 0; k < set_ptr->sample_count; k++) {
@@ -122,9 +123,6 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
             }
         }
     }
-
-    // resample
-    Resample(set_ptr);
 }
 
 /*
@@ -171,8 +169,9 @@ double FastSlam::ComputeWeight(const Mat2d &Qj, const Vec2d &dz) {
     if (!invertible) {
         return -1;
     }
-//    return exp(-0.5 * (dz.transpose() * invQj * dz)(0)) / sqrt(fabs(2 * M_PI * Qj.determinant()));
-    return dz.transpose() * invQj * dz + log(Qj.determinant());
+    double mahalanobis_dis = dz.transpose() * invQj * dz;
+    return exp(-0.5 * mahalanobis_dis) / sqrt(fabs(2 * M_PI * Qj.determinant()));
+//    return dz.transpose() * invQj * dz + log(Qj.determinant());
 }
 
 
@@ -218,7 +217,7 @@ FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sa
                           z, Q, Hj, Qj, dz);
         weights.push_back(ComputeWeight(Qj, dz));
     }
-    weights.push_back(p0);
+    weights.push_back(new_ld_weight);
 
     max_w = -FLT_MIN;
 
@@ -244,10 +243,6 @@ void FastSlam::UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &
     lm_cov = lm_cov - W1 * W1.transpose();
 }
 
-void FastSlam::Resample(const SampleSetPtr &set_ptr) {
-    NormalizeWeight(set_ptr);
-
-}
 
 void FastSlam::NormalizeWeight(const SampleSetPtr &set_ptr) {
     double sum = 0;
@@ -259,53 +254,26 @@ void FastSlam::NormalizeWeight(const SampleSetPtr &set_ptr) {
     }
 }
 
-
-//    def resampling(particles):
-//    particles = normalize_weight(particles)
-//
-//    pw = []
-//    for i in range(N_PARTICLE):
-//    pw.append(particles[i].w)
-//
-//    pw = np.array(pw)
-//
-//    Neff = 1.0 / (pw @ pw.T)  # Effective particle number  是gmapping那篇论文提到的限制重采样的方法
-//# print(Neff)
-//
-//    if Neff < NTH:  # resampling
-//            wcum = np.cumsum(pw)
-//    base = np.cumsum(pw * 0.0 + 1 / N_PARTICLE) - 1 / N_PARTICLE
-//    resampleid = base + np.random.rand(base.shape[0]) / N_PARTICLE
-//
-//    inds = []
-//    ind = 0
-//    for ip in range(N_PARTICLE):
-//    while ((ind < wcum.shape[0] - 1) and (resampleid[ip] > wcum[ind])):
-//    ind += 1
-//    inds.append(ind)
-//
-//    tparticles = particles[:]
-//    for i in range(len(inds)):
-//    particles[i].x = tparticles[inds[i]].x
-//    particles[i].y = tparticles[inds[i]].y
-//    particles[i].yaw = tparticles[inds[i]].yaw
-//    particles[i].lm = tparticles[inds[i]].lm[:, :]
-//    particles[i].lmP = tparticles[inds[i]].lmP[:, :]
-//    particles[i].w = 1.0 / N_PARTICLE
-//
-//    return particles
-
-//    def normalize_weight(particles):
-//
-//    sumw = sum([p.w for p in particles])
-//
-//    try:
-//    for i in range(N_PARTICLE):
-//    particles[i].w /= sumw
-//    except ZeroDivisionError:
-//    for i in range(N_PARTICLE):
-//    particles[i].w = 1.0 / N_PARTICLE
-//
-//    return particles
-//
-//    return particles
+void FastSlam::Resample(const ParticleFilterPtr &pf_ptr) {
+    SampleSetPtr set_ptr = pf_ptr->GetCurrentSampleSetPtr();
+    SampleSetPtr next_set_ptr = pf_ptr->GetNextSampleSetPtr();
+    NormalizeWeight(set_ptr);
+    int sample_count = set_ptr->sample_count;
+    double pw[sample_count];
+    double sample_base[sample_count];
+    pw[0] = set_ptr->samples_vec[0].weight;
+    sample_base[0] = drand48() / sample_count;
+    for (int k = 1; k < sample_count; k++) {
+        pw[k] = pw[k - 1] + set_ptr->samples_vec[k].weight;
+        sample_base[k] = sample_base[k - 1] + 1.0 / sample_count;
+    }
+    int ind = 0;
+    for (int k = 0; k < sample_count; k++) {
+        while (ind < set_ptr->sample_count && sample_base[k] > pw[ind]) {
+            ind++;
+        }
+        next_set_ptr->samples_vec[k] = set_ptr->samples_vec[ind];
+        next_set_ptr->samples_vec[k].weight = 1.0 / sample_count;
+    }
+    pf_ptr->ExchSetIndex();
+}

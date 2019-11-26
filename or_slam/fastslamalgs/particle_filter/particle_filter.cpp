@@ -2,23 +2,27 @@
 
 ParticleFilter::ParticleFilter(int samples_num, const Vec3d &mean, const Mat3d &cov) {
     samples_num_ = samples_num;
-    sample_set_ptr_ = std::make_shared<ParticleFilterSampleSet>();
+    current_set_ = 0;
+    for (int i = 0; i < 2; i++) {
+        sample_set_ptr_array_[i] = std::make_shared<ParticleFilterSampleSet>();
 
-    sample_set_ptr_->sample_count = samples_num_;
-    sample_set_ptr_->samples_vec.resize(samples_num_);
-    for (int i = 0; i < sample_set_ptr_->sample_count; i++) {
-        sample_set_ptr_->samples_vec[i].weight = 1.0 / samples_num_;
+        sample_set_ptr_array_[i]->sample_count = samples_num_;
+        sample_set_ptr_array_[i]->samples_vec.resize(samples_num_);
+        for (int i = 0; i < sample_set_ptr_array_[i]->sample_count; i++) {
+            sample_set_ptr_array_[i]->samples_vec[i].weight = 1.0 / samples_num_;
+        }
+        sample_set_ptr_array_[i]->mean.setZero();
+        sample_set_ptr_array_[i]->covariant.setZero();
     }
-    sample_set_ptr_->mean.setZero();
-    sample_set_ptr_->covariant.setZero();
-
     InitByGuassian(mean, cov);
 }
 
 
 ParticleFilter::~ParticleFilter() {
-    sample_set_ptr_->samples_vec.clear();
-    sample_set_ptr_->samples_vec.shrink_to_fit();
+    for (int i = 0; i < 2; i++) {
+        sample_set_ptr_array_[i]->samples_vec.clear();
+        sample_set_ptr_array_[i]->samples_vec.shrink_to_fit();
+    }
     LOG_INFO << "Delete pf";
 }
 
@@ -110,9 +114,9 @@ void ParticleFilter::InitByGuassian(const Vec3d &mean, const Mat3d &cov) {
     auto pf_gaussian_pdf = ParticleFilterGaussianPdf(mean, cov);
 
     // Compute the new sample poses
-    for (int i = 0; i < sample_set_ptr_->sample_count; i++) {
-        sample_set_ptr_->samples_vec[i].weight = 1.0 / samples_num_;
-        sample_set_ptr_->samples_vec[i].pose = pf_gaussian_pdf.GenerateSample();
+    for (int i = 0; i < sample_set_ptr_array_[current_set_]->sample_count; i++) {
+        sample_set_ptr_array_[current_set_]->samples_vec[i].weight = 1.0 / samples_num_;
+        sample_set_ptr_array_[current_set_]->samples_vec[i].pose = pf_gaussian_pdf.GenerateSample();
     }
 }
 

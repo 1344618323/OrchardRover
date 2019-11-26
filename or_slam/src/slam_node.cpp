@@ -31,9 +31,10 @@ bool SlamNode::Init() {
     // csvWriter_ = std::make_unique<CsvWriter>("/home/cxn/data.csv", csvtopic);
 
     // 积攒雷达数据
-    laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallback, this);
-    trunkangle_sub = std::make_shared<message_filters::Subscriber<or_msgs::TrunkAngleMsg>>(nh_, trunk_topic_, 100);
-    tf_filter = std::make_shared<tf::MessageFilter<or_msgs::TrunkAngleMsg>>(*trunkangle_sub, tf_listener, odom_frame_,
+//    laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallback, this);
+
+    trunk_angle_sub = std::make_shared<message_filters::Subscriber<or_msgs::TrunkAngleMsg>>(nh_, trunk_topic_, 100);
+    tf_filter = std::make_shared<tf::MessageFilter<or_msgs::TrunkAngleMsg>>(*trunk_angle_sub, tf_listener, odom_frame_,
                                                                             100);
     tf_filter->registerCallback(boost::bind(&SlamNode::TrunkAngleMsgCallback, this, _1));
 
