@@ -18,6 +18,7 @@
 #include "types.h"
 #include <visualization_msgs/Marker.h>
 #include "fastslam.h"
+#include "pflocalization.h"
 
 #define THREAD_NUM 4 // ROS SPIN THREAD NUM
 
@@ -28,17 +29,12 @@ public:
 
     bool Init();
 
-    void LaserScanCallbackForCheck(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
-
-    void TrunkAngleMsgCallback(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
-
-    void LaserScanCallback(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
-
-    void TrunkAngleMsgCallbackForCheck(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
-
 private:
     //ROS Node handle
     ros::NodeHandle nh_;
+
+    bool pure_localization_;
+
     ros::Subscriber laser_scan_sub_;
     std::string laser_topic_;
     std::string laser_topic_1_;
@@ -65,12 +61,11 @@ private:
     std::vector<Vec2d> trunk_pos_vec_;
     //Algorithm object
     std::unique_ptr<FastSlam> slam_ptr_;
+    std::unique_ptr<PfLocalization> localization_ptr_;
 
-    ros::Publisher test_trunk_angle_pub_;
+    ros::Publisher sim_trunk_angle_pub_;
     double laser_angle_min_;
     double laser_angle_increment_;
-
-    ros::Subscriber test_trunk_angle_sub_;
 
     ros::Publisher particlecloud_pub_;
     geometry_msgs::PoseArray particlecloud_msg_;
@@ -102,6 +97,15 @@ private:
     void PublishVisualize();
 
     bool PublishTf();
+
+
+    void LaserScanCallbackForCheck(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
+
+    void LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
+
+    void LaserScanCallbackForSave(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
+
+    void TrunkAngleMsgCallback(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
 };
 
 #endif

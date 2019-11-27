@@ -1124,6 +1124,12 @@
 		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/particle_filter/particle_filter_sample.h">
 			<Option target="fastslamalgs"/>
 		</Unit>
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/pflocalization.cpp">
+			<Option target="fastslamalgs"/>
+		</Unit>
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/pflocalization.h">
+			<Option target="fastslamalgs"/>
+		</Unit>
 		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/sensors/sensor_odom.cpp">
 			<Option target="fastslamalgs"/>
 		</Unit>

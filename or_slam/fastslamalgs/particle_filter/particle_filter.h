@@ -18,7 +18,7 @@ public:
 
     ~ParticleFilter();
 
-    void UpdateResample();
+    bool UpdateResample();
 
     SampleSetPtr GetCurrentSampleSetPtr() const {
         return this->sample_set_ptr_array_[current_set_];
@@ -27,10 +27,14 @@ public:
 
 private:
     void InitByGuassian(const Vec3d &mean, const Mat3d &cov);
-    void NormalizeWeight();
+
+    double NormalizeWeight();
 
 private:
     int samples_num_;
+
+    double Neff_threshold_;
+
     std::array<SampleSetPtr, 2> sample_set_ptr_array_;
     int current_set_;
 };

@@ -33,12 +33,12 @@ FastSlam::~FastSlam() {
     LOG_INFO << "FastSlam Delete!";
 }
 
-int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> land_marks,
+int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> zs,
                      geometry_msgs::PoseArray &particle_cloud_pose_msg,
                      visualization_msgs::Marker &lm_cloud_msg) {
     UpdateOdomPoseData(pose);
-    if (land_marks.size() != 0 && odom_update_) {
-        UpdateObserveData(land_marks);
+    if (zs.size() != 0 && odom_update_) {
+        UpdateObserveData(zs);
         //resample
         pf_ptr_->UpdateResample();
     }
@@ -81,7 +81,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
         pf_init_ = true;
         // Set update sensor data flag
         odom_update_ = true;
-    }     // If the robot has moved, update the filter
+    } // If the robot has moved, update the filter
     else if (pf_init_) {
         // Compute change in pose
         delta[0] = pose[0] - pf_odom_pose_[0];
@@ -104,15 +104,10 @@ void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
     }
 }
 
-
 void FastSlam::SetSensorPose(const Vec3d &sensor_pose) {
     sensor_pose_ = sensor_pose;
-    DLOG_INFO << "sensor pose: " <<
-              sensor_pose_[0] << ", " <<
-              sensor_pose_[1] << ", " <<
-              sensor_pose_[2];
+    DLOG_INFO << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
 }
-
 
 void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
     SampleSetPtr set_ptr = pf_ptr_->GetCurrentSampleSetPtr();
@@ -150,9 +145,8 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
                 sample.lm_cnt.push_back(1);
                 sample.landmark_num++;
 
-                std::cout << "sample " << k << " add a new landmark: " <<
-                          new_ld_pose[0] << "," << new_ld_pose[1] << std::endl;
-
+                std::cout << "sample " << k << " add a new landmark: " << new_ld_pose[0] << "," << new_ld_pose[1]
+                          << std::endl;
             } else {
                 //update EKF
                 Mat2d Hj;
@@ -177,10 +171,9 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
  * Qj 观测协方差
  * dz 真实观测量与假设观测量之差
  */
-void
-FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose, const Mat2d &lm_cov,
-                            const Vec2d &z, const Mat2d &Q, Mat2d &Hj, Mat2d &Qj,
-                            Vec2d &dz) {
+void FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose, const Mat2d &lm_cov,
+                                 const Vec2d &z, const Mat2d &Q, Mat2d &Hj, Mat2d &Qj,
+                                 Vec2d &dz) {
     // 粒子中地标与粒子坐标的差
     Vec2d dxy = lm_pose - sensor_pose.segment(0, 2);
     double d2 = dxy(0) * dxy(0) + dxy(1) * dxy(1);
@@ -198,7 +191,6 @@ FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose, cons
     dz << z(0) - z_hat(0), angle_diff<double>(z(1), z_hat(1));
 }
 
-
 /*
  * Qj 观测协方差
  * dz 真实观测量与假设观测量之差
@@ -213,15 +205,24 @@ double FastSlam::ComputeWeight(const Mat2d &Qj, const Vec2d &dz) {
     }
     double mahalanobis_dis = dz.transpose() * invQj * dz;
 
-    std::cout << "!!!!!!!!!!!!!!!" << mahalanobis_dis << "!!!!!!!!!!!!!!!" << std::endl;
+    //    std::cout << ">>>>>>>>>>> " << mahalanobis_dis << " >>>>>>>>>>>" << std::endl;
 
-    double weight = exp(-0.5 * mahalanobis_dis) / sqrt(fabs(2 * M_PI * Qj.determinant()));
-    assert(weight >= 0);
+    double weight = exp(-0.5 * mahalanobis_dis) / sqrt(Qj.determinant());
 
     return weight;
-//    return dz.transpose() * invQj * dz + log(Qj.determinant());
 }
 
+double FastSlam::ComputeMahalanobisDis(const Mat2d &Qj, const Vec2d &dz) {
+    bool invertible;
+    Mat2d invQj;
+    Qj.computeInverseWithCheck(invQj, invertible);
+    if (!invertible) {
+        return -1;
+    }
+    double mahalanobis_dis = dz.transpose() * invQj * dz;
+
+    return mahalanobis_dis;
+}
 
 /*
  * sensor_pose 雷达坐标
@@ -256,6 +257,8 @@ void
 FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sample, const Vec2d &z, const Mat2d &Q,
                         double &max_w, int &max_i) {
     std::vector<double> weights;
+    std::vector<double> mah_diss;
+    std::vector<Mat2d> Qjs;
     //Each landmarks int this particle, to obtain the max weight
     for (int j = 0; j < sample.landmark_num; j++) {
         Mat2d Hj;
@@ -263,34 +266,58 @@ FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sa
         Vec2d dz;
         ComputeJaccobians(sensor_pose, sample.lm_poses[j], sample.lm_covs[j],
                           z, Q, Hj, Qj, dz);
-        weights.push_back(ComputeWeight(Qj, dz));
+        //        weights.push_back(ComputeWeight(Qj, dz));
+        mah_diss.push_back(ComputeMahalanobisDis(Qj, dz));
+        Qjs.push_back(Qj);
     }
-    weights.push_back(new_ld_weight);
 
-    std::cout << "weights:" << std::endl;
+    //    weights.push_back(new_ld_weight);
+    //
+    //    std::cout << "weights:" << std::endl;
+    //
+    //    max_w = -FLT_MIN;
+    //
+    //    // obtain the max weight
+    //    for (int wi = 0; wi < weights.size(); wi++) {
+    //        std::cout << weights[wi] << " , ";
+    //        if (weights[wi] > max_w) {
+    //            max_w = weights[wi];
+    //            max_i = wi;
+    //        }
+    //    }
 
-    max_w = -FLT_MIN;
+    //    std::cout << std::endl;
+    //
+    //    std::cout << "max index: " << max_i << " ,max weight: " << max_w << std::endl;
+
+    double min_dis = FLT_MAX;
+    int min_dis_i = 0;
 
     // obtain the max weight
-    for (int wi = 0; wi < weights.size(); wi++) {
-        std::cout << weights[wi] << " , ";
-        if (weights[wi] > max_w) {
-            max_w = weights[wi];
-            max_i = wi;
+    for (int i = 0; i < mah_diss.size(); i++) {
+        std::cout << mah_diss[i] << " , ";
+        if (mah_diss[i] < min_dis) {
+            min_dis = mah_diss[i];
+            min_dis_i = i;
         }
     }
 
+    if (min_dis > new_ld_mahalanobis_dis) {
+        max_i = mah_diss.size();
+        max_w = 1;
+    } else {
+        max_w = exp(-0.5 * min_dis) / sqrt(Qjs[min_dis_i].determinant());
+        max_i = min_dis_i;
+    }
     std::cout << std::endl;
 
-    std::cout << "max index: " << max_i << " ,max weight: " << max_w << std::endl;
-
+    std::cout << "max index: " << max_i << " , max weight: " << max_w << " , min dis: " << min_dis << std::endl;
 }
-
 
 void FastSlam::UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj) {
     Mat2d PHt = lm_cov * Hj.transpose();
-    Mat2d Qj = Hj * PHt + Q;//对应 Q=H*Covt-1*HT+Qt
-    Qj = (Qj + Qj.transpose()) * 0.5;//make symmetric
+    Mat2d Qj = Hj * PHt + Q;          //对应 Q=H*Covt-1*HT+Qt
+    Qj = (Qj + Qj.transpose()) * 0.5; //make symmetric
     Mat2d QChol = Qj.llt().matrixL().transpose();
     Mat2d QjCholInv = QChol.inverse();
     Mat2d W1 = PHt * QjCholInv;

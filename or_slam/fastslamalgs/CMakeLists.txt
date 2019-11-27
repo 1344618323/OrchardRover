@@ -8,6 +8,8 @@ add_library(${PROJECT_NAME}
         fastslam.cpp
         fastslam.h
         fastslam_config.h
+        pflocalization.cpp
+        pflocalization.h
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/sensor_odom.h
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/sensor_odom.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/particle_filter/particle_filter.h
@@ -30,4 +32,3 @@ target_link_libraries(${PROJECT_NAME}
         ${catkin_LIBRARIES}
         ${GLOG_LIBRARY}
         )
-
