@@ -18,8 +18,8 @@ define rplidar ranger
 (
   sensor(
     range_max 5.0
-    fov 150
-    samples 150
+    fov 130
+    samples 130
   )
   # generic model properties
   color "black"

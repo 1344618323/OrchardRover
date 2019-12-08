@@ -1,32 +1,38 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>or_slam</name>
-    <version>1.0.0</version>
-    <description>
-        The or_slam package provides slam for OrchardRover system
-    </description>
-    <author>Leonard Chen</author>
-    <maintainer email="1344618323@qq.com">Leonard Chen</maintainer>
-    <license>GPL 3.0 </license>
-    <url>https://github.com/1344618323/OrchardRover</url>
+  <name>catkin</name>
+  <version>0.7.18</version>
+  <description>Low-level build system macros and infrastructure for ROS.</description>
+  <maintainer email="dthomas@osrfoundation.org">Dirk Thomas</maintainer>
+  <license>BSD</license>
 
-    <buildtool_depend>catkin</buildtool_depend>
+  <url type="website">http://www.ros.org/wiki/catkin</url>
+  <url type="bugtracker">https://github.com/ros/catkin/issues</url>
+  <url type="repository">https://github.com/ros/catkin</url>
 
-    <build_depend>roscpp</build_depend>
-    <build_depend>sensor_msgs</build_depend>
-    <build_depend>tf</build_depend>
-    <build_depend>nav_msgs</build_depend>
-    <build_depend>message_filters</build_depend>
-    <build_depend>or_msgs</build_depend>
+  <author>Troy Straszheim</author>
+  <author>Morten Kjaergaard</author>
+  <author>Brian Gerkey</author>
+  <author>Dirk Thomas</author>
 
-    <exec_depend>roscpp</exec_depend>
-    <exec_depend>sensor_msgs</exec_depend>
-    <exec_depend>tf</exec_depend>
-    <exec_depend>nav_msgs</exec_depend>
-    <exec_depend>message_filters</exec_depend>
-    <exec_depend>or_msgs</exec_depend>
+  <buildtool_depend>cmake</buildtool_depend>
+  <buildtool_export_depend>cmake</buildtool_export_depend>
 
-    <export>
-    </export>
+  <depend>python-argparse</depend>
+  <depend version_gt="0.4.3">python-catkin-pkg</depend>
 
+  <build_depend>python-empy</build_depend>
+
+  <build_export_depend>google-mock</build_export_depend>
+  <build_export_depend>gtest</build_export_depend>
+  <build_export_depend>python-empy</build_export_depend>
+  <build_export_depend>python-nose</build_export_depend>
+
+  <test_depend>python-mock</test_depend>
+  <test_depend>python-nose</test_depend>
+
+  <export>
+    <rosdoc config="rosdoc.yaml"/>
+    <architecture_independent/>
+  </export>
 </package>

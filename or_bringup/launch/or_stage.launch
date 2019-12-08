@@ -15,7 +15,7 @@
   <rosparam command="load" file="$(find or_slam)/config/or_slam.yaml" />
   <rosparam command="load" file="$(find or_slam)/fastslamalgs/config/fastslam.yaml" />
   <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
-    <!-- <node pkg="or_slam" name="localization_node" type="localization_node" output="screen"/> -->
+
 
   <!-- <node pkg="or_slam" type="fastslam_test" name="fastslam_test" respawn="false" /> -->
 
