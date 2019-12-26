@@ -1,0 +1,57 @@
+/home/cxn/software/clion-2019.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base
+-- Found Glog: /usr/include  
+-- Found glog    (include: /usr/include, library: /usr/lib/x86_64-linux-gnu/libglog.so)
+-- Using CATKIN_DEVEL_PREFIX: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/devel
+-- Using CMAKE_PREFIX_PATH: /home/cxn/myfile/orchardrover_ws/devel;/opt/ros/kinetic
+-- This workspace overlays: /home/cxn/myfile/orchardrover_ws/devel;/opt/ros/kinetic
+-- Found PythonInterp: /usr/bin/python (found version "2.7.12") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/test_results
+-- Found gmock sources under '/usr/src/gmock': gmock will be built
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found gtest sources under '/usr/src/gmock': gtests will be built
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.18
+-- BUILD_SHARED_LIBS is on
+-- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+Traceback (most recent call last):
+  File "/opt/ros/kinetic/share/catkin/cmake/parse_package_xml.py", line 117, in <module>
+    main()
+  File "/opt/ros/kinetic/share/catkin/cmake/parse_package_xml.py", line 103, in main
+    package = parse_package(args.package_xml)
+  File "/usr/lib/python2.7/dist-packages/catkin_pkg/package.py", line 562, in parse_package
+    return parse_package_string(xml, filename, warnings=warnings)
+  File "/usr/lib/python2.7/dist-packages/catkin_pkg/package.py", line 763, in parse_package_string
+    raise InvalidPackage('Error(s):%s' % (''.join(['\n- %s' % e for e in errors])), filename)
+catkin_pkg.package.InvalidPackage: Error(s) in package '/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/package.xml':
+Error(s):
+- The manifest of package "or_base" (with format version 1) must not contain the following tags: build_export_depend, exec_depend
+- Either update to a newer format or replace <exec_depend> tags with <run_depend> tags.
+CMake Error at /opt/ros/kinetic/share/catkin/cmake/safe_execute_process.cmake:11 (message):
+  execute_process(/usr/bin/python
+  "/opt/ros/kinetic/share/catkin/cmake/parse_package_xml.py"
+  "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/package.xml"
+  "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/catkin_generated/package.cmake")
+  returned error code 1
+Call Stack (most recent call first):
+  /opt/ros/kinetic/share/catkin/cmake/catkin_package_xml.cmake:74 (safe_execute_process)
+  /opt/ros/kinetic/share/catkin/cmake/catkin_package_xml.cmake:50 (_catkin_package_xml)
+  /opt/ros/kinetic/share/catkin/cmake/catkin_package.cmake:99 (catkin_package_xml)
+  CMakeLists.txt:20 (catkin_package)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/CMakeFiles/CMakeOutput.log".
+See also "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/CMakeFiles/CMakeError.log".
