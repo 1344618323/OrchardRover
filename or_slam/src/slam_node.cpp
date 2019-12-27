@@ -12,7 +12,7 @@ bool SlamNode::Init() {
     nh_.param<std::string>("base_frame_id", base_frame_, "base_link");
     nh_.param<std::string>("global_frame_id", global_frame_, "map");
     nh_.param<std::string>("laser_topic_name", laser_topic_, "scan");
-    nh_.param<std::string>("trunk_topic_name", trunk_topic_, "trunk_angle");
+    nh_.param<std::string>("trunk_topic_name", trunk_obs_topic_, "trunk_obs");
 
     double transform_tolerance;
     nh_.param<double>("transform_tolerance", transform_tolerance, 0.1);
@@ -35,21 +35,24 @@ bool SlamNode::Init() {
     // csvWriter_ = std::make_unique<CsvWriter>("/home/cxn/data.csv", csvtopic);
 
     // 积攒雷达数据
-//    laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSave, this);
+    // laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSave, this);
+
     // 模拟器检测树干方位
     laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSim, this);
     // 模拟器发送树干方位
-    sim_trunk_angle_pub_ = nh_.advertise<or_msgs::TrunkAngleMsg>(trunk_topic_, 100);
-    // 处理树干方位消息
-    trunk_angle_sub_ = std::make_unique<message_filters::Subscriber<or_msgs::TrunkAngleMsg>>(nh_, trunk_topic_, 100);
-    tf_filter_ = std::make_unique<tf::MessageFilter<or_msgs::TrunkAngleMsg>>(*trunk_angle_sub_, *tf_listener_ptr_,
-                                                                             odom_frame_,
-                                                                             100);
-    tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkAngleMsgCallback, this, _1));
+    sim_trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsg>(trunk_obs_topic_, 100);
 
+    // 处理树干方位消息
+    trunk_obs_sub_ = std::make_unique<message_filters::Subscriber<or_msgs::TrunkObsMsg>>(nh_, trunk_obs_topic_, 100);
+    tf_filter_ = std::make_unique<tf::MessageFilter<or_msgs::TrunkObsMsg>>(*trunk_obs_sub_, *tf_listener_ptr_,
+                                                                           odom_frame_, 100);
+    tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkObsMsgCallback, this, _1));
+
+    // 配置算法
     if (!pure_localization_) {
         slam_ptr_ = std::make_unique<FastSlam>(init_pose_, init_cov_, &nh_);
     } else {
+        // 读取树干坐标
         std::vector<Vec2d> lms;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 7; j++) {
@@ -58,11 +61,14 @@ bool SlamNode::Init() {
                 lms.push_back(p);
             }
         }
+
         localization_ptr_ = std::make_unique<PfLocalization>(init_pose_, init_cov_, &nh_, lms);
     }
+
+    // 发布点云
     particlecloud_pub_ = nh_.advertise<geometry_msgs::PoseArray>("particlecloud", 2, true);
     particlecloud_msg_.header.frame_id = global_frame_;
-
+    // 发布树干坐标
     lmcloud_pub_ = nh_.advertise<visualization_msgs::Marker>("lmcloud", 2);
     lmcloud_msg_.header.frame_id = global_frame_;
     lmcloud_msg_.action = visualization_msgs::Marker::ADD;
@@ -83,6 +89,7 @@ bool SlamNode::Init() {
     lmcloud_msg_.ns = "lm";
     lmcloud_msg_.id = 0;
 
+    // 计算雷达相对机器人位置
     GetLaserPose();
 
     return true;
@@ -92,7 +99,6 @@ void SlamNode::GetLaserPose() {
     auto laser_scan_msg = ros::topic::waitForMessage<sensor_msgs::LaserScan>(laser_topic_);
 
     Vec3d laser_pose;
-    laser_pose.setZero();
     GetPoseFromTf(base_frame_, laser_scan_msg->header.frame_id, ros::Time(), laser_pose);
     laser_pose[2] = 0; // No need for rotation, or will be error
     DLOG_INFO << "Received laser's pose wrt robot: " << laser_pose[0] << ", " << laser_pose[1] << ", " << laser_pose[2];
@@ -120,24 +126,23 @@ void SlamNode::GetLaserPose() {
     //    laser_msg_queue_.push_back(*laser_scan_msg);
 }
 
-void SlamNode::TrunkAngleMsgCallback(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg) {
-    Vec3d pose_in_odom; //base_link(0,0)在odom中坐标
-    if (!GetPoseFromTf(odom_frame_, base_frame_, trunk_angle_msg->header.stamp, pose_in_odom)) {
+void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg) {
+    Vec3d pose_in_odom;
+    // base_link(0,0)在odom中坐标
+    if (!GetPoseFromTf(odom_frame_, base_frame_, trunk_obs_msg->header.stamp, pose_in_odom)) {
         LOG_ERROR << "Couldn't determine robot's pose";
         return;
     }
 
-    //    sensor_msgs::LaserScan laser_scan_msg = ChooseLaserScan(trunk_angle_msg);//找一个时间戳最接近的
+    //    sensor_msgs::LaserScan laser_scan_msg = ChooseLaserScan(trunk_obs_msg);//找一个时间戳最接近的
+    //    GetTrunkPosition(laser_scan_msg, trunk_obs_msg);
 
-    //    GetTrunkPosition(laser_scan_msg, trunk_angle_msg);
-
-    GetTrunkPosition(trunk_angle_msg);
-
+    GetTrunkPosition(trunk_obs_msg);
 
     if (!pure_localization_)
-        slam_ptr_->Update(pose_in_odom, trunk_pos_vec_, particlecloud_msg_, lmcloud_msg_);
+        slam_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_, lmcloud_msg_);
     else
-        localization_ptr_->Update(pose_in_odom, trunk_pos_vec_, particlecloud_msg_);
+        localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_);
 
     PublishVisualize();
 
@@ -204,31 +209,30 @@ void SlamNode::PublishVisualize() {
 };
 
 void SlamNode::GetTrunkPosition(const sensor_msgs::LaserScan &laser_scan_msg,
-                                const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg) {
-    trunk_pos_vec_.clear();
-    trunk_pos_vec_.shrink_to_fit();
-    //求角度
-    for (int i = 0; i < trunk_angle_msg->angle.size(); i + 2) {
-        double mid = (trunk_angle_msg->angle[i] + trunk_angle_msg->angle[i + 1]) / 2;
-        int mid_index = mid * 360 / M_PI;
-        if (mid_index < 0)
-            mid_index += 720;
-        Vec2d tp;
-        tp(0) = laser_scan_msg.ranges[mid_index];
-        tp(1) = mid;
-        trunk_pos_vec_.push_back(tp);
-    }
+                                const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg) {
+//    trunk_obs_vec_.clear();
+//    trunk_obs_vec_.shrink_to_fit();
+//    //求角度
+//    for (int i = 0; i < trunk_obs_msg->angle.size(); i + 2) {
+//        double mid = (trunk_obs_msg->angle[i] + trunk_obs_msg->angle[i + 1]) / 2;
+//        int mid_index = mid * 360 / M_PI;
+//        if (mid_index < 0)
+//            mid_index += 720;
+//        Vec2d tp;
+//        tp(0) = laser_scan_msg.ranges[mid_index];
+//        tp(1) = mid;
+//        trunk_obs_vec_.push_back(tp);
+//    }
 }
 
-void SlamNode::GetTrunkPosition(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg) {
-    trunk_pos_vec_.clear();
-    trunk_pos_vec_.shrink_to_fit();
-    for (int i = 0; i < trunk_angle_msg->angle.size(); i = i + 2) {
-        Vec2d tp;
-        tp(0) = trunk_angle_msg->angle[i] + trunk_radius_avg_ +
-                RandomGaussianNumByStdDev(trunk_radius_sigma_); //加上树干半径
-        tp(1) = trunk_angle_msg->angle[i + 1];
-        trunk_pos_vec_.push_back(tp);
+void SlamNode::GetTrunkPosition(const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg) {
+    trunk_obs_vec_.clear();
+    trunk_obs_vec_.resize(trunk_obs_msg->ranges.size());
+    trunk_obs_vec_.shrink_to_fit();
+    for (int i = 0; i < trunk_obs_msg->ranges.size(); i++) {
+        trunk_obs_vec_[i](0) = trunk_obs_msg->ranges[i] + trunk_radius_avg_ +
+                               RandomGaussianNumByStdDev(trunk_radius_sigma_); //加上树干半径
+        trunk_obs_vec_[i](1) = trunk_obs_msg->bearings[i];
     }
 }
 
@@ -265,11 +269,11 @@ bool SlamNode::GetPoseFromTf(const std::string &target_frame,
 }
 
 
-sensor_msgs::LaserScan SlamNode::ChooseLaserScan(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg) {
+sensor_msgs::LaserScan SlamNode::ChooseLaserScan(const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg) {
     double mintime = std::numeric_limits<float>::max();
     int minindex = 0;
     for (int j = 0; j < laser_msg_queue_.size(); j++) {
-        double temp = fabs((laser_msg_queue_[j].header.stamp - trunk_angle_msg->header.stamp).toSec());
+        double temp = fabs((laser_msg_queue_[j].header.stamp - trunk_obs_msg->header.stamp).toSec());
         mintime = mintime > temp ? temp : mintime;
         minindex = j;
     }
@@ -303,8 +307,9 @@ void SlamNode::LaserScanCallbackForSave(const sensor_msgs::LaserScan::ConstPtr &
 
 void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg) {
     // for simulation
-    or_msgs::TrunkAngleMsg msg;
-    std::vector<double> angle_array;
+    or_msgs::TrunkObsMsg msg;
+    std::vector<double> range_array;
+    std::vector<double> bearing_array;
     int start_ind = -1, end_ind = -1;
     for (int i = 1; i < laser_scan_msg->ranges.size(); i++) { ;
         if (laser_scan_msg->ranges[i - 1] > 4.9 && laser_scan_msg->ranges[i] <= 4.9 && start_ind == -1) {
@@ -313,14 +318,15 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
             end_ind = i;
             int mid_ind = (start_ind + end_ind) / 2;
             start_ind = end_ind = -1;
-            angle_array.push_back(laser_scan_msg->ranges[mid_ind]);
-            angle_array.push_back(laser_angle_min_ + mid_ind * laser_angle_increment_);
+            range_array.push_back(laser_scan_msg->ranges[mid_ind]);
+            bearing_array.push_back(laser_angle_min_ + mid_ind * laser_angle_increment_);
         }
     }
     msg.header.stamp = ros::Time::now();
     msg.header.frame_id = odom_frame_;
-    msg.angle = angle_array;
-    sim_trunk_angle_pub_.publish(msg);
+    msg.ranges = range_array;
+    msg.bearings = bearing_array;
+    sim_trunk_obs_pub_.publish(msg);
 }
 
 

@@ -2,13 +2,12 @@ pure_localization    : false
 odom_frame_id        : "odom"
 base_frame_id        : "base_link"
 global_frame_id      : "map"
-laser_topic_name  : "base_scan"
+laser_topic_name     : "base_scan"
 # laser_topic_name_0  : "base_scan_0"
 # laser_topic_name_1  : "base_scan_1"
-trunk_topic_name  : "trunk_angle"
+trunk_topic_name     : "trunk_obs"
 transform_tolerance  : 0.1
-#8.40 #1.0
-#14.35 #1.0
+
 initial_pose_x : 2.5
 initial_pose_y : 8
 initial_pose_a : 0

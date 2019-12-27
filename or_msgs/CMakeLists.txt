@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
     DIRECTORY msg
     FILES
-    TrunkAngleMsg.msg
+    TrunkObsMsg.msg
 )
 
 generate_messages(

@@ -12,7 +12,7 @@
 #include <geometry_msgs/PoseArray.h>
 #include <math.h>
 #include "log.h"
-#include "or_msgs/TrunkAngleMsg.h"
+#include "or_msgs/TrunkObsMsg.h"
 #include "writetxt.h"
 #include <vector>
 #include "types.h"
@@ -42,9 +42,9 @@ private:
     std::unique_ptr<tf::TransformListener> tf_listener_ptr_;
     std::unique_ptr<tf::TransformBroadcaster> tf_broadcaster_ptr_;
 
-    std::unique_ptr<message_filters::Subscriber<or_msgs::TrunkAngleMsg>> trunk_angle_sub_;
-    std::unique_ptr<tf::MessageFilter<or_msgs::TrunkAngleMsg>> tf_filter_;
-    std::string trunk_topic_;
+    std::unique_ptr<message_filters::Subscriber<or_msgs::TrunkObsMsg>> trunk_obs_sub_;
+    std::unique_ptr<tf::MessageFilter<or_msgs::TrunkObsMsg>> tf_filter_;
+    std::string trunk_obs_topic_;
     std::string odom_frame_;
     std::string base_frame_;
     std::string global_frame_;
@@ -58,12 +58,12 @@ private:
     std::unique_ptr<CsvWriter> csvWriter_;
 
 
-    std::vector<Vec2d> trunk_pos_vec_;
+    std::vector<Vec2d> trunk_obs_vec_;
     //Algorithm object
     std::unique_ptr<FastSlam> slam_ptr_;
     std::unique_ptr<PfLocalization> localization_ptr_;
 
-    ros::Publisher sim_trunk_angle_pub_;
+    ros::Publisher sim_trunk_obs_pub_;
     double laser_angle_min_;
     double laser_angle_increment_;
 
@@ -78,7 +78,7 @@ private:
 private:
     void GetLaserPose();
 
-    sensor_msgs::LaserScan ChooseLaserScan(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+    sensor_msgs::LaserScan ChooseLaserScan(const or_msgs::TrunkObsMsg::ConstPtr &trunk_angle_msg);
 
     bool GetPoseFromTf(const std::string &target_frame,
                        const std::string &source_frame,
@@ -86,9 +86,9 @@ private:
                        Vec3d &pose);
 
     void GetTrunkPosition(const sensor_msgs::LaserScan &laser_scan_msg,
-                          const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+                          const or_msgs::TrunkObsMsg::ConstPtr &trunk_angle_msg);
 
-    void GetTrunkPosition(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+    void GetTrunkPosition(const or_msgs::TrunkObsMsg::ConstPtr &trunk_angle_msg);
 
     void TransformLaserscanToBaseFrame(double &angle_min,
                                        double &angle_increment,
@@ -105,7 +105,7 @@ private:
 
     void LaserScanCallbackForSave(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
 
-    void TrunkAngleMsgCallback(const or_msgs::TrunkAngleMsg::ConstPtr &trunk_angle_msg);
+    void TrunkObsMsgCallback(const or_msgs::TrunkObsMsg::ConstPtr &trunk_angle_msg);
 };
 
 #endif

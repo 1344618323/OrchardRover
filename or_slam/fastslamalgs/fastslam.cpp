@@ -10,7 +10,7 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
     nh->param<double>("update_min_a", update_min_a_, 0.5);
 
     observe_cov_.setZero();
-    nh->param<double>("observe_cov_distance", observe_cov_(0, 0), 0);
+    nh->param<double>("observe_cov_range", observe_cov_(0, 0), 0);
     nh->param<double>("observe_cov_bearing", observe_cov_(1, 1), 0);
 
     odom_model_ptr_ = std::make_unique<SensorOdom>(odom_alpha1_,
@@ -26,22 +26,25 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
     pf_ptr_ = std::make_shared<ParticleFilter>(particles_num_, init_pose_, init_cov_);
     pf_init_ = false;
 
-    LOG_INFO << "FastSlam Init!";
+    LOG_INFO << "FastSlam Alg Init!";
 }
 
 FastSlam::~FastSlam() {
-    LOG_INFO << "FastSlam Delete!";
+    LOG_INFO << "FastSlam Alg Delete!";
 }
 
-int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> zs,
+int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> &zs,
                      geometry_msgs::PoseArray &particle_cloud_pose_msg,
                      visualization_msgs::Marker &lm_cloud_msg) {
+
     UpdateOdomPoseData(pose);
+
     if (zs.size() != 0 && odom_update_) {
+
         UpdateObserveData(zs);
-        //resample
         pf_ptr_->UpdateResample();
     }
+
     GetParticlesCloudMsg(particle_cloud_pose_msg, lm_cloud_msg);
     return 0;
 }
@@ -71,22 +74,17 @@ void FastSlam::GetParticlesCloudMsg(geometry_msgs::PoseArray &particle_cloud_pos
     }
 }
 
-void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
-    Vec3d delta;
-    delta.setZero();
+void FastSlam::UpdateOdomPoseData(const Vec3d &pose) {
     if (!pf_init_) {
-        // Pose at last filter update
         pf_odom_pose_ = pose;
-        // Filter is now initialized"
         pf_init_ = true;
-        // Set update sensor data flag
         odom_update_ = true;
-    } // If the robot has moved, update the filter
-    else if (pf_init_) {
+    } else if (pf_init_) {
+        Vec3d delta;
         // Compute change in pose
         delta[0] = pose[0] - pf_odom_pose_[0];
         delta[1] = pose[1] - pf_odom_pose_[1];
-        delta[2] = angle_diff<double>(pose[2], pf_odom_pose_[2]);
+        delta[2] = AngleDiff<double>(pose[2], pf_odom_pose_[2]);
 
         // See if we should update the filter
         odom_update_ = std::fabs(delta[0]) > update_min_d_ ||
@@ -98,6 +96,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d pose) {
             SensorOdomData odom_data;
             odom_data.pose = pose;
             odom_data.delta = delta;
+            odom_data.old_pose = pf_odom_pose_;
             odom_model_ptr_->UpdateAction(pf_ptr_->GetCurrentSampleSetPtr(), odom_data);
             pf_odom_pose_ = pose;
         }
@@ -109,7 +108,7 @@ void FastSlam::SetSensorPose(const Vec3d &sensor_pose) {
     DLOG_INFO << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
 }
 
-void FastSlam::UpdateObserveData(const std::vector<Vec2d> zs) {
+void FastSlam::UpdateObserveData(const std::vector<Vec2d> &zs) {
     SampleSetPtr set_ptr = pf_ptr_->GetCurrentSampleSetPtr();
 
     std::cout << "!!!!!!!!!!! Update observe data: " << zs.size() << " !!!!!!!!!!!" << std::endl;
@@ -181,14 +180,14 @@ void FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose,
 
     Vec2d z_hat;
     z_hat(0) = d;
-    z_hat(1) = angle_diff<double>(atan2(dxy(1), dxy(0)), sensor_pose(2));
+    z_hat(1) = AngleDiff<double>(atan2(dxy(1), dxy(0)), sensor_pose(2));
 
     //Hj 是观测函数h对地标位置(x,y)的偏导
     Hj << dxy(0) / d, dxy(1) / d,
             -dxy(1) / d2, dxy(0) / d2;
 
     Qj = Hj * lm_cov * Hj.transpose() + Q;
-    dz << z(0) - z_hat(0), angle_diff<double>(z(1), z_hat(1));
+    dz << z(0) - z_hat(0), AngleDiff<double>(z(1), z_hat(1));
 }
 
 /*
@@ -233,7 +232,7 @@ double FastSlam::ComputeMahalanobisDis(const Mat2d &Qj, const Vec2d &dz) {
  */
 void
 FastSlam::AddNewLd(const Vec3d &sensor_pose, const Vec2d &z, const Mat2d &Q, Vec2d &new_lm_pose, Mat2d &new_lm_cov) {
-    double angle_to_ld = normalize<double>(sensor_pose(2) + z(1));
+    double angle_to_ld = Normalize<double>(sensor_pose(2) + z(1));
     double s = sin(angle_to_ld);
     double c = cos(angle_to_ld);
     new_lm_pose << sensor_pose(0) + z(0) * c, sensor_pose(1) + z(0) * s;

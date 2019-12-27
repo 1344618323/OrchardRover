@@ -43,12 +43,12 @@ typedef struct
 typedef struct
 {
     int16_t gyro_angle;
-    int16_t gyro_rate;
     int32_t position_x_mm;
     int32_t position_y_mm;
-    int16_t angle_deg;
-    int16_t v_x_mm;
-    int16_t v_y_mm;
+    // int16_t gyro_rate;
+    // int16_t angle_deg;
+    // int16_t v_x_mm;
+    // int16_t v_y_mm;
 } cmd_chassis_info;
 
 typedef struct

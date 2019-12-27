@@ -1,14 +1,14 @@
-gui_publish_rate          : 10
+gui_publish_rate       : 10
 
-particles_num            : 100
+particles_num          : 100
 
-odom_alpha1  : 0.01
-odom_alpha2  : 0.01
-odom_alpha3  : 0.01
-odom_alpha4  : 0.01
+odom_alpha1            : 0.01
+odom_alpha2            : 0.01
+odom_alpha3            : 0.01
+odom_alpha4            : 0.01
 
-update_min_d      : 0.1
-update_min_a      : 0.05
+update_min_d           : 0.1
+update_min_a           : 0.05
 
-observe_cov_distance   : 0.01  #sigma 0.1m
+observe_cov_range      : 0.01  #sigma 0.1m
 observe_cov_bearing    : 0.001 #sigma

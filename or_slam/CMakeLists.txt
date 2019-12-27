@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
         or_msgs
         )
 
-
 catkin_package()
 
 add_subdirectory(fastslamalgs)
@@ -37,19 +36,6 @@ target_link_libraries(${PROJECT_NAME}_node
         fastslamalgs
         )
 add_dependencies(${PROJECT_NAME}_node or_msgs_generate_messages)
-
-
-#add_executable(localization_node
-#        src/localization_node.cpp
-#        include/localization_node.h
-#        )
-#target_link_libraries(localization_node
-#        ${catkin_LIBRARIES}
-#        ${EIGEN3_LIBRARIES}
-#        ${GLOG_LIBRARY}
-#        pflocalizationalgs
-#        )
-#add_dependencies(${PROJECT_NAME}_node or_msgs_generate_messages)
 
 add_executable(fastslam_test
         src/fastslam_test.cpp

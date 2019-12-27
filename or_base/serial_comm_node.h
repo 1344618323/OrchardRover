@@ -40,15 +40,15 @@ namespace leonard_serial_common {
 
         void ChassisSpeedCtrlCallback(const geometry_msgs::Twist::ConstPtr &vel);
 
-        void ReceiveLoop();
+        void ReceivePackLoop();
 
         void DataHandle();
 
-        void SendPack();
+        void SendPackLoop();
 
-        bool SendData(uint8_t *data, int len, uint8_t cmd_id);
+        bool SendData(uint8_t *data, uint16_t len, uint8_t cmd_id);
 
-        void SendDataHandle(uint8_t *topack_data,
+        void ProtocolFillPack(uint8_t *topack_data,
                             uint8_t *packed_data,
                             uint16_t len,
                             uint8_t cmd_id);

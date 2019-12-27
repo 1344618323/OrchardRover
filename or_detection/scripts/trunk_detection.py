@@ -14,7 +14,7 @@ from fast_rcnn.nms_wrapper import nms
 from fast_rcnn.config import cfg
 from utils.timer import Timer
 import matplotlib.pyplot as plt
-from or_msgs.msg import TrunkAngleMsg
+from or_msgs.msg import TrunkObsMsg
 
 from sensor_msgs.msg import Image
 import cv_bridge
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     detect_trunk = DetectTrunk()
 
     angle_pub = rospy.Publisher(
-        'trunk_angle', TrunkAngleMsg, queue_size=10)
+        'trunk_obs', TrunkObsMsg, queue_size=10)
 
     while not rospy.is_shutdown():
         if detect_trunk.procimg == []:
@@ -146,13 +146,13 @@ if __name__ == '__main__':
         #             (intrinsicMatrix[0][2]-box[0]), intrinsicMatrix[0][0])*180/math.pi)
         #         boxwidth = box[2]-box[0]
         #         angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
-        #     angle_pub.publish(TrunkAngleMsg(None, angle))
+        #     angle_pub.publish(TrunkObsMsg(None, angle))
         cv2.waitKey(5)
     cv2.destroyAllWindows()
 
     rospy.spin()
 
-    # angle_pub = rospy.Publisher('trunkAngle', TrunkAngleMsg, queue_size=10)
+    # angle_pub = rospy.Publisher('trunkAngle', TrunkObsMsg, queue_size=10)
 
     # # 加载 faster-RCNN 模型
     # cfg.TEST.HAS_RPN = True  # Use RPN for proposals
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     #             angle.append(math.atan2((intrinsicMatrix[0][2]-box[0]),intrinsicMatrix[0][0])*180/math.pi)
     #             boxwidth=box[2]-box[0]
     #             angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
-    #         angle_pub.publish(TrunkAngleMsg(None,angle))
+    #         angle_pub.publish(TrunkObsMsg(None,angle))
     #     cv2.waitKey(5)
     # cap.release()
     # cv2.destroyAllWindows()
@@ -213,7 +213,7 @@ if __name__ == '__main__':
     #     for box in boxes:
     #         angle.append(math.atan2((CAMERAux-box[2]),CAMERAFdSx))
     #         angle.append(math.atan2((CAMERAux-box[0]),CAMERAFdSx))
-    #     angle_pub.publish(TrunkAngleMsg(None,angle))
+    #     angle_pub.publish(TrunkObsMsg(None,angle))
 
     # cv2.waitKey(0);
     # rospy.spin()

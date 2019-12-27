@@ -15,6 +15,7 @@ class SensorOdomData {
 public:
     Vec3d pose;
     Vec3d delta;
+    Vec3d old_pose;
 };
 
 class SensorOdom {
@@ -30,7 +31,7 @@ public:
                       double alpha3,
                       double alpha4);
 
-    bool UpdateAction(std::shared_ptr<ParticleFilterSampleSet> pf_sample_set_ptr,
+    bool UpdateAction(std::shared_ptr<ParticleFilterSampleSet> set_ptr,
                       const SensorOdomData &odom_data);
 
 private:

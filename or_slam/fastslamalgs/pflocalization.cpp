@@ -73,9 +73,9 @@ PfLocalization::ComputeParticleWeight(const Vec3d &sensor_pose, const Vec2d &z,
 
         Vec2d z_hat;
         z_hat(0) = d;
-        z_hat(1) = angle_diff<double>(atan2(dxy(1), dxy(0)), sensor_pose(2));
+        z_hat(1) = AngleDiff<double>(atan2(dxy(1), dxy(0)), sensor_pose(2));
 
-        dz << z(0) - z_hat(0), angle_diff<double>(z(1), z_hat(1));
+        dz << z(0) - z_hat(0), AngleDiff<double>(z(1), z_hat(1));
 
         double mahalanobis_dis = dz.transpose() * invQ * dz;
 
@@ -137,9 +137,9 @@ PfLocalization::ComputeParticleWeightForTest(const Vec3d &sensor_pose, const Vec
 
         Vec2d z_hat;
         z_hat(0) = d;
-        z_hat(1) = angle_diff<double>(atan2(dxy(1), dxy(0)), sensor_pose(2));
+        z_hat(1) = AngleDiff<double>(atan2(dxy(1), dxy(0)), sensor_pose(2));
 
-        dz << z(0) - z_hat(0), angle_diff<double>(z(1), z_hat(1));
+        dz << z(0) - z_hat(0), AngleDiff<double>(z(1), z_hat(1));
 
         double mahalanobis_dis = dz.transpose() * invQ * dz;
 

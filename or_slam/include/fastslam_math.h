@@ -5,15 +5,15 @@
 #include "types.h"
 
 template<typename T>
-inline T normalize(T z) {
+inline T Normalize(T z) {
     return atan2(sin(z), cos(z));
 }
 
 template<typename T>
-inline T angle_diff(double a, double b) {
+inline T AngleDiff(double a, double b) {
     T d1, d2;
-    a = normalize(a);
-    b = normalize(b);
+    a = Normalize(a);
+    b = Normalize(b);
     d1 = a - b;
     d2 = 2 * M_PI - fabs(d1);
     if (d1 > 0)

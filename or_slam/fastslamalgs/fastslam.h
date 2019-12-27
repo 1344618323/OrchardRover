@@ -15,23 +15,21 @@
 #include "../include/types.h"
 #include <visualization_msgs/Marker.h>
 
-class FastSlam
-{
+class FastSlam {
 public:
     FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh);
 
     ~FastSlam();
 
-    int Update(const Vec3d &pose,
-               const std::vector<Vec2d> zs, geometry_msgs::PoseArray &particle_cloud_pose_msg,
-               visualization_msgs::Marker &lm_cloud_msg);
+    int Update(const Vec3d &pose, const std::vector<Vec2d> &zs,
+               geometry_msgs::PoseArray &particle_cloud_pose_msg, visualization_msgs::Marker &lm_cloud_msg);
 
     void SetSensorPose(const Vec3d &sensor_pose);
 
 protected:
-    void UpdateOdomPoseData(const Vec3d pose);
+    void UpdateOdomPoseData(const Vec3d &pose);
 
-    void UpdateObserveData(const std::vector<Vec2d> zs);
+    void UpdateObserveData(const std::vector<Vec2d> &zs);
 
     void ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose, const Mat2d &lm_cov,
                            const Vec2d &z, const Mat2d &Q, Mat2d &Hj, Mat2d &Qj,
