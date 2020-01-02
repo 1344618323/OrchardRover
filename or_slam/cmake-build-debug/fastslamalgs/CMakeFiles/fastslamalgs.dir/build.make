@@ -70,18 +70,18 @@ fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastslamalgs.dir/fastslam.cpp.s"
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/fastslam.cpp -o CMakeFiles/fastslamalgs.dir/fastslam.cpp.s
 
-fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o: fastslamalgs/CMakeFiles/fastslamalgs.dir/flags.make
-fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o: ../fastslamalgs/pflocalization.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o"
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/pflocalization.cpp
+fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o: fastslamalgs/CMakeFiles/fastslamalgs.dir/flags.make
+fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o: ../fastslamalgs/fastslam_localization.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/fastslam_localization.cpp
 
-fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastslamalgs.dir/pflocalization.cpp.i"
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/pflocalization.cpp > CMakeFiles/fastslamalgs.dir/pflocalization.cpp.i
+fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.i"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/fastslam_localization.cpp > CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.i
 
-fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastslamalgs.dir/pflocalization.cpp.s"
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/pflocalization.cpp -o CMakeFiles/fastslamalgs.dir/pflocalization.cpp.s
+fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.s"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs/fastslam_localization.cpp -o CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.s
 
 fastslamalgs/CMakeFiles/fastslamalgs.dir/sensors/sensor_odom.cpp.o: fastslamalgs/CMakeFiles/fastslamalgs.dir/flags.make
 fastslamalgs/CMakeFiles/fastslamalgs.dir/sensors/sensor_odom.cpp.o: ../fastslamalgs/sensors/sensor_odom.cpp
@@ -125,7 +125,7 @@ fastslamalgs/CMakeFiles/fastslamalgs.dir/particle_filter/particle_filter_gaussia
 # Object files for target fastslamalgs
 fastslamalgs_OBJECTS = \
 "CMakeFiles/fastslamalgs.dir/fastslam.cpp.o" \
-"CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o" \
+"CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o" \
 "CMakeFiles/fastslamalgs.dir/sensors/sensor_odom.cpp.o" \
 "CMakeFiles/fastslamalgs.dir/particle_filter/particle_filter.cpp.o" \
 "CMakeFiles/fastslamalgs.dir/particle_filter/particle_filter_gaussian_pdf.cpp.o"
@@ -134,7 +134,7 @@ fastslamalgs_OBJECTS = \
 fastslamalgs_EXTERNAL_OBJECTS =
 
 devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam.cpp.o
-devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o
+devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o
 devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/sensors/sensor_odom.cpp.o
 devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/particle_filter/particle_filter.cpp.o
 devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/particle_filter/particle_filter_gaussian_pdf.cpp.o

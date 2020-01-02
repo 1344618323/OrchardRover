@@ -18,7 +18,7 @@
 #include "types.h"
 #include <visualization_msgs/Marker.h>
 #include "fastslam.h"
-#include "pflocalization.h"
+#include "fastslam_localization.h"
 
 #define THREAD_NUM 4 // ROS SPIN THREAD NUM
 
@@ -34,6 +34,8 @@ private:
     ros::NodeHandle nh_;
 
     bool pure_localization_;
+    bool sim_sign_;
+    bool use_ultrasonic_;
 
     ros::Subscriber laser_scan_sub_;
     std::string laser_topic_;
@@ -61,7 +63,7 @@ private:
     std::vector<Vec2d> trunk_obs_vec_;
     //Algorithm object
     std::unique_ptr<FastSlam> slam_ptr_;
-    std::unique_ptr<PfLocalization> localization_ptr_;
+    std::unique_ptr<FastSlamLocalization> localization_ptr_;
 
     ros::Publisher sim_trunk_obs_pub_;
     double laser_angle_min_;

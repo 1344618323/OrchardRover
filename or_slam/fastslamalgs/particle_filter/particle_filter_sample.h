@@ -3,7 +3,7 @@
 #include "types.h"
 
 
-class LandMark{
+class PfLandMark{
 public:
     Vec2d pos;
     Mat2d cov;
@@ -22,22 +22,13 @@ public:
     void Reset() {
         pose.setZero();
         weight = 0;
-        landmark_num=0;
-        lm_poses.clear();
-        lm_poses.shrink_to_fit();
-        lm_covs.clear();
-        lm_covs.shrink_to_fit();
-        lm_cnt.clear();
-        lm_cnt.shrink_to_fit();
+        lm_vec.clear();
+        lm_vec.shrink_to_fit();
     };
 
     ~ParticleFilterSample(){
-        lm_poses.clear();
-        lm_poses.shrink_to_fit();
-        lm_covs.clear();
-        lm_covs.shrink_to_fit();
-        lm_cnt.clear();
-        lm_cnt.shrink_to_fit();
+        lm_vec.clear();
+        lm_vec.shrink_to_fit();
     }
 
 public:
@@ -47,11 +38,7 @@ public:
     //! Weight for this pose
     double weight;
 
-    std::vector<LandMark> lm_vec;
-    std::vector<Vec2d> lm_poses;
-    std::vector<Mat2d> lm_covs;
-    std::vector<int> lm_cnt;
-    int landmark_num;
+    std::vector<PfLandMark> lm_vec;
 };
 
 

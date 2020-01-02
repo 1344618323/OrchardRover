@@ -22,6 +22,8 @@ namespace leonard_serial_common
 
 #define CMD_PUSH_CHASSIS_INFO (0X01u)
 #define CMD_SET_CHASSIS_SPEED (0X03u)
+#define CMD_SET_CAM_ANGLE (0x05u)
+#define CMD_PUSH_OBSERVE_INFO (0X07u)
 
 typedef enum
 {
@@ -57,6 +59,19 @@ typedef struct
     int16_t vy;
     int16_t vw;
 } cmd_chassis_speed;
+
+typedef struct
+{
+    uint8_t valid[2];//下位机到转角命令后是否测量，1不测量，2测量，0无效数据包
+    int16_t angle[2];//上位机控制转角
+} cmd_cam_angle;
+
+typedef struct
+{
+    uint8_t valid[2];  //0无效包，1返回角度包，2返回测距包
+    int16_t bearing[2];//当前转角
+    int16_t range[2];  //当前测量距离
+} cmd_observe_info;
 
 #pragma pack(pop)
 // 取消 #pragma pack(push, 1) 的作用

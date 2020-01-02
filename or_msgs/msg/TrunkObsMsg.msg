@@ -1,3 +1,4 @@
 std_msgs/Header header
-float64[] ranges
+int8[] valids
 float64[] bearings
+float64[] ranges

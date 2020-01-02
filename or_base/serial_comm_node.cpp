@@ -39,9 +39,10 @@ bool SerialComNode::Init()
 
     //ros publisher
     odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 30);
-
+    trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsg>("trunk_ultrasonic_obs", 30);
     //ros subscriber
     sub_cmd_vel_ = nh_.subscribe("cmd_vel", 1, &SerialComNode::ChassisSpeedCtrlCallback, this);
+    sub_cmd_cam_angle_ == nh_.subscribe("trunk_ultrasonic_cam_angle", 1, &SerialComNode::CamAngleCtrlCallback, this);
 
     return true;
 }
@@ -75,6 +76,26 @@ void SerialComNode::ChassisSpeedCtrlCallback(const geometry_msgs::Twist::ConstPt
     if (!SendData((uint8_t *)&chassis_speed, sizeof(cmd_chassis_speed), CMD_SET_CHASSIS_SPEED))
     {
         LOG_WARNING << "Overflow in Chassis CB";
+    }
+}
+
+void SerialComNode::CamAngleCtrlCallback(const or_msgs::TrunkObsMsg::ConstPtr &msg)
+{
+    cmd_cam_angle cam_angle;
+    memset(&cam_angle, 0, sizeof(cam_angle));
+
+    for (int i = 0; i < std::min((int)(msg->valids.size()), 2); i++)
+    {
+        cam_angle.valid[i] = msg->valids[i];
+    }
+    for (int i = 0; i < std::min((int)(msg->bearings.size()), 2); i++)
+    {
+        cam_angle.angle[i] = msg->bearings[i];
+    }
+
+    if (!SendData((uint8_t *)&cam_angle, sizeof(cmd_cam_angle), CMD_SET_CAM_ANGLE))
+    {
+        LOG_WARNING << "Overflow in Cam Angle";
     }
 }
 
@@ -211,6 +232,39 @@ void SerialComNode::DataHandle()
     }
     break;
 
+    case CMD_PUSH_OBSERVE_INFO:
+    {
+        memcpy(&observe_info_, data_addr, data_length);
+
+        std::vector<int8_t> valid_array;
+        std::vector<double> range_array;
+        std::vector<double> bearing_array;
+        valid_array.resize(2);
+        range_array.resize(2);
+        bearing_array.resize(2);
+
+        for (int i = 0; i < 2; i++)
+        {
+            if (observe_info_.valid[i] == 2)
+            {
+                //若有测距信息返回
+                valid_array[i] = observe_info_.valid[i];
+                range_array[i] = observe_info_.range[i];
+                bearing_array[i] = observe_info_.bearing[i];
+            }
+            else
+                valid_array[i] = observe_info_.valid[i];
+        }
+
+        trunk_obs_msg_.header.stamp = ros::Time::now();
+        trunk_obs_msg_.header.frame_id = "odom";
+        trunk_obs_msg_.valids = valid_array;
+        trunk_obs_msg_.ranges = range_array;
+        trunk_obs_msg_.bearings = bearing_array;
+        trunk_obs_pub_.publish(trunk_obs_msg_);
+    }
+    break;
+
     default:
         break;
     }
@@ -258,9 +312,9 @@ bool SerialComNode::SendData(uint8_t *data, uint16_t len, uint8_t cmd_id)
 }
 
 void SerialComNode::ProtocolFillPack(uint8_t *topack_data,
-                                   uint8_t *packed_data,
-                                   uint16_t len,
-                                   uint8_t cmd_id)
+                                     uint8_t *packed_data,
+                                     uint16_t len,
+                                     uint8_t cmd_id)
 {
     FrameHeader *p_header = (FrameHeader *)packed_data;
     uint16_t pack_length = HEADER_LEN + CMD_LEN + len + CRC_DATA_LEN;

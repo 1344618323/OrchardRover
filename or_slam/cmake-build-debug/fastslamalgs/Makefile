@@ -209,6 +209,33 @@ fastslam.cpp.s:
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam.cpp.s
 .PHONY : fastslam.cpp.s
 
+fastslam_localization.o: fastslam_localization.cpp.o
+
+.PHONY : fastslam_localization.o
+
+# target to build an object file
+fastslam_localization.cpp.o:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.o
+.PHONY : fastslam_localization.cpp.o
+
+fastslam_localization.i: fastslam_localization.cpp.i
+
+.PHONY : fastslam_localization.i
+
+# target to preprocess a source file
+fastslam_localization.cpp.i:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.i
+.PHONY : fastslam_localization.cpp.i
+
+fastslam_localization.s: fastslam_localization.cpp.s
+
+.PHONY : fastslam_localization.s
+
+# target to generate assembly for a file
+fastslam_localization.cpp.s:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/fastslam_localization.cpp.s
+.PHONY : fastslam_localization.cpp.s
+
 particle_filter/particle_filter.o: particle_filter/particle_filter.cpp.o
 
 .PHONY : particle_filter/particle_filter.o
@@ -263,33 +290,6 @@ particle_filter/particle_filter_gaussian_pdf.cpp.s:
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/particle_filter/particle_filter_gaussian_pdf.cpp.s
 .PHONY : particle_filter/particle_filter_gaussian_pdf.cpp.s
 
-pflocalization.o: pflocalization.cpp.o
-
-.PHONY : pflocalization.o
-
-# target to build an object file
-pflocalization.cpp.o:
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.o
-.PHONY : pflocalization.cpp.o
-
-pflocalization.i: pflocalization.cpp.i
-
-.PHONY : pflocalization.i
-
-# target to preprocess a source file
-pflocalization.cpp.i:
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.i
-.PHONY : pflocalization.cpp.i
-
-pflocalization.s: pflocalization.cpp.s
-
-.PHONY : pflocalization.s
-
-# target to generate assembly for a file
-pflocalization.cpp.s:
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/pflocalization.cpp.s
-.PHONY : pflocalization.cpp.s
-
 sensors/sensor_odom.o: sensors/sensor_odom.cpp.o
 
 .PHONY : sensors/sensor_odom.o
@@ -334,15 +334,15 @@ help:
 	@echo "... fastslam.o"
 	@echo "... fastslam.i"
 	@echo "... fastslam.s"
+	@echo "... fastslam_localization.o"
+	@echo "... fastslam_localization.i"
+	@echo "... fastslam_localization.s"
 	@echo "... particle_filter/particle_filter.o"
 	@echo "... particle_filter/particle_filter.i"
 	@echo "... particle_filter/particle_filter.s"
 	@echo "... particle_filter/particle_filter_gaussian_pdf.o"
 	@echo "... particle_filter/particle_filter_gaussian_pdf.i"
 	@echo "... particle_filter/particle_filter_gaussian_pdf.s"
-	@echo "... pflocalization.o"
-	@echo "... pflocalization.i"
-	@echo "... pflocalization.s"
 	@echo "... sensors/sensor_odom.o"
 	@echo "... sensors/sensor_odom.i"
 	@echo "... sensors/sensor_odom.s"

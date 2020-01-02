@@ -1,4 +1,6 @@
 pure_localization    : false
+sim_sign             : true
+use_ultrasonic       : true
 odom_frame_id        : "odom"
 base_frame_id        : "base_link"
 global_frame_id      : "map"

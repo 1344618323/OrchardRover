@@ -58,7 +58,7 @@ def vis_detections(im, class_name, dets, thresh=0.9):
     cv2.imshow("im", im)
 
 
-def detecte_and_draw(net, im):
+def detecte_and_draw(net, im, str):
     """Detect object classes in an image using pre-computed object proposals."""
 
     # Detect all object classes and regress object bounds
@@ -94,7 +94,7 @@ def detecte_and_draw(net, im):
     for enumpubbox in pubbox:
         cv2.rectangle(im, (int(enumpubbox[0]), int(enumpubbox[3])), (int(
             enumpubbox[2]), int(enumpubbox[1])), (0, 255, 0), 5)
-    cv2.imshow("im", im)
+    cv2.imshow(str, im)
     return pubbox
 
 
@@ -112,6 +112,18 @@ class DetectTrunk:
         self.procimg = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
 
+class ObserveMsg:
+    def __init__(self):
+        observe_sub = rospy.Subscriber(
+            'trunk_ultrasonic_obs', TrunkObsMsg, self.observe_callback)
+        self.cur_angle = [0, 0]
+
+    def observe_callback(self, msg):
+        for i in range(2):
+            if msg.valids[i] >= 1:
+                self.cur_angle[i] = msg.bearings[i]
+
+
 if __name__ == '__main__':
     rospy.init_node('talker', anonymous=True)
 
@@ -125,81 +137,112 @@ if __name__ == '__main__':
     net = caffe.Net(prototxt, caffemodel, caffe.TEST)
     print '\n\nLoaded network {:s}'.format(caffemodel)
 
-    detect_trunk = DetectTrunk()
+    ##################用于雷达####################
 
-    angle_pub = rospy.Publisher(
-        'trunk_obs', TrunkObsMsg, queue_size=10)
+    # detect_trunk = DetectTrunk()
+    # angle_pub = rospy.Publisher(
+    #     'trunk_obs', TrunkObsMsg, queue_size=10)
 
-    while not rospy.is_shutdown():
-        if detect_trunk.procimg == []:
-            continue
-        out = copy.deepcopy(detect_trunk.procimg)
-        # cv2.imshow('frame',out)
+    # while not rospy.is_shutdown():
+    #     if detect_trunk.procimg == []:
+    #         continue
+    #     out = copy.deepcopy(detect_trunk.procimg)
+    #     # cv2.imshow('frame',out)
+    #     boxes = detecte_and_draw(net, out)
+    #     # if boxes != []:
+    #     #     angle = []
+    #     #     for box in boxes:
+    #     #         angle.append(math.atan2(
+    #     #             (intrinsicMatrix[0][2]-box[2]), intrinsicMatrix[0][0])*180/math.pi)
+    #     #         angle.append(math.atan2(
+    #     #             (intrinsicMatrix[0][2]-box[0]), intrinsicMatrix[0][0])*180/math.pi)
+    #     #         boxwidth = box[2]-box[0]
+    #     #         angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
+    #     #     angle_pub.publish(TrunkObsMsg(None, angle))
+    #     cv2.waitKey(5)
+    # cv2.destroyAllWindows()
+    # rospy.spin()
 
-        boxes = detecte_and_draw(net, out)
-        # if boxes != []:
-        #     angle = []
-        #     for box in boxes:
-        #         angle.append(math.atan2(
-        #             (intrinsicMatrix[0][2]-box[2]), intrinsicMatrix[0][0])*180/math.pi)
-        #         angle.append(math.atan2(
-        #             (intrinsicMatrix[0][2]-box[0]), intrinsicMatrix[0][0])*180/math.pi)
-        #         boxwidth = box[2]-box[0]
-        #         angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
-        #     angle_pub.publish(TrunkObsMsg(None, angle))
-        cv2.waitKey(5)
-    cv2.destroyAllWindows()
-
-    rospy.spin()
-
-    # angle_pub = rospy.Publisher('trunkAngle', TrunkObsMsg, queue_size=10)
-
-    # # 加载 faster-RCNN 模型
-    # cfg.TEST.HAS_RPN = True  # Use RPN for proposals
-    # prototxt = '/home/cxn/myfile/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
-    # caffemodel = '/home/cxn/myfile/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
-    # if not osp.isfile(caffemodel):
-    #     raise IOError(('{:s} not found.').format(caffemodel))
-    # caffe.set_mode_gpu()
-    # caffe.set_device(0)
-    # net = caffe.Net(prototxt, caffemodel, caffe.TEST)
-    # print '\n\nLoaded network {:s}'.format(caffemodel)
-
-    # cap = cv2.VideoCapture(
-    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
-    # # cap = cv2.VideoCapture(1)
-    # # if cap.isOpened():
-    # #     cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
-    # #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
-
+    ###########读yaml文件##########
     # fs=cv2.FileStorage('/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_detection/camparams/LongFCamCalib.yaml',cv2.FileStorage_READ)
     # intrinsicMatrix=fs.getNode('intrinsicMatrix').mat()
     # distCoeffs=fs.getNode('distCoeffs').mat()
     # fs.release()
-
     # print intrinsicMatrix
     # print distCoeffs
-
-    # while cap.isOpened() and not rospy.is_shutdown():
+    #    cap = cv2.VideoCapture(1)
+    #  if cap.isOpened():
+    #   cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
+    #      cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
     #     ret, im = cap.read()
+    # if ret==True:
     #     # out=np.zeros_like(im)
     #     # cv2.undistort(im,intrinsicMatrix,distCoeffs,out)
     #     out=im
     #     # cv2.imshow('frame',out)
 
-    #     # boxes=detecte_and_draw(net, im)
-    #     boxes=detecte_and_draw(net, out)
-    #     if boxes !=[]:
-    #         angle=[]
-    #         for box in boxes:
-    #             angle.append(math.atan2((intrinsicMatrix[0][2]-box[2]),intrinsicMatrix[0][0])*180/math.pi)
-    #             angle.append(math.atan2((intrinsicMatrix[0][2]-box[0]),intrinsicMatrix[0][0])*180/math.pi)
-    #             boxwidth=box[2]-box[0]
-    #             angle.append(intrinsicMatrix[0][0]*0.2/boxwidth)
-    #         angle_pub.publish(TrunkObsMsg(None,angle))
-    #     cv2.waitKey(5)
-    # cap.release()
-    # cv2.destroyAllWindows()
+    ###################用于超声波####################
+    angle_pub = rospy.Publisher(
+        'trunk_ultrasonic_cam_angle', TrunkObsMsg, queue_size=10)
+
+    observe_msg = ObserveMsg()
+
+    cap = cv2.VideoCapture(
+        '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
+    # cap2 = cv2.VideoCapture(
+    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
+    cap2 = cv2.VideoCapture(0)
+    while cap.isOpened() and \
+            cap2.isOpened() and\
+            not rospy.is_shutdown():
+
+        valids = [0, 0]
+        bearings = [0, 0]
+
+        ret, im = cap.read()
+        if ret == True:
+            out = im
+            out = cv2.resize(im, (640, 480))
+            boxes = detecte_and_draw(net, out, "im1")
+            if boxes != []:
+                minabsangle = 180
+                minangle = 0
+                for box in boxes:
+                    angle = 0.0935*(box[2]+box[2])/2-31.7933
+                    if (math.fabs(angle) < minabsangle) and\
+                        (observe_msg.cur_angle[0]+angle < 90) and\
+                            (observe_msg.cur_angle[0]+angle > -90):
+                        minangle = angle
+                        minabsangle = math.fabs(angle)
+                if(minabsangle!=180):
+                    valids[0]=2
+                    bearings[0]=-minangle
+
+        ret, im = cap2.read()
+        if ret == True:
+            out = im
+            out = cv2.resize(im, (640, 480))
+            boxes = detecte_and_draw(net, out, "im2")
+            if boxes != []:
+
+                minabsangle = 180
+                minangle = 0
+                for box in boxes:
+                    angle = 0.0935*(box[2]+box[2])/2-34.0377
+                    if math.fabs(angle) < minabsangle and\
+                        (observe_msg.cur_angle[1]+angle < 90) and\
+                            (observe_msg.cur_angle[1]+angle > -90):
+                        minangle = angle
+                        minabsangle = math.fabs(angle)
+                if(minabsangle!=180):
+                    valids[1]=2
+                    bearings[1]=-minangle
+
+        angle_pub.publish(TrunkObsMsg(None, valids, bearings, None))
+
+        cv2.waitKey(5)
+    cap.release()
+    cv2.destroyAllWindows()
 
     # im_names = ['/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_171646.jpg',
     #     '/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_181206.jpg']
@@ -216,4 +259,4 @@ if __name__ == '__main__':
     #     angle_pub.publish(TrunkObsMsg(None,angle))
 
     # cv2.waitKey(0);
-    # rospy.spin()
+    rospy.spin()

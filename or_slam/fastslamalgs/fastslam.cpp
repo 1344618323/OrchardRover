@@ -1,6 +1,7 @@
 #include "fastslam.h"
 
-FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh) {
+FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh, bool multi_sensor) {
+    multi_sensor_sign_ = multi_sensor;
     nh->param<int>("particles_num", particles_num_, 500);
     nh->param<double>("odom_alpha1", odom_alpha1_, 0.005);
     nh->param<double>("odom_alpha2", odom_alpha2_, 0.005);
@@ -64,10 +65,10 @@ void FastSlam::GetParticlesCloudMsg(geometry_msgs::PoseArray &particle_cloud_pos
                                              0)),
                         particle_cloud_pose_msg.poses[i]);
 
-        for (int j = 0; j < sample.landmark_num; j++) {
+        for (int j = 0; j < sample.lm_vec.size(); j++) {
             geometry_msgs::Point temp;
-            temp.x = sample.lm_poses[j](0);
-            temp.y = sample.lm_poses[j](1);
+            temp.x = sample.lm_vec[j].pos(0);
+            temp.y = sample.lm_vec[j].pos(1);
             temp.z = 0;
             lm_cloud_msg.points.push_back(temp);
         }
@@ -108,6 +109,12 @@ void FastSlam::SetSensorPose(const Vec3d &sensor_pose) {
     DLOG_INFO << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
 }
 
+void FastSlam::SetMultiSensorPose(const Vec3d &sensor_pose1, const Vec3d &sensor_pose2) {
+    multi_sensor_pose_[0] = sensor_pose1;
+    multi_sensor_pose_[1] = sensor_pose2;
+}
+
+
 void FastSlam::UpdateObserveData(const std::vector<Vec2d> &zs) {
     SampleSetPtr set_ptr = pf_ptr_->GetCurrentSampleSetPtr();
 
@@ -115,11 +122,21 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> &zs) {
 
     for (int N = 0; N < zs.size(); N++) {
 
+        // 如果测量范围不对,则跳过
+        if(zs[N](0)<=0.05||zs[N](0)>=8)
+            continue;
+
         std::cout << "<<<<<<<<<< zs " << N << " <<<<<<<<<<" << std::endl;
         for (int k = 0; k < set_ptr->sample_count; k++) {
             ParticleFilterSample &sample = set_ptr->samples_vec[k];
-            //获得雷达坐标
-            Vec3d sensor_pose = CoordAdd(sample.pose, sensor_pose_);
+
+            Vec3d sensor_pose;
+            if (multi_sensor_sign_) {
+                sensor_pose = CoordAdd(sample.pose, multi_sensor_pose_[N]);
+            } else {
+                //获得雷达坐标
+                sensor_pose = CoordAdd(sample.pose, sensor_pose_);
+            }
 
             std::cout << "sample index: " << k << std::endl;
             std::cout << "sensor pose: " << sensor_pose[0] << "," << sensor_pose[1] << ","
@@ -132,29 +149,25 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> &zs) {
             DataAssociate(sensor_pose, sample, zs[N], observe_cov_, max_w, max_i);
 
             // update the weight of particle
-            sample.weight *= max_w;
+            if (sample.weight * max_w > min_weight)
+                sample.weight *= max_w;
 
-            if (max_i == sample.landmark_num) {
+            if (max_i == sample.lm_vec.size()) {
                 //new landmarks
-                Vec2d new_ld_pose;
-                Mat2d new_ld_cov;
-                AddNewLd(sensor_pose, zs[N], observe_cov_, new_ld_pose, new_ld_cov);
-                sample.lm_poses.push_back(new_ld_pose);
-                sample.lm_covs.push_back(new_ld_cov);
-                sample.lm_cnt.push_back(1);
-                sample.landmark_num++;
+                PfLandMark new_lm;
+                AddNewLd(sensor_pose, zs[N], observe_cov_, new_lm);
 
-                std::cout << "sample " << k << " add a new landmark: " << new_ld_pose[0] << "," << new_ld_pose[1]
-                          << std::endl;
-            } else {
+                std::cout << "sample " << k << " add a new landmark: "
+                          << new_lm.pos[0] << "," << new_lm.pos[1] << std::endl;
+
+                sample.lm_vec.emplace_back(new_lm);
+            } else if (max_i >= 0) {
                 //update EKF
                 Mat2d Hj;
                 Mat2d Qj;
                 Vec2d dz;
-                ComputeJaccobians(sensor_pose, sample.lm_poses[max_i], sample.lm_covs[max_i],
-                                  zs[N], observe_cov_, Hj, Qj, dz);
-                UpdateKFwithCholesky(sample.lm_poses[max_i], sample.lm_covs[max_i], dz, observe_cov_, Hj);
-                sample.lm_cnt[max_i]++;
+                ComputeJaccobians(sensor_pose, sample.lm_vec[max_i], zs[N], observe_cov_, Hj, Qj, dz);
+                UpdateKfByCholesky(sample.lm_vec[max_i], dz, observe_cov_, Hj);
             }
         }
     }
@@ -162,19 +175,18 @@ void FastSlam::UpdateObserveData(const std::vector<Vec2d> &zs) {
 
 /*
  * sensor_pose 雷达坐标
- * lm_pose 地标坐标
- * lm_cov 地标坐标协方差
+ * lm 地标坐标,协方差
  * z 观测量
  * Q 传感器测量协方差
  * Hj 观测函数对地标坐标的导数
  * Qj 观测协方差
  * dz 真实观测量与假设观测量之差
  */
-void FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose, const Mat2d &lm_cov,
-                                 const Vec2d &z, const Mat2d &Q, Mat2d &Hj, Mat2d &Qj,
-                                 Vec2d &dz) {
+void FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const PfLandMark &lm,
+                                 const Vec2d &z, const Mat2d &Q,
+                                 Mat2d &Hj, Mat2d &Qj, Vec2d &dz) {
     // 粒子中地标与粒子坐标的差
-    Vec2d dxy = lm_pose - sensor_pose.segment(0, 2);
+    Vec2d dxy = lm.pos - sensor_pose.segment(0, 2);
     double d2 = dxy(0) * dxy(0) + dxy(1) * dxy(1);
     double d = sqrt(d2);
 
@@ -186,7 +198,7 @@ void FastSlam::ComputeJaccobians(const Vec3d &sensor_pose, const Vec2d &lm_pose,
     Hj << dxy(0) / d, dxy(1) / d,
             -dxy(1) / d2, dxy(0) / d2;
 
-    Qj = Hj * lm_cov * Hj.transpose() + Q;
+    Qj = Hj * lm.cov * Hj.transpose() + Q;
     dz << z(0) - z_hat(0), AngleDiff<double>(z(1), z_hat(1));
 }
 
@@ -230,18 +242,20 @@ double FastSlam::ComputeMahalanobisDis(const Mat2d &Qj, const Vec2d &dz) {
  * new_lm_pose 新地标坐标
  * new_lm_cov 新地标协方差
  */
-void
-FastSlam::AddNewLd(const Vec3d &sensor_pose, const Vec2d &z, const Mat2d &Q, Vec2d &new_lm_pose, Mat2d &new_lm_cov) {
+void FastSlam::AddNewLd(const Vec3d &sensor_pose,
+                        const Vec2d &z, const Mat2d &Q,
+                        PfLandMark &new_lm) {
     double angle_to_ld = Normalize<double>(sensor_pose(2) + z(1));
     double s = sin(angle_to_ld);
     double c = cos(angle_to_ld);
-    new_lm_pose << sensor_pose(0) + z(0) * c, sensor_pose(1) + z(0) * s;
+    new_lm.pos << sensor_pose(0) + z(0) * c, sensor_pose(1) + z(0) * s;
     Mat2d Gz;
     Gz << c, -z(0) * s, s, z(0) * c;
     //H = h'(z,miu)
     //Cov = inv(H)*Q*inv(H)T
     //在这段代码中 Gz = h'(z,miu)-1 = inv(H)
-    new_lm_cov = Gz * Q * Gz.transpose();
+    new_lm.cov = Gz * Q * Gz.transpose();
+    new_lm.cnt = 1;
 }
 
 /*
@@ -253,21 +267,26 @@ FastSlam::AddNewLd(const Vec3d &sensor_pose, const Vec2d &z, const Mat2d &Q, Vec
  * max_i 能获得最大权重值的地标索引
  */
 void
-FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sample, const Vec2d &z, const Mat2d &Q,
+FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sample,
+                        const Vec2d &z, const Mat2d &Q,
                         double &max_w, int &max_i) {
     std::vector<double> weights;
-    std::vector<double> mah_diss;
+    std::vector<double> mah_dis;
     std::vector<Mat2d> Qjs;
-    //Each landmarks int this particle, to obtain the max weight
-    for (int j = 0; j < sample.landmark_num; j++) {
+    weights.resize(sample.lm_vec.size());
+    mah_dis.resize(sample.lm_vec.size());
+    Qjs.resize(sample.lm_vec.size());
+
+    for (int j = 0; j < sample.lm_vec.size(); j++) {
         Mat2d Hj;
         Mat2d Qj;
         Vec2d dz;
-        ComputeJaccobians(sensor_pose, sample.lm_poses[j], sample.lm_covs[j],
+        ComputeJaccobians(sensor_pose, sample.lm_vec[j],
                           z, Q, Hj, Qj, dz);
-        //        weights.push_back(ComputeWeight(Qj, dz));
-        mah_diss.push_back(ComputeMahalanobisDis(Qj, dz));
-        Qjs.push_back(Qj);
+        // weights[j] = ComputeWeight(Qj, dz);
+
+        mah_dis[j] = ComputeMahalanobisDis(Qj, dz);//若Qj不可逆,则返回-1
+        Qjs[j] = Qj;
     }
 
     //    weights.push_back(new_ld_weight);
@@ -290,37 +309,65 @@ FastSlam::DataAssociate(const Vec3d &sensor_pose, const ParticleFilterSample &sa
     //    std::cout << "max index: " << max_i << " ,max weight: " << max_w << std::endl;
 
     double min_dis = FLT_MAX;
-    int min_dis_i = 0;
+    int min_dis_i = -1;
 
     // obtain the max weight
-    for (int i = 0; i < mah_diss.size(); i++) {
-        std::cout << mah_diss[i] << " , ";
-        if (mah_diss[i] < min_dis) {
-            min_dis = mah_diss[i];
+    for (int i = 0; i < mah_dis.size(); i++) {
+        std::cout << mah_dis[i] << " , ";
+        if (mah_dis[i] < min_dis && mah_dis[i] >= 0) {
+            min_dis = mah_dis[i];
             min_dis_i = i;
         }
     }
 
-    if (min_dis > new_ld_mahalanobis_dis) {
-        max_i = mah_diss.size();
-        max_w = 1;
-    } else {
-        max_w = exp(-0.5 * min_dis) / sqrt(Qjs[min_dis_i].determinant());
+    if (min_dis >= 0 && min_dis < new_ld_mahalanobis_dis) {
+        // 找到符合的地标
         max_i = min_dis_i;
+        max_w = exp(-0.5 * min_dis) / sqrt(Qjs[min_dis_i].determinant());
+    } else if (min_dis >= new_ld_mahalanobis_dis && min_dis_i >= 0) {
+        // todo 应该再给min_dis设置一个下限?
+        // 新地标
+        max_i = mah_dis.size();
+        max_w = 1;
     }
-    std::cout << std::endl;
 
+    if (min_dis_i == -1) {
+        if (sample.lm_vec.size() == 0) {
+            // 新地标
+            max_i = mah_dis.size();
+            max_w = 1;
+        } else {
+            // 已经有了多个地标,但是还是-1,就过掉这个
+            max_i = -1;
+            max_w = 1;
+        }
+    }
+
+    std::cout << std::endl;
     std::cout << "max index: " << max_i << " , max weight: " << max_w << " , min dis: " << min_dis << std::endl;
 }
 
-void FastSlam::UpdateKFwithCholesky(Vec2d &lm_pose, Mat2d &lm_cov, const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj) {
-    Mat2d PHt = lm_cov * Hj.transpose();
+void FastSlam::UpdateKfByCholesky(PfLandMark &lm,
+                                  const Vec2d &dz, const Mat2d &Q, const Mat2d &Hj) {
+    Mat2d PHt = lm.cov * Hj.transpose();
     Mat2d Qj = Hj * PHt + Q;          //对应 Q=H*Covt-1*HT+Qt
     Qj = (Qj + Qj.transpose()) * 0.5; //make symmetric
     Mat2d QChol = Qj.llt().matrixL().transpose();
-    Mat2d QjCholInv = QChol.inverse();
+
+    //Mat2d QjCholInv = QChol.inverse();
+
+    bool invertible;
+    Mat2d QjCholInv;
+    QChol.computeInverseWithCheck(QjCholInv, invertible);
+    if (!invertible) {
+        // 不可逆的话,直接结束
+        return;
+    }
+
     Mat2d W1 = PHt * QjCholInv;
     Mat2d K = W1 * QjCholInv.transpose();
-    lm_pose = lm_pose + K * dz;
-    lm_cov = lm_cov - W1 * W1.transpose();
+    lm.pos = lm.pos + K * dz;
+    lm.cov = lm.cov - W1 * W1.transpose();
+
+    lm.cnt++;
 }
