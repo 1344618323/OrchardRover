@@ -4,5 +4,5 @@ Name: or_slam
 Description: Description of or_slam
 Version: 1.0.0
 Cflags: 
-Libs: -L/usr/local/lib 
+Libs: -L${prefix}/lib 
 Requires: 

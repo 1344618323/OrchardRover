@@ -22,11 +22,11 @@
 
 #define THREAD_NUM 4 // ROS SPIN THREAD NUM
 
-
-class SlamNode {
+class SlamNode
+{
 public:
     SlamNode(std::string name);
-
+    ~SlamNode();
     bool Init();
 
 private:
@@ -36,6 +36,7 @@ private:
     bool pure_localization_;
     bool sim_sign_;
     bool use_ultrasonic_;
+    bool use_sim_;
 
     ros::Subscriber laser_scan_sub_;
     std::string laser_topic_;
@@ -57,8 +58,7 @@ private:
     std::vector<sensor_msgs::LaserScan> laser_msg_queue_;
 
     //record data
-    std::unique_ptr<CsvWriter> csvWriter_;
-
+    std::unique_ptr<CsvWriter> csv_writer_;
 
     std::vector<Vec2d> trunk_obs_vec_;
     //Algorithm object
@@ -74,9 +74,13 @@ private:
     ros::Publisher lmcloud_pub_;
     visualization_msgs::Marker lmcloud_msg_;
 
-
     double trunk_radius_avg_ = 0.1;
     double trunk_radius_sigma_ = 0.02;
+
+    Vec3d pose_in_odom_;
+    ros::Time last_laser_msg_timestamp_;
+    tf::Transform latest_tf_;
+
 private:
     void GetLaserPose();
 
@@ -99,7 +103,6 @@ private:
     void PublishVisualize();
 
     bool PublishTf();
-
 
     void LaserScanCallbackForCheck(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
 

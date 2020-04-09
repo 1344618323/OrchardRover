@@ -46,7 +46,7 @@ define rmcar position
   gui_nose 1
   drive "omni"
   # frontcamera(pose [ 0 0 0 0 ])
-  rplidar(pose [ 0 0.225 0 10 ])
+  rplidar(pose [ 0 0 0 0 ])
   # rplidar(pose [ 0 0.225 0 40 ])
   # rplidar2(pose [ 0 -0.225 0 -40 ])
   odom_error [0.03 0.03 0.00 0.05]

@@ -42,8 +42,7 @@ bool SerialComNode::Init()
     trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsg>("trunk_ultrasonic_obs", 30);
     //ros subscriber
     sub_cmd_vel_ = nh_.subscribe("cmd_vel", 1, &SerialComNode::ChassisSpeedCtrlCallback, this);
-    sub_cmd_cam_angle_ == nh_.subscribe("trunk_ultrasonic_cam_angle", 1, &SerialComNode::CamAngleCtrlCallback, this);
-
+    sub_cmd_cam_angle_ = nh_.subscribe("ultrasonic_cam", 30, &SerialComNode::CamAngleCtrlCallback, this);
     return true;
 }
 
@@ -87,11 +86,15 @@ void SerialComNode::CamAngleCtrlCallback(const or_msgs::TrunkObsMsg::ConstPtr &m
     for (int i = 0; i < std::min((int)(msg->valids.size()), 2); i++)
     {
         cam_angle.valid[i] = msg->valids[i];
+        std::cout << " Set valid: " << (int)(cam_angle.valid[i]);
     }
     for (int i = 0; i < std::min((int)(msg->bearings.size()), 2); i++)
     {
         cam_angle.angle[i] = msg->bearings[i];
+        std::cout << " Set angle: " << (int)(cam_angle.angle[i]);
     }
+
+    std::cout << std::endl;
 
     if (!SendData((uint8_t *)&cam_angle, sizeof(cmd_cam_angle), CMD_SET_CAM_ANGLE))
     {
@@ -251,9 +254,14 @@ void SerialComNode::DataHandle()
                 valid_array[i] = observe_info_.valid[i];
                 range_array[i] = observe_info_.range[i];
                 bearing_array[i] = observe_info_.bearing[i];
+                std::cout << " range: " << range_array[i]
+                          << " bearing: " << bearing_array[i] << std::endl;
             }
             else
+            {
                 valid_array[i] = observe_info_.valid[i];
+                bearing_array[i] = observe_info_.bearing[i];
+            }
         }
 
         trunk_obs_msg_.header.stamp = ros::Time::now();

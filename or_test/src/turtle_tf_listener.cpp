@@ -56,6 +56,7 @@ class fuck
 public:
     fuck()
     {
+        //即便chatter的frameId必须是map才能进入回调函数
         point_sub = std::make_shared<message_filters::Subscriber<or_msgs::TrunkObsMsg>>(nh, "chatter", 20);
         tf_filter = std::make_shared<tf::MessageFilter<or_msgs::TrunkObsMsg>>(*point_sub, tfl, "map", 10);
         tf_filter->registerCallback(boost::bind(&fuck::msgCallback, this, _1));

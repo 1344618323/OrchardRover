@@ -31,10 +31,11 @@ bool SensorOdom::UpdateAction(SampleSetPtr set_ptr, const SensorOdomData &odom_d
     // Avoid computing a bearing from two poses that are extremely near each
     // other (happens on in-place rotation).
     if (sqrt(odom_data.delta[1] * odom_data.delta[1] +
-             odom_data.delta[0] * odom_data.delta[0]) < 0.01)
+             odom_data.delta[0] * odom_data.delta[0]) < 0.1)
         delta_rot1 = 0.0;
-    else
+    else{
         delta_rot1 = AngleDiff<double>(atan2(odom_data.delta[1], odom_data.delta[0]), odom_data.old_pose[2]);
+    }
 
     delta_trans = std::sqrt(odom_data.delta[0] * odom_data.delta[0] + odom_data.delta[1] * odom_data.delta[1]);
     delta_rot2 = AngleDiff<double>(odom_data.delta[2], delta_rot1);

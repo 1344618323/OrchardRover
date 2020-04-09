@@ -1,18 +1,19 @@
 pure_localization    : false
 sim_sign             : true
-use_ultrasonic       : true
+use_ultrasonic       : false
+use_sim              : true
 odom_frame_id        : "odom"
 base_frame_id        : "base_link"
 global_frame_id      : "map"
-laser_topic_name     : "base_scan"
+laser_topic_name     : "scan"
 # laser_topic_name_0  : "base_scan_0"
 # laser_topic_name_1  : "base_scan_1"
 trunk_topic_name     : "trunk_obs"
 transform_tolerance  : 0.1
 
-initial_pose_x : 2.5
-initial_pose_y : 8
+initial_pose_x : 2.5 #2.5
+initial_pose_y : 8 #8
 initial_pose_a : 0
 initial_cov_xx : 0.1
 initial_cov_yy : 0.1
-initial_cov_aa : 0.1
+initial_cov_aa : 0.1 #0.03 mapping

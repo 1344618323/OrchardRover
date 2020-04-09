@@ -14,10 +14,11 @@
 #include "particle_filter/particle_filter.h"
 #include "../include/types.h"
 #include <visualization_msgs/Marker.h>
-
-class FastSlam {
+#include "writetxt.h"
+class FastSlam
+{
 public:
-    FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh,bool multi_sensor);
+    FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh, bool multi_sensor);
 
     ~FastSlam();
 
@@ -28,6 +29,10 @@ public:
     void SetSensorPose(const Vec3d &sensor_pose);
 
     void SetMultiSensorPose(const Vec3d &sensor_pose1, const Vec3d &sensor_pose2);
+
+    /********20.1.3*******/
+    Vec3d gus_pose;
+    std::vector<PfLandMark> gus_lm_vec;
 
 protected:
     void UpdateOdomPoseData(const Vec3d &pose);
@@ -84,6 +89,24 @@ protected:
     Vec3d sensor_pose_;
     Vec3d multi_sensor_pose_[2];
     bool multi_sensor_sign_;
+
+    //record data
+    std::unique_ptr<CsvWriter> csv_writer_;
+    std::vector<Vec2d> true_lms_;
+
+    double mindistance(Vec2d x)
+    {
+        double min = 1000000;
+        for (int i = 0; i < true_lms_.size(); i++)
+        {
+            double dis=(true_lms_[i]-x).norm();
+            if (dis < min)
+            {
+                min = dis;
+            }
+        }
+        return min;
+    }
 };
 
 #endif

@@ -28,10 +28,10 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
-  /opt/MVS/Samples_LinuxSDK/include/
+  /opt/MVS/include/
 )
 LINK_DIRECTORIES(
-  /opt/MVS/Samples_LinuxSDK/lib/64/
+  /opt/MVS/lib/64/
 )
 
 add_executable(${PROJECT_NAME}_node

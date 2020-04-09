@@ -2,12 +2,14 @@
 
 FastSlamLocalization::FastSlamLocalization(const Vec3d &init_pose, const Vec3d &init_cov,
                                            ros::NodeHandle *nh, const std::vector<Vec2d> &land_marks,
-                                           bool multi_sensor) : FastSlam(init_pose, init_cov, nh, multi_sensor) {
+                                           bool multi_sensor) : FastSlam(init_pose, init_cov, nh, multi_sensor)
+{
     land_marks_ = land_marks;
 
     bool invertible;
     observe_cov_.computeInverseWithCheck(invQ_, invertible);
-    if (!invertible) {
+    if (!invertible)
+    {
         return;
     }
 
@@ -16,36 +18,42 @@ FastSlamLocalization::FastSlamLocalization(const Vec3d &init_pose, const Vec3d &
 }
 
 int FastSlamLocalization::Update(const Vec3d &pose,
-                                 const std::vector<Vec2d> &zs, geometry_msgs::PoseArray &particle_cloud_pose_msg) {
+                                 const std::vector<Vec2d> &zs, geometry_msgs::PoseArray &particle_cloud_pose_msg)
+{
     UpdateOdomPoseData(pose);
-    if (zs.size() != 0 && odom_update_) {
-        UpdateObserveData(zs);
-        if (pf_ptr_->UpdateResample())
-            UpdateObserveData(zs);
+    if (zs.size() != 0 && odom_update_)
+    {
+        // UpdateObserveData(zs);
+        // pf_ptr_->UpdateResample();
     }
     GetParticlesCloudMsg(particle_cloud_pose_msg);
     return 0;
 }
 
-void FastSlamLocalization::UpdateObserveData(const std::vector<Vec2d> &zs) {
+void FastSlamLocalization::UpdateObserveData(const std::vector<Vec2d> &zs)
+{
     SampleSetPtr set_ptr = pf_ptr_->GetCurrentSampleSetPtr();
 
     std::cout << "!!!!!!!!!!! Update observe data: " << zs.size() << " !!!!!!!!!!!" << std::endl;
 
-    for (int N = 0; N < zs.size(); N++) {
-
+    for (int N = 0; N < zs.size(); N++)
+    {
         // 如果测量范围不对,则跳过
         if (zs[N](0) <= 0.05 || zs[N](0) >= 8)
             continue;
 
         std::cout << "<<<<<<<<<< zs " << N << " <<<<<<<<<<" << std::endl;
-        for (int k = 0; k < set_ptr->sample_count; k++) {
+        for (int k = 0; k < set_ptr->sample_count; k++)
+        {
             ParticleFilterSample &sample = set_ptr->samples_vec[k];
 
             Vec3d sensor_pose;
-            if (multi_sensor_sign_) {
+            if (multi_sensor_sign_)
+            {
                 sensor_pose = CoordAdd(sample.pose, multi_sensor_pose_[N]);
-            } else {
+            }
+            else
+            {
                 //获得雷达坐标
                 sensor_pose = CoordAdd(sample.pose, sensor_pose_);
             }
@@ -55,16 +63,18 @@ void FastSlamLocalization::UpdateObserveData(const std::vector<Vec2d> &zs) {
             if (sample.weight * weight > min_weight)
                 sample.weight *= weight;
 
-            std::cout << "sample index: " << k << ", weight:" << sample.weight << std::endl;
+            // std::cout << "sample index: " << k << ", weight:" << sample.weight << std::endl;
         }
     }
 }
 
 double
 FastSlamLocalization::ComputeParticleWeight(const Vec3d &sensor_pose, const Vec2d &z,
-                                            const Mat2d &Q, const Mat2d &invQ) {
+                                            const Mat2d &Q, const Mat2d &invQ)
+{
     std::vector<double> mah_dis_vec;
-    for (int j = 0; j < land_marks_.size(); j++) {
+    for (int j = 0; j < land_marks_.size(); j++)
+    {
         Vec2d dz;
 
         // 粒子中地标与粒子坐标的差
@@ -84,8 +94,10 @@ FastSlamLocalization::ComputeParticleWeight(const Vec3d &sensor_pose, const Vec2
 
     double min_dis = FLT_MAX;
     // obtain the max weight
-    for (int j = 0; j < mah_dis_vec.size(); j++) {
-        if (mah_dis_vec[j] < min_dis && mah_dis_vec[j] >= 0) {
+    for (int j = 0; j < mah_dis_vec.size(); j++)
+    {
+        if (mah_dis_vec[j] < min_dis && mah_dis_vec[j] >= 0)
+        {
             min_dis = mah_dis_vec[j];
         }
     }
@@ -95,35 +107,41 @@ FastSlamLocalization::ComputeParticleWeight(const Vec3d &sensor_pose, const Vec2
         max_w = exp(-0.5 * min_dis) / sqrt(Q.determinant());
 
     /**************** For test *****************/
-    double min_dis_sec = FLT_MAX;
-    for (int j = 0; j < mah_dis_vec.size(); j++) {
-        if (mah_dis_vec[j] < min_dis_sec && mah_dis_vec[j] > min_dis) {
-            min_dis_sec = mah_dis_vec[j];
-        }
-    }
+    // double min_dis_sec = FLT_MAX;
+    // for (int j = 0; j < mah_dis_vec.size(); j++)
+    // {
+    //     if (mah_dis_vec[j] < min_dis_sec && mah_dis_vec[j] > min_dis)
+    //     {
+    //         min_dis_sec = mah_dis_vec[j];
+    //     }
+    // }
 
-    double min_dis_thrid = FLT_MAX;
-    for (int j = 0; j < mah_dis_vec.size(); j++) {
-        if (mah_dis_vec[j] < min_dis_thrid && mah_dis_vec[j] > min_dis_sec) {
-            min_dis_thrid = mah_dis_vec[j];
-        }
-    }
+    // double min_dis_thrid = FLT_MAX;
+    // for (int j = 0; j < mah_dis_vec.size(); j++)
+    // {
+    //     if (mah_dis_vec[j] < min_dis_thrid && mah_dis_vec[j] > min_dis_sec)
+    //     {
+    //         min_dis_thrid = mah_dis_vec[j];
+    //     }
+    // }
 
-
-    csv_writer_->write(min_dis);
-    csv_writer_->write(min_dis_sec);
-    csv_writer_->write(min_dis_thrid);
-
+    // csv_writer_->write(min_dis);
+    // csv_writer_->write(min_dis_sec);
+    // csv_writer_->write(min_dis_thrid);
 
     return max_w;
-
-
 }
 
-void FastSlamLocalization::GetParticlesCloudMsg(geometry_msgs::PoseArray &particle_cloud_pose_msg) {
+void FastSlamLocalization::GetParticlesCloudMsg(geometry_msgs::PoseArray &particle_cloud_pose_msg)
+{
     particle_cloud_pose_msg.poses.resize(pf_ptr_->GetCurrentSampleSetPtr()->sample_count);
 
-    for (int i = 0; i < pf_ptr_->GetCurrentSampleSetPtr()->sample_count; i++) {
+    /********20.1.3*******/
+    double max_w = 0.0;
+    int max_i = -1;
+
+    for (int i = 0; i < pf_ptr_->GetCurrentSampleSetPtr()->sample_count; i++)
+    {
 
         ParticleFilterSample &sample = pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[i];
         tf::poseTFToMsg(tf::Pose(tf::createQuaternionFromYaw(sample.pose[2]),
@@ -131,5 +149,15 @@ void FastSlamLocalization::GetParticlesCloudMsg(geometry_msgs::PoseArray &partic
                                              sample.pose[1],
                                              0)),
                         particle_cloud_pose_msg.poses[i]);
+
+        /********20.1.3*******/
+        if (max_w < sample.weight)
+        {
+            max_w = sample.weight;
+            max_i = i;
+        }
     }
+
+    /********20.1.3*******/
+    gus_pose = pf_ptr_->GetCurrentSampleSetPtr()->samples_vec[max_i].pose;
 }

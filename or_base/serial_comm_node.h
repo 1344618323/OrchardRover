@@ -38,9 +38,10 @@ public:
 
     ~SerialComNode();
 
-private:
     void ChassisSpeedCtrlCallback(const geometry_msgs::Twist::ConstPtr &vel);
     void CamAngleCtrlCallback(const or_msgs::TrunkObsMsg::ConstPtr &msg);
+    
+private:
 
     void ReceivePackLoop();
 
@@ -74,6 +75,7 @@ private:
     nav_msgs::Odometry odom_msg_;
 
     ros::Publisher trunk_obs_pub_;
+    ros::Publisher cam_angle_pub_;
     or_msgs::TrunkObsMsg trunk_obs_msg_;
 
     ros::Subscriber sub_cmd_vel_;

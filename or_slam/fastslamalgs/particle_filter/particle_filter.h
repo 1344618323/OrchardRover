@@ -11,8 +11,8 @@ class ParticleFilter;
 using ParticleFilterPtr = std::shared_ptr<ParticleFilter>;
 using SampleSetPtr = std::shared_ptr<ParticleFilterSampleSet>;
 
-
-class ParticleFilter {
+class ParticleFilter
+{
 public:
     ParticleFilter(int samples_num, const Vec3d &mean, const Mat3d &cov);
 
@@ -20,10 +20,10 @@ public:
 
     bool UpdateResample();
 
-    SampleSetPtr GetCurrentSampleSetPtr() const {
+    SampleSetPtr GetCurrentSampleSetPtr() const
+    {
         return this->sample_set_ptr_array_[current_set_];
     }
-
 
 private:
     void InitByGuassian(const Vec3d &mean, const Mat3d &cov);

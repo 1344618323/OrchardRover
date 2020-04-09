@@ -1,6 +1,6 @@
 gui_publish_rate       : 10
 
-particles_num          : 100
+particles_num          : 300
 
 odom_alpha1            : 0.01
 odom_alpha2            : 0.01

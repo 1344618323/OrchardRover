@@ -114,14 +114,16 @@ class DetectTrunk:
 
 class ObserveMsg:
     def __init__(self):
-        observe_sub = rospy.Subscriber(
-            'trunk_ultrasonic_obs', TrunkObsMsg, self.observe_callback)
         self.cur_angle = [0, 0]
+        self.obser_admin = [1, 1]
+        self.observe_sub = rospy.Subscriber(
+            'trunk_ultrasonic_obs', TrunkObsMsg, self.observe_callback, queue_size=100)
 
     def observe_callback(self, msg):
         for i in range(2):
             if msg.valids[i] >= 1:
                 self.cur_angle[i] = msg.bearings[i]
+                self.obser_admin[i] = 1
 
 
 if __name__ == '__main__':
@@ -183,15 +185,16 @@ if __name__ == '__main__':
 
     ###################用于超声波####################
     angle_pub = rospy.Publisher(
-        'trunk_ultrasonic_cam_angle', TrunkObsMsg, queue_size=10)
+        'ultrasonic_cam', TrunkObsMsg, queue_size=100)
 
     observe_msg = ObserveMsg()
 
-    cap = cv2.VideoCapture(
-        '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
+    # cap = cv2.VideoCapture(
+    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
     # cap2 = cv2.VideoCapture(
     #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
-    cap2 = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
+    cap2 = cv2.VideoCapture(1)
     while cap.isOpened() and \
             cap2.isOpened() and\
             not rospy.is_shutdown():
@@ -200,7 +203,7 @@ if __name__ == '__main__':
         bearings = [0, 0]
 
         ret, im = cap.read()
-        if ret == True:
+        if ret == True and observe_msg.obser_admin[0] == 1:
             out = im
             out = cv2.resize(im, (640, 480))
             boxes = detecte_and_draw(net, out, "im1")
@@ -208,18 +211,19 @@ if __name__ == '__main__':
                 minabsangle = 180
                 minangle = 0
                 for box in boxes:
-                    angle = 0.0935*(box[2]+box[2])/2-31.7933
+                    angle = 0.0935*(box[2]+box[0])/2-31.7933
                     if (math.fabs(angle) < minabsangle) and\
                         (observe_msg.cur_angle[0]+angle < 90) and\
                             (observe_msg.cur_angle[0]+angle > -90):
                         minangle = angle
                         minabsangle = math.fabs(angle)
-                if(minabsangle!=180):
-                    valids[0]=2
-                    bearings[0]=-minangle
+                if(minabsangle != 180):
+                    valids[0] = 2
+                    bearings[0] = -minangle
+                    observe_msg.obser_admin[0] = 0
 
         ret, im = cap2.read()
-        if ret == True:
+        if ret == True and observe_msg.obser_admin[1] == 1:
             out = im
             out = cv2.resize(im, (640, 480))
             boxes = detecte_and_draw(net, out, "im2")
@@ -228,19 +232,20 @@ if __name__ == '__main__':
                 minabsangle = 180
                 minangle = 0
                 for box in boxes:
-                    angle = 0.0935*(box[2]+box[2])/2-34.0377
+                    # angle = 0.0935*(box[2]+box[0])/2-34.0377
+                    angle = math.atan2((box[2]+box[0])/2-314, 357)*180/math.pi
                     if math.fabs(angle) < minabsangle and\
                         (observe_msg.cur_angle[1]+angle < 90) and\
                             (observe_msg.cur_angle[1]+angle > -90):
                         minangle = angle
                         minabsangle = math.fabs(angle)
-                if(minabsangle!=180):
-                    valids[1]=2
-                    bearings[1]=-minangle
+                if(minabsangle != 180):
+                    valids[1] = 2
+                    bearings[1] = -minangle
+                    observe_msg.obser_admin[1] = 0
+                    angle_pub.publish(TrunkObsMsg( None, valids, bearings, None))
 
-        angle_pub.publish(TrunkObsMsg(None, valids, bearings, None))
-
-        cv2.waitKey(5)
+        cv2.waitKey(1)
     cap.release()
     cv2.destroyAllWindows()
 
