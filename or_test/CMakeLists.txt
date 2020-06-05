@@ -15,6 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
   message_filters
   nav_msgs
   tf
+  visualization_msgs
+  interactive_markers
+  rviz
   )
 
 ## System dependencies are found with CMake's conventions
@@ -28,6 +31,8 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
+
+### 测试发布 ###
 add_executable(testpublish
   src/testpublish.cpp
 )
@@ -36,7 +41,7 @@ target_link_libraries(testpublish
 )
 add_dependencies(testpublish or_msgs_generate_messages)
 
-
+### 测试接收 ###
 add_executable(testlistener
   src/testlistener.cpp
 )
@@ -45,6 +50,7 @@ target_link_libraries(testlistener
 )
 add_dependencies(testlistener or_msgs_generate_messages)
 
+### 测试时间同步 ###
 add_executable(timesynchronizer
   src/timesynchronizer.cpp
         )
@@ -52,6 +58,7 @@ target_link_libraries(timesynchronizer
   ${catkin_LIBRARIES}
 )
 
+### 测试tf ###
 add_executable(turtle_tf_broadcaster
   src/turtle_tf_broadcaster.cpp
         )
@@ -59,6 +66,7 @@ target_link_libraries(turtle_tf_broadcaster
   ${catkin_LIBRARIES}
 )
 
+### 测试tf ###
 add_executable(turtle_tf_listener
   src/turtle_tf_listener.cpp
         )
@@ -66,6 +74,7 @@ target_link_libraries(turtle_tf_listener
   ${catkin_LIBRARIES}
 )
 
+### 测试opencv ###
 add_executable(robot_vision
   src/robot_vision.cpp
         )
@@ -74,7 +83,15 @@ target_link_libraries(robot_vision
   ${OpenCV_LIBS}
 )
 
+### 测试visualization_msgs::Marker ###
+add_executable(visual_test
+        src/visual_test.cpp
+        )
+target_link_libraries(visual_test
+        ${catkin_LIBRARIES}
+        )
 
+### 测试python ###
 catkin_install_python(PROGRAMS
   scripts/testpylistener.py
   scripts/testpytalker.py

@@ -45,7 +45,13 @@
     <build_depend>tf</build_depend>
     <exec_depend>tf</exec_depend>
 
-    <export>
-    </export>
+    <build_depend>visualization_msgs</build_depend>
+    <exec_depend>visualization_msgs</exec_depend>
+
+    <build_depend>interactive_markers</build_depend>
+    <exec_depend>interactive_markers</exec_depend>
+
+    <build_depend>rviz</build_depend>
+    <exec_depend>rviz</exec_depend>
 
 </package>
