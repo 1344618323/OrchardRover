@@ -1,4 +1,7 @@
 # OrchardRover
+
+2020.6.4 返校后修改之前的代码
+
 A navigation system for orchard robot.
 
 OrchardRover 是一套基于 ROS 开发的果园移动机器人 SLAM 系统。此外，本项目还编写了机器人的下位机程序 [OrchardRoverFirmWare](https://github.com/1344618323/OrchardRoverFirmWare) 
