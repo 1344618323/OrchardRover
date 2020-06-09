@@ -1,8 +1,0 @@
-prefix=/usr/local
-
-Name: or_test
-Description: Description of or_test
-Version: 1.0.0
-Cflags: 
-Libs: -L/usr/local/lib 
-Requires: 

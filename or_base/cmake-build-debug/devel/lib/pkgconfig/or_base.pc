@@ -1,0 +1,8 @@
+prefix=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/devel
+
+Name: or_base
+Description: Description of or_base
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

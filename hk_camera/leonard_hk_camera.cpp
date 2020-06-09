@@ -347,7 +347,9 @@ void *Camera::HKWorkThread(void *p_handle)
         MV_CC_ConvertPixelType(p_handle, &stConvertParam);
 
         frame = cv::Mat(stImageInfo.nHeight, stImageInfo.nWidth, CV_8UC3, m_pBufForSaveImage);
-        sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
+        std_msgs::Header header;
+        header.stamp = ros::Time::now();
+        sensor_msgs::ImagePtr msg = cv_bridge::CvImage(header, "bgr8", frame).toImageMsg();
         image_pub.publish(msg);
 
         double time = ((double)cv::getTickCount() - start) / cv::getTickFrequency();

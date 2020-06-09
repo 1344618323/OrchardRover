@@ -146,6 +146,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/gtest/cmake_install.cmake")
+  include("/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs/cmake_install.cmake")
   include("/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs/cmake_install.cmake")
 
 endif()

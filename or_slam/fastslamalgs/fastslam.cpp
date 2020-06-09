@@ -41,12 +41,12 @@ FastSlam::FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandl
         }
     }
 
-    LOG_INFO << "FastSlam Alg Init!";
+    //LOG_INFO << "FastSlam Alg Init!";
 }
 
 FastSlam::~FastSlam()
 {
-    LOG_INFO << "FastSlam Alg Delete!";
+    //LOG_INFO << "FastSlam Alg Delete!";
 }
 
 int FastSlam::Update(const Vec3d &pose, const std::vector<Vec2d> &zs,
@@ -163,7 +163,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d &pose)
 
         if (odom_update_)
         {
-            DLOG_INFO << "Robot has moved, update the filter";
+            //DLOG_INFO << "Robot has moved, update the filter";
             SensorOdomData odom_data;
             odom_data.pose = pose;
             odom_data.delta = delta;
@@ -177,7 +177,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d &pose)
 void FastSlam::SetSensorPose(const Vec3d &sensor_pose)
 {
     sensor_pose_ = sensor_pose;
-    DLOG_INFO << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
+    //DLOG_INFO << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
 }
 
 void FastSlam::SetMultiSensorPose(const Vec3d &sensor_pose1, const Vec3d &sensor_pose2)

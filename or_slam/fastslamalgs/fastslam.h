@@ -6,7 +6,7 @@
 #include <tf/tf.h>
 #include <geometry_msgs/PoseArray.h>
 
-#include "log.h"
+// #include "log.h"
 #include "types.h"
 
 #include "fastslam_config.h"

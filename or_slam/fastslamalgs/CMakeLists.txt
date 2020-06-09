@@ -30,5 +30,5 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC
         ${EIGEN3_LIBRARIES}
         ${catkin_LIBRARIES}
-        ${GLOG_LIBRARY}
+        # ${GLOG_LIBRARY}
         )

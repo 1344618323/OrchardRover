@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_module)
 
 find_package(Eigen3 REQUIRED)
-find_package(Glog REQUIRED)
+# find_package(Glog REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
         roscpp
         tf
@@ -17,33 +17,38 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package()
 
+add_subdirectory(optimized_slam_algs)
 add_subdirectory(fastslamalgs)
-
-include_directories(
-        include
-        ${catkin_INCLUDE_DIRS}
-        ${EIGEN3_INCLUDE_DIR}
-)
 
 add_executable(${PROJECT_NAME}_node
         src/slam_node.cpp
         include/slam_node.h
         )
+
+target_include_directories(${PROJECT_NAME}_node
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        ${EIGEN3_INCLUDE_DIR}
+        )
+
 target_link_libraries(${PROJECT_NAME}_node
+        fastslamalgs
+        optimized_slam_algs
         ${catkin_LIBRARIES}
         ${EIGEN3_LIBRARIES}
-        ${GLOG_LIBRARY}
-        fastslamalgs
+        # ${GLOG_LIBRARY}
         )
+
 add_dependencies(${PROJECT_NAME}_node or_msgs_generate_messages)
 
-add_executable(fastslam_test
-        src/fastslam_test.cpp
-        include/fastslam_test.h
-        )
-target_link_libraries(fastslam_test
-        ${catkin_LIBRARIES}
-        ${EIGEN3_LIBRARIES}
-        ${GLOG_LIBRARY}
-        fastslamalgs
-        )
+# add_executable(fastslam_test
+#         src/fastslam_test.cpp
+#         include/fastslam_test.h
+#         )
+# target_link_libraries(fastslam_test
+#         ${catkin_LIBRARIES}
+#         ${EIGEN3_LIBRARIES}
+#         ${GLOG_LIBRARY}
+#         fastslamalgs
+#         )

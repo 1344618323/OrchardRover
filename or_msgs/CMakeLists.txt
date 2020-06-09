@@ -11,6 +11,7 @@ add_message_files(
     DIRECTORY msg
     FILES
     TrunkObsMsg.msg
+    TrunkObsMsgXY.msg
 )
 
 generate_messages(

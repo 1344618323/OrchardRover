@@ -1,0 +1,8 @@
+odom_translation_weight_       : 1e4
+odom_rotation_weight_          : 1e4
+lm_translation_weight_         : 1e4
+lm_rotation_weight_            : 0.0
+update_min_d           : 0.2
+update_min_a           : 0.2
+lm_cov_x               : 0.3 #0.8
+lm_cov_y               : 0.8 #0.8

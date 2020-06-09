@@ -17,18 +17,21 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../include"
+  "../"
   "/home/cxn/myfile/orchardrover_ws/devel/include"
   "/opt/ros/kinetic/include"
   "/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "/usr/include/eigen3"
+  "../optimized_slam_algs"
   "../fastslamalgs"
   "../fastslamalgs/../include"
+  "../optimized_slam_algs/../include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
   "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs/CMakeFiles/fastslamalgs.dir/DependInfo.cmake"
+  "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -19,7 +19,7 @@ ParticleFilter::ParticleFilter(int samples_num, const Vec3d &mean, const Mat3d &
     }
 
     InitByGuassian(mean, cov);
-    LOG_INFO << "ParticleFilter Init!";
+    // LOG_INFO << "ParticleFilter Init!";
 }
 
 
@@ -28,7 +28,7 @@ ParticleFilter::~ParticleFilter() {
         sample_set_ptr_array_[i]->samples_vec.clear();
         sample_set_ptr_array_[i]->samples_vec.shrink_to_fit();
     }
-    LOG_INFO << "Delete pf!";
+    // LOG_INFO << "Delete pf!";
 }
 
 void ParticleFilter::InitByGuassian(const Vec3d &mean, const Mat3d &cov) {

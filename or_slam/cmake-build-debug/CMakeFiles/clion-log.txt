@@ -1,5 +1,4 @@
 /home/cxn/software/clion-2019.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam
--- Found glog    (include: /usr/include, library: /usr/lib/x86_64-linux-gnu/libglog.so)
 -- Using CATKIN_DEVEL_PREFIX: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel
 -- Using CMAKE_PREFIX_PATH: 
 -- Using PYTHON_EXECUTABLE: /usr/bin/python

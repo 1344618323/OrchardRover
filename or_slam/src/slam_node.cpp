@@ -1,36 +1,20 @@
 #include "slam_node.h"
 
 //s1默认是10hz，720个点
-//电机10050
-
-SlamNode::SlamNode(std::string name)
-{
+SlamNode::SlamNode(std::string name) {
     CHECK(Init()) << "Module " << name << " initialized failed!"
                   << " pure localization is:" << pure_localization_;
 }
 
-SlamNode::~SlamNode()
-{
-    std::vector<std::string> csvtopic = {"lmx", "lmy"};
-    csv_writer_ = std::make_unique<CsvWriter>("/home/cxn/lm.csv", csvtopic);
-    if (!pure_localization_)
-    {
-        for (int i = 0; i < slam_ptr_->gus_lm_vec.size(); i++)
-        {
-            csv_writer_->write(slam_ptr_->gus_lm_vec[i].pos(0));
-            csv_writer_->write(slam_ptr_->gus_lm_vec[i].pos(1));
-        }
-    }
+SlamNode::~SlamNode() {
 }
 
-bool SlamNode::Init()
-{
+bool SlamNode::Init() {
     nh_.param<bool>("pure_localization", pure_localization_, false);
-    nh_.param<bool>("sim_sign", sim_sign_, true);
-    nh_.param<bool>("use_ultrasonic", use_ultrasonic_, false);
     nh_.param<bool>("use_sim", use_sim_, true);
     nh_.param<std::string>("odom_frame_id", odom_frame_, "odom");
     nh_.param<std::string>("base_frame_id", base_frame_, "base_link");
+    nh_.param<std::string>("base_frame_id", gps_frame_, "gps_link");
     nh_.param<std::string>("global_frame_id", global_frame_, "map");
     nh_.param<std::string>("laser_topic_name", laser_topic_, "scan");
     nh_.param<std::string>("trunk_topic_name", trunk_obs_topic_, "trunk_obs");
@@ -50,88 +34,30 @@ bool SlamNode::Init()
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
 
-    // 用于记录雷达数据
-    // laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForCheck, this);
+    slam_ptr_ = std::make_unique<optimizedSlam::OptimizedSlam>(init_pose_, &nh_);
 
-    std::vector<std::string> csvtopic = {"truex", "truey", "odomx", "odomy"};
-    csv_writer_ = std::make_unique<CsvWriter>("/home/cxn/true.csv", csvtopic);
+    if (use_sim_) {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 3; j++) {
+                CTrunkPoints[i * 3 + j][0] = i * 4 + 6.5;
+                CTrunkPoints[i * 3 + j][1] = j * 4 + 6;
+            }
+        }
 
-    // 积攒雷达数据
-    // laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSave, this);
-
-    if (sim_sign_)
-    {
         // 模拟器检测树干方位
         laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSim, this);
         // 模拟器发送树干方位
-        sim_trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsg>(trunk_obs_topic_, 100);
+        sim_trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsgXY>(trunk_obs_topic_, 1);
+        ground_truth_sub_ = nh_.subscribe("base_pose_ground_truth", 1, &SlamNode::GroundTruthCallbackForSim, this);
     }
 
     // 处理树干方位消息
-    trunk_obs_sub_ = std::make_unique<message_filters::Subscriber<or_msgs::TrunkObsMsg>>(nh_, trunk_obs_topic_, 100);
-    tf_filter_ = std::make_unique<tf::MessageFilter<or_msgs::TrunkObsMsg>>(*trunk_obs_sub_, *tf_listener_ptr_,
-                                                                           "scan", 100);
+    trunk_obs_sub_ =
+            std::make_unique<message_filters::Subscriber<or_msgs::TrunkObsMsgXY >>(nh_, trunk_obs_topic_, 10);
+    tf_filter_ = std::make_unique<tf::MessageFilter<or_msgs::TrunkObsMsgXY >>(*trunk_obs_sub_, *tf_listener_ptr_,
+                                                                              "scan", 10);
     tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkObsMsgCallback, this, _1));
 
-    // 配置算法
-    if (!pure_localization_)
-    {
-        slam_ptr_ = std::make_unique<FastSlam>(init_pose_, init_cov_, &nh_, use_ultrasonic_);
-    }
-    else
-    {
-        std::vector<Vec2d> lms;
-
-        // 读取树干坐标
-        // if (use_sim_)
-        // {
-        //     for (int i = 0; i < 3; i++)
-        //     {
-        //         for (int j = 0; j < 7; j++)
-        //         {
-        //             Vec2d p;
-        //             p << 6.5 + j * 4, 6 + i * 4;
-        //             lms.push_back(p);
-        //         }
-        //     }
-        // }
-
-        // else
-        // {
-
-        Vec2d p;
-        Vec2d p1;
-        Vec2d p2;
-        Vec2d p3;
-        Vec2d p4;
-        Vec2d p5;
-        Vec2d p6;
-        Vec2d p7;
-        p << 5.62563, 2.64246;
-        p1 << 5.20246, 4.83321;
-        p2 << 6.66137, 4.91519;
-        p3 << 6.94524, 2.67388;
-        p4 << 8.71585, 5.08993;
-        p5 << 8.96854, 2.94603;
-        p6 << 10.5368, 5.18573;
-        p7 << 10.5695, 3.16494;
-        lms.push_back(p);
-        lms.push_back(p1);
-        lms.push_back(p2);
-        lms.push_back(p3);
-        lms.push_back(p4);
-        lms.push_back(p5);
-        lms.push_back(p6);
-        lms.push_back(p7);
-        // }
-
-        localization_ptr_ = std::make_unique<FastSlamLocalization>(init_pose_, init_cov_,
-                                                                   &nh_, lms, use_ultrasonic_);
-    }
-
-    // 发布点云
-    particlecloud_pub_ = nh_.advertise<geometry_msgs::PoseArray>("particlecloud", 2, true);
-    particlecloud_msg_.header.frame_id = global_frame_;
     // 发布树干坐标
     lmcloud_pub_ = nh_.advertise<visualization_msgs::Marker>("lmcloud", 2);
     lmcloud_msg_.header.frame_id = global_frame_;
@@ -153,144 +79,86 @@ bool SlamNode::Init()
     lmcloud_msg_.ns = "lm";
     lmcloud_msg_.id = 0;
 
-    // 计算雷达相对机器人位置
-    GetLaserPose();
+    timer_ = nh_.createTimer(ros::Duration(0.3), &SlamNode::TimerCallbackForVisualize, this);
 
+//    std::vector<std::string> csvtopic = {"truex", "truey", "odomx", "odomy"};
     return true;
 }
 
-void SlamNode::GetLaserPose()
-{
-    // if ((use_ultrasonic_ && sim_sign_) || !use_ultrasonic_)
-    // {
-    auto laser_scan_msg = ros::topic::waitForMessage<sensor_msgs::LaserScan>(laser_topic_);
 
-    Vec3d laser_pose;
-    GetPoseFromTf(base_frame_, laser_scan_msg->header.frame_id, ros::Time(), laser_pose);
-    laser_pose[2] = 0; // No need for rotation, or will be error
-    DLOG_INFO << "Received laser's pose wrt robot: " << laser_pose[0] << ", " << laser_pose[1] << ", "
-              << laser_pose[2];
-
-    // if (use_ultrasonic_)
-    // {
-    //     if (!pure_localization_)
-    //         slam_ptr_->SetMultiSensorPose(laser_pose, laser_pose);
-    //     else
-    //         localization_ptr_->SetMultiSensorPose(laser_pose, laser_pose);
-    // }
-    // else
-    // {
-    if (!pure_localization_)
-        slam_ptr_->SetSensorPose(laser_pose);
-    else
-        localization_ptr_->SetSensorPose(laser_pose);
-    // }
-
-    TransformLaserscanToBaseFrame(laser_angle_min_, laser_angle_increment_, *laser_scan_msg);
-    // }
-    // else
-    // {
-    //     Vec3d sensor_pose1;
-    //     Vec3d sensor_pose2;
-
-    //     if (!pure_localization_)
-    //         slam_ptr_->SetMultiSensorPose(sensor_pose1, sensor_pose2);
-    //     else
-    //         localization_ptr_->SetMultiSensorPose(sensor_pose1, sensor_pose2);
-    // }
-
-    // 收集雷达数据
-    //    if (laser_msg_queue_.size() >= 10)
-    //        l  if (lmcloud_pub_.getNumSubscribers() > 0) {
-    //                // Publish the resulting particle cloud
-    //                lmcloud_msg_.points.resize(1000);
-    //                for (int i = 0; i < 1000; i++) {
-    //                    lmcloud_msg_.points[i].x = drand48() * 5 + 7;
-    //                    lmcloud_msg_.points[i].y = drand48() * 5 + 10;
-    //                    lmcloud_msg_.points[i].z = 0;
-    //                }
-    //                lmcloud_msg_.header.stamp = ros::Time::now();
-    //                lmcloud_pub_.publish(lmcloud_msg_);
-    //            }aser_msg_queue_.erase(std::begin(laser_msg_queue_));
-    //    laser_msg_queue_.push_back(*laser_scan_msg);
+void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg) {
+    // for simulation
+    or_msgs::TrunkObsMsgXY msg;
+    std::vector<double> XYs;
+    std::vector<int> index;
+    for (int i = 0; i < 21; i++) {
+        float delta_x = CTrunkPoints[i][0] - ground_truth_pose_.position.x;
+        float delta_y = CTrunkPoints[i][1] - ground_truth_pose_.position.y;
+        float yaw = tf::getYaw(ground_truth_pose_.orientation);
+        float diff = AngleDiff<float>(atan2(delta_y, delta_x), yaw);
+        if ((delta_x * delta_x + delta_y * delta_y) < 16 && diff > -M_PI / 3 && diff < M_PI / 3) {
+            int ind = diff / M_PI * 180 + 134;
+            XYs.push_back(laser_scan_msg->ranges[ind] * cos(diff));
+            XYs.push_back(laser_scan_msg->ranges[ind] * sin(diff));
+//            std::cout << *(XYs.end() - 2) << " " << *(XYs.end() - 1) << ", " << diff << " "
+//                      << laser_scan_msg->ranges[ind] << std::endl;
+        }
+    }
+    msg.header.stamp = laser_scan_msg->header.stamp;
+    msg.header.frame_id = "scan";
+    msg.XY = XYs;
+    sim_trunk_obs_pub_.publish(msg);
 }
 
-void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg)
-{
+void SlamNode::GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &ground_truth_msg) {
+    ground_truth_pose_ = ground_truth_msg->pose.pose;
+}
+
+void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_obs_msg) {
     last_laser_msg_timestamp_ = trunk_obs_msg->header.stamp;
     Vec3d pose_in_odom;
     // base_link(0,0)在odom中坐标
-    if (!GetPoseFromTf(odom_frame_, base_frame_, trunk_obs_msg->header.stamp, pose_in_odom))
-    {
-        LOG_ERROR << trunk_obs_msg->header.stamp;
-        LOG_ERROR << "Couldn't determine robot's pose";
+    if (!GetPoseFromTf(odom_frame_, base_frame_, trunk_obs_msg->header.stamp, pose_in_odom)) {
+        //LOG_ERROR << trunk_obs_msg->header.stamp;
+        //LOG_ERROR << "Couldn't determine robot's pose";
         return;
     }
+    //    GetTrunkPosition(trunk_obs_msg);
+    // if (!pure_localization_)
+    //     slam_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_, lmcloud_msg_);
+    // else
+    //     localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_);
 
     pose_in_odom_ = pose_in_odom;
 
-    //    sensor_msgs::LaserScan laser_scan_msg = ChooseLaserScan(trunk_obs_msg);//找一个时间戳最接近的
-    //    GetTrunkPosition(laser_scan_msg, trunk_obs_msg);
-
-    GetTrunkPosition(trunk_obs_msg);
-
-    if (!pure_localization_)
-        slam_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_, lmcloud_msg_);
-    else
-        localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_);
-
-    PublishVisualize();
+    slam_ptr_->AddNodeData(pose_in_odom, trunk_obs_msg->XY, trunk_obs_msg->header.stamp);
 
     PublishTf();
 }
 
-bool SlamNode::PublishTf()
-{
+bool SlamNode::PublishTf() {
     ros::Time transform_expiration = (last_laser_msg_timestamp_ + transform_tolerance_);
     // Subtracting base to odom from map to base and send map to odom instead
     tf::Stamped<tf::Pose> odom_to_map;
-    if (!pure_localization_)
-    {
-        try
-        {
-            tf::Transform tmp_tf(tf::createQuaternionFromYaw(slam_ptr_->gus_pose[2]),
-                                 tf::Vector3(slam_ptr_->gus_pose[0],
-                                             slam_ptr_->gus_pose[1],
-                                             0.0));
-            tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(),
-                                                 last_laser_msg_timestamp_,
-                                                 base_frame_);
-            this->tf_listener_ptr_->transformPose(odom_frame_,
-                                                  tmp_tf_stamped,
-                                                  odom_to_map);
-        }
-        catch (tf::TransformException &e)
-        {
-            LOG_ERROR << "Failed to subtract base to odom transform" << e.what();
-            return false;
-        }
+    Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom_);
+
+    try {
+        tf::Transform tmp_tf(tf::createQuaternionFromYaw(global_pose[2]),
+                             tf::Vector3(global_pose[0],
+                                         global_pose[1],
+                                         0.0));
+        tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(),
+                                             last_laser_msg_timestamp_,
+                                             base_frame_);
+        this->tf_listener_ptr_->transformPose(odom_frame_,
+                                              tmp_tf_stamped,
+                                              odom_to_map);
     }
-    else
-    {
-        try
-        {
-            tf::Transform tmp_tf(tf::createQuaternionFromYaw(localization_ptr_->gus_pose[2]),
-                                 tf::Vector3(localization_ptr_->gus_pose[0],
-                                             localization_ptr_->gus_pose[1],
-                                             0.0));
-            tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(),
-                                                 last_laser_msg_timestamp_,
-                                                 base_frame_);
-            this->tf_listener_ptr_->transformPose(odom_frame_,
-                                                  tmp_tf_stamped,
-                                                  odom_to_map);
-        }
-        catch (tf::TransformException &e)
-        {
-            LOG_ERROR << "Failed to subtract base to odom transform" << e.what();
-            return false;
-        }
+    catch (tf::TransformException &e) {
+        //LOG_ERROR << "Failed to subtract base to odom transform" << e.what();
+        return false;
     }
+
     latest_tf_ = tf::Transform(tf::Quaternion(odom_to_map.getRotation()),
                                tf::Point(odom_to_map.getOrigin()));
 
@@ -300,157 +168,65 @@ bool SlamNode::PublishTf()
                                         odom_frame_);
     this->tf_broadcaster_ptr_->sendTransform(tmp_tf_stamped);
 
-    /********20.1.3*******/
-    if (!pure_localization_)
-    {
-        csv_writer_->write(slam_ptr_->gus_pose(0));
-        csv_writer_->write(slam_ptr_->gus_pose(1));
-    }
-    else
-    {
-        csv_writer_->write(localization_ptr_->gus_pose(0));
-        csv_writer_->write(localization_ptr_->gus_pose(1));
-    }
+    // if (!pure_localization_) {
+    //     csv_writer_->write(slam_ptr_->gus_pose(0));
+    //     csv_writer_->write(slam_ptr_->gus_pose(1));
+    // } else {
+    //     csv_writer_->write(localization_ptr_->gus_pose(0));
+    //     csv_writer_->write(localization_ptr_->gus_pose(1));
+    // }
 
-    csv_writer_->write(pose_in_odom_(0));
-    csv_writer_->write(pose_in_odom_(1));
+    // csv_writer_->write(pose_in_odom_(0));
+    // csv_writer_->write(pose_in_odom_(1));
 
     return true;
 }
 
-// geometry_msgs::TransformStamped gimbal_tf_;
-// gimbal_tf_.header.frame_id = "map";
-// gimbal_tf_.child_frame_id = "odom";
+void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
+//    if (particlecloud_pub_.getNumSubscribers() > 0) {
+//        particlecloud_msg_.header.stamp = ros::Time::now();
+//        particlecloud_pub_.publish(particlecloud_msg_);
+//    }
+//
+//    if (!pure_localization_ && lmcloud_pub_.getNumSubscribers() > 0) {
+//        lmcloud_msg_.header.stamp = ros::Time::now();
+//        lmcloud_pub_.publish(lmcloud_msg_);
+//    }
 
-// geometry_msgs::Quaternion q = tf::createQuaternionMsgFromRollPitchYaw(0.0,
-//                                                                       0.0,
-//                                                                       0.0);
-// gimbal_tf_.header.stamp = ros::Time().now();
-// gimbal_tf_.transform.rotation = q;
-// gimbal_tf_.transform.translation.x = init_pose_(0);
-// gimbal_tf_.transform.translation.y = init_pose_(1);
-// gimbal_tf_.transform.translation.z = 0.15;
-// tf_broadcaster_ptr_->sendTransform(gimbal_tf_);
+    lmcloud_msg_.header.stamp = ros::Time::now();
+    lmcloud_msg_.points.clear();
+    const std::map<int, Eigen::Vector3d> global_lms = slam_ptr_->GetLandmarks();
 
-void SlamNode::TransformLaserscanToBaseFrame(double &angle_min,
-                                             double &angle_increment,
-                                             const sensor_msgs::LaserScan &laser_scan_msg)
-{
-    tf::Quaternion q;
-    q.setRPY(0.0, 0.0, laser_scan_msg.angle_min);
-    tf::Stamped<tf::Quaternion> min_q(q, laser_scan_msg.header.stamp,
-                                      laser_scan_msg.header.frame_id);
-    q.setRPY(0.0, 0.0, laser_scan_msg.angle_min + laser_scan_msg.angle_increment);
-    tf::Stamped<tf::Quaternion> inc_q(q, laser_scan_msg.header.stamp,
-                                      laser_scan_msg.header.frame_id);
-
-    try
-    {
-        tf_listener_ptr_->transformQuaternion(base_frame_,
-                                              min_q,
-                                              min_q);
-        tf_listener_ptr_->transformQuaternion(base_frame_,
-                                              inc_q,
-                                              inc_q);
+    for (auto &lm:global_lms) {
+        geometry_msgs::Point temp;
+        temp.x = lm.second(0);
+        temp.y = lm.second(1);
+        temp.z = 0;
+        lmcloud_msg_.points.push_back(temp);
     }
-    catch (tf::TransformException &e)
-    {
-        LOG_WARNING << "Unable to transform min/max laser angles into base frame: " << e.what();
-        return;
-    }
-
-    angle_min = tf::getYaw(min_q);
-    angle_increment = (tf::getYaw(inc_q) - angle_min);
-
-    // Wrapping angle to [-pi .. pi]
-    angle_increment = (std::fmod(angle_increment + 5 * M_PI, 2 * M_PI) - M_PI);
-}
-
-void SlamNode::PublishVisualize()
-{
-    if (particlecloud_pub_.getNumSubscribers() > 0)
-    {
-        particlecloud_msg_.header.stamp = ros::Time::now();
-        particlecloud_pub_.publish(particlecloud_msg_);
-    }
-
-    if (!pure_localization_ && lmcloud_pub_.getNumSubscribers() > 0)
-    {
-        lmcloud_msg_.header.stamp = ros::Time::now();
-        lmcloud_pub_.publish(lmcloud_msg_);
-    }
-};
-
-void SlamNode::GetTrunkPosition(const sensor_msgs::LaserScan &laser_scan_msg,
-                                const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg)
-{
-    //    trunk_obs_vec_.clear();
-    //    trunk_obs_vec_.shrink_to_fit();
-    //    //求角度
-    //    for (int i = 0; i < trunk_obs_msg->angle.size(); i + 2) {
-    //        double mid = (trunk_obs_msg->angle[i] + trunk_obs_msg->angle[i + 1]) / 2;
-    //        int mid_index = mid * 360 / M_PI;
-    //        if (mid_index < 0)
-    //            mid_index += 720;
-    //        Vec2d tp;
-    //        tp(0) = laser_scan_msg.ranges[mid_index];
-    //        tp(1) = mid;
-    //        trunk_obs_vec_.push_back(tp);
-    //    }
-}
-
-void SlamNode::GetTrunkPosition(const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg)
-{
-    trunk_obs_vec_.clear();
-    trunk_obs_vec_.resize(trunk_obs_msg->ranges.size());
-    trunk_obs_vec_.shrink_to_fit();
-    for (int i = 0; i < trunk_obs_msg->ranges.size(); i++)
-    {
-        if (use_ultrasonic_)
-        {
-            if (trunk_obs_msg->valids[i] == 2)
-            {
-                trunk_obs_vec_[i](0) = trunk_obs_msg->ranges[i] + trunk_radius_avg_ +
-                                       RandomGaussianNumByStdDev(trunk_radius_sigma_); //加上树干半径
-                trunk_obs_vec_[i](1) = trunk_obs_msg->bearings[i];
-            }
-            else
-            {
-                trunk_obs_vec_[i](0) = -1;
-            }
-        }
-        else
-        {
-            trunk_obs_vec_[i](0) = trunk_obs_msg->ranges[i] + trunk_radius_avg_ +
-                                   RandomGaussianNumByStdDev(trunk_radius_sigma_); //加上树干半径
-            trunk_obs_vec_[i](1) = trunk_obs_msg->bearings[i];
-        }
-    }
+    lmcloud_pub_.publish(lmcloud_msg_);
 }
 
 bool SlamNode::GetPoseFromTf(const std::string &target_frame,
                              const std::string &source_frame,
                              const ros::Time &timestamp,
-                             Vec3d &pose)
-{
+                             Vec3d &pose) {
     tf::Stamped<tf::Pose> ident(tf::Transform(tf::createIdentityQuaternion(),
                                               tf::Vector3(0, 0, 0)),
                                 timestamp,
                                 source_frame);
     //求source_frame中的原点位姿在target_frame中的位姿
     tf::Stamped<tf::Pose> pose_stamp;
-    try
-    {
+    try {
         this->tf_listener_ptr_->transformPose(target_frame,
                                               ident,
                                               pose_stamp);
     }
-    catch (tf::TransformException &e)
-    {
-        LOG_ERROR << "Couldn't transform from "
-                  << source_frame
-                  << " to "
-                  << target_frame;
+    catch (tf::TransformException &e) {
+        //LOG_ERROR << "Couldn't transform from "
+//                  << source_frame
+//                  << " to "
+//                  << target_frame;
         return false;
     }
 
@@ -463,164 +239,10 @@ bool SlamNode::GetPoseFromTf(const std::string &target_frame,
     return true;
 }
 
-sensor_msgs::LaserScan SlamNode::ChooseLaserScan(const or_msgs::TrunkObsMsg::ConstPtr &trunk_obs_msg)
-{
-    double mintime = std::numeric_limits<float>::max();
-    int minindex = 0;
-    for (int j = 0; j < laser_msg_queue_.size(); j++)
-    {
-        double temp = fabs((laser_msg_queue_[j].header.stamp - trunk_obs_msg->header.stamp).toSec());
-        mintime = mintime > temp ? temp : mintime;
-        minindex = j;
-    }
-    assert(laser_msg_queue_.size() > 0);
-    return laser_msg_queue_[minindex];
-}
-
-void SlamNode::LaserScanCallbackForCheck(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg)
-{
-    if (csv_writer_ != nullptr)
-    {
-        static int64_t cnt;
-        for (int i = 0; i < laser_scan_msg->ranges.size(); i++)
-        {
-            csv_writer_->write(cnt);
-            if (laser_scan_msg->ranges[i] > 0.15 && laser_scan_msg->ranges[i] < 40.0)
-            {
-                csv_writer_->write(laser_scan_msg->ranges[i] * cos(i * M_PI / 360));
-                csv_writer_->write(laser_scan_msg->ranges[i] * sin(i * M_PI / 360));
-            }
-            else
-            {
-                csv_writer_->write(0.0);
-                csv_writer_->write(0.0);
-            }
-        }
-        cnt++;
-    }
-}
-
-void SlamNode::LaserScanCallbackForSave(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg)
-{
-    if (laser_msg_queue_.size() >= 10)
-        laser_msg_queue_.erase(std::begin(laser_msg_queue_));
-    laser_msg_queue_.push_back(*laser_scan_msg);
-}
-
-void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg)
-{
-    // for simulation
-    or_msgs::TrunkObsMsg msg;
-    std::vector<int8_t> valid_array;
-    std::vector<double> range_array;
-    std::vector<double> bearing_array;
-    // if (use_ultrasonic_)
-    // {
-    //     valid_array.resize(2);
-    //     range_array.resize(2);
-    //     bearing_array.resize(2);
-
-    //     for (int i = 0; i < 2; i++)
-    //     {
-    //         valid_array[i] = 0;
-    //     }
-
-    //     int start_ind = -1, end_ind = -1;
-    //     int valid_num = 0;
-
-    //     for (int i = 1; i < laser_scan_msg->ranges.size() && valid_num < 2; i++)
-    //     {
-    //         if (laser_scan_msg->ranges[i - 1] > 4.9 && laser_scan_msg->ranges[i] <= 4.9 && start_ind == -1)
-    //         {
-    //             start_ind = i;
-    //         }
-    //         else if (laser_scan_msg->ranges[i - 1] <= 4.9 && laser_scan_msg->ranges[i] > 4.9 && start_ind != -1)
-    //         {
-    //             end_ind = i;
-    //             int mid_ind = (start_ind + end_ind) / 2;
-    //             start_ind = end_ind = -1;
-    //             valid_array[valid_num] = 2;
-    //             range_array[valid_num] = laser_scan_msg->ranges[mid_ind];
-    //             bearing_array[valid_num] = laser_angle_min_ + mid_ind * laser_angle_increment_;
-    //             valid_num++;
-    //         }
-    //     }
-    // }
-    // else
-    // {
-    if (use_sim_)
-    {
-        // 模拟器中用
-        int start_ind = -1, end_ind = -1;
-        for (int i = 1; i < laser_scan_msg->ranges.size(); i++)
-        {
-            if (laser_scan_msg->ranges[i - 1] > 4.9 && laser_scan_msg->ranges[i] <= 4.9 && start_ind == -1)
-            {
-                start_ind = i;
-            }
-            else if (laser_scan_msg->ranges[i - 1] <= 4.9 && laser_scan_msg->ranges[i] > 4.9 && start_ind != -1)
-            {
-                end_ind = i;
-                int mid_ind = (start_ind + end_ind) / 2;
-                start_ind = end_ind = -1;
-                range_array.push_back(laser_scan_msg->ranges[mid_ind]);
-                bearing_array.push_back(laser_angle_min_ + mid_ind * laser_angle_increment_);
-            }
-        }
-    }
-
-    else
-    {
-        // 实车用
-        int start_ind = -1, end_ind = -1;
-        for (int i = 540; i < 720; i++)
-        {
-            if (laser_scan_msg->ranges[i - 1] > 2.2 && laser_scan_msg->ranges[i] <= 2.2 && start_ind == -1)
-            {
-                start_ind = i;
-            }
-            else if (laser_scan_msg->ranges[i - 1] <= 2.2 && laser_scan_msg->ranges[i] > 2.2 && start_ind != -1)
-            {
-                end_ind = i;
-                int mid_ind = (start_ind + end_ind) / 2;
-                start_ind = end_ind = -1;
-                range_array.push_back(laser_scan_msg->ranges[mid_ind]);
-                bearing_array.push_back(laser_angle_min_ + mid_ind * laser_angle_increment_);
-            }
-        }
-        for (int i = 0; i < 180; i++)
-        {
-            int j = i - 1;
-            if (j < 0)
-                j = 719;
-            if (laser_scan_msg->ranges[j] > 2.2 && laser_scan_msg->ranges[i] <= 2.2 && start_ind == -1)
-            {
-                start_ind = i;
-            }
-            else if (laser_scan_msg->ranges[j] <= 2.2 && laser_scan_msg->ranges[i] > 2.2 && start_ind != -1)
-            {
-                end_ind = i;
-                int mid_ind = (start_ind + end_ind) / 2;
-                start_ind = end_ind = -1;
-                range_array.push_back(laser_scan_msg->ranges[mid_ind]);
-                bearing_array.push_back(laser_angle_min_ + mid_ind * laser_angle_increment_);
-            }
-        }
-    }
-    // }
-    msg.header.stamp = laser_scan_msg->header.stamp;
-    msg.header.frame_id = "scan";
-    msg.valids = valid_array;
-    msg.ranges = range_array;
-    msg.bearings = bearing_array;
-    sim_trunk_obs_pub_.publish(msg);
-}
-
-int main(int argc, char **argv)
-{
-    GLogWrapper glog_wrapper(argv[0]);
-    ros::init(argc, argv, "fastslam_node");
-    SlamNode fastslam_node("fastslam_node");
+int main(int argc, char **argv) {
+    // GLogWrapper glog_wrapper(argv[0]);
+    ros::init(argc, argv, "slam_node");
+    SlamNode slam_node("slam_node");
     ros::spin();
     return 0;
 }

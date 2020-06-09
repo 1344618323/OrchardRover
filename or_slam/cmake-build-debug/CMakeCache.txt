@@ -31,6 +31,9 @@ CATKIN_SKIP_TESTING:BOOL=OFF
 CATKIN_SYMLINK_INSTALL:BOOL=OFF
 
 //Path to a program.
+CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
+
+//Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
@@ -103,6 +106,9 @@ CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 //Flags used by the C compiler during RELWITHDEBINFO builds.
 CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
+//Path to a program.
+CMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND
+
 //Flags used by the linker during all build types.
 CMAKE_EXE_LINKER_FLAGS:STRING=
 
@@ -170,6 +176,9 @@ CMAKE_PROJECT_NAME:STATIC=or_slam
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
+
+//Path to a program.
+CMAKE_READELF:FILEPATH=/usr/bin/readelf
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
@@ -268,6 +277,9 @@ GTEST_MAIN_LIBRARY:FILEPATH=GTEST_MAIN_LIBRARY-NOTFOUND
 
 //Path to a library.
 GTEST_MAIN_LIBRARY_DEBUG:FILEPATH=GTEST_MAIN_LIBRARY_DEBUG-NOTFOUND
+
+//The directory containing a CMake configuration file for Glog.
+Glog_DIR:PATH=Glog_DIR-NOTFOUND
 
 //lsb_release executable was found
 LSB_FOUND:BOOL=TRUE
@@ -417,6 +429,15 @@ message_runtime_DIR:PATH=/opt/ros/kinetic/share/message_runtime/cmake
 //The directory containing a CMake configuration file for nav_msgs.
 nav_msgs_DIR:PATH=/opt/ros/kinetic/share/nav_msgs/cmake
 
+//Value Computed by CMake
+optimized_slam_algs_BINARY_DIR:STATIC=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs
+
+//Dependencies for the target
+optimized_slam_algs_LIB_DEPENDS:STATIC=general;/opt/ros/kinetic/lib/libtf.so;general;/opt/ros/kinetic/lib/libtf2_ros.so;general;/opt/ros/kinetic/lib/libactionlib.so;general;/opt/ros/kinetic/lib/libtf2.so;general;/opt/ros/kinetic/lib/libmessage_filters.so;general;/opt/ros/kinetic/lib/libroscpp.so;general;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so;general;/usr/lib/x86_64-linux-gnu/libboost_signals.so;general;/opt/ros/kinetic/lib/libxmlrpcpp.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/x86_64-linux-gnu/liblog4cxx.so;general;/usr/lib/x86_64-linux-gnu/libboost_regex.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/x86_64-linux-gnu/libboost_system.so;general;/usr/lib/x86_64-linux-gnu/libboost_thread.so;general;/usr/lib/x86_64-linux-gnu/libboost_chrono.so;general;/usr/lib/x86_64-linux-gnu/libboost_date_time.so;general;/usr/lib/x86_64-linux-gnu/libboost_atomic.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/usr/lib/x86_64-linux-gnu/libconsole_bridge.so;general;/usr/lib/x86_64-linux-gnu/libglog.so;
+
+//Value Computed by CMake
+optimized_slam_algs_SOURCE_DIR:STATIC=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs
+
 //The directory containing a CMake configuration file for or_msgs.
 or_msgs_DIR:PATH=/home/cxn/myfile/orchardrover_ws/devel/share/or_msgs/cmake
 
@@ -482,6 +503,8 @@ xmlrpcpp_DIR:PATH=/opt/ros/kinetic/share/xmlrpcpp/cmake
 //catkin environment
 CATKIN_ENV:INTERNAL=
 CATKIN_TEST_RESULTS_DIR:INTERNAL=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/test_results
+//ADVANCED property for variable: CMAKE_ADDR2LINE
+CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -489,9 +512,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/o
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=15
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=16
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=5
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
@@ -532,6 +555,8 @@ CMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
 CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_DLLTOOL
+CMAKE_DLLTOOL-ADVANCED:INTERNAL=1
 //Executable file format
 CMAKE_EXECUTABLE_FORMAT:INTERNAL=ELF
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS
@@ -603,8 +628,10 @@ CMAKE_OBJDUMP-ADVANCED:INTERNAL=1
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RANLIB
 CMAKE_RANLIB-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_READELF
+CMAKE_READELF-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=/home/cxn/software/clion-2019.2.4/bin/cmake/linux/share/cmake-3.15
+CMAKE_ROOT:INTERNAL=/home/cxn/software/clion-2019.2.4/bin/cmake/linux/share/cmake-3.16
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG
