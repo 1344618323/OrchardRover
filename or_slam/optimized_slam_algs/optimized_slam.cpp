@@ -4,17 +4,16 @@
 
 namespace optimizedSlam {
     OptimizedSlam::OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh) {
-
-        nh->param<double>("odom_alpha1", odom_translation_weight_, 1e4);
-        nh->param<double>("odom_alpha2", odom_rotation_weight_, 1e4);
-        nh->param<double>("odom_alpha3", lm_translation_weight_, 1e5);
-        nh->param<double>("odom_alpha4", lm_rotation_weight_, 0.0);
-        nh->param<double>("update_min_d", update_min_d_, 0.2); //在执行滤波更新前平移运动的距离0.05(50mm)与0.03（1.7度）
-        nh->param<double>("update_min_a", update_min_a_, 0.2);
+        nh->param<double>("optimized_slam/odom_translation_weight_", odom_translation_weight_, 1e4);
+        nh->param<double>("optimized_slam/odom_rotation_weight_", odom_rotation_weight_, 1e4);
+        nh->param<double>("optimized_slam/lm_translation_weight_", lm_translation_weight_, 1e5);
+        nh->param<double>("optimized_slam/lm_rotation_weight_", lm_rotation_weight_, 0.0);
+        nh->param<double>("optimized_slam/update_min_d", update_min_d_, 0.2);
+        nh->param<double>("optimized_slam/update_min_a", update_min_a_, 0.2);
         Eigen::Matrix2d cov_z;
         cov_z.setZero();
-        nh->param<double>("lm_cov_x", cov_z(0, 0), 0.8);
-        nh->param<double>("lm_cov_y", cov_z(1, 1), 0.8);
+        nh->param<double>("optimized_slam/lm_cov_x", cov_z(0, 0), 0.8);
+        nh->param<double>("optimized_slam/lm_cov_y", cov_z(1, 1), 0.8);
         cov_z_inv_ = cov_z.inverse();
 
         init_global_pose_ = transform::Rigid2d({init_pose.x(), init_pose.y()}, init_pose.z());
@@ -27,27 +26,23 @@ namespace optimizedSlam {
     void OptimizedSlam::SetSensorPose(const Eigen::Vector3d &sensor_pose) {
     }
 
-    const std::map<int, Eigen::Vector3d> OptimizedSlam::GetLandmarks() {
-        std::map<int, Eigen::Vector3d> output;
-        for (auto &landmark_node : landmark_data_) {
-            output.insert({landmark_node.first, EigenV3FromPose(landmark_node.second.global_landmark_pose)});
-        }
-        return output;
+    const std::map<int, Eigen::Vector2d> OptimizedSlam::GetLandmarks() {
+        std::unique_lock<std::mutex> lm_lock(mutex_landmarks_);
+        return latest_landmarks_;
     };
 
     const Eigen::Vector3d OptimizedSlam::GetPose(const Eigen::Vector3d &odom_pose) {
-
+        std::unique_lock<std::mutex> node_lock(mutex_latest_node_);
         transform::Rigid2d pose = init_global_pose_ * transform::Rigid2d({odom_pose.x(), odom_pose.y()}, odom_pose.z());
         if (!node_data_.empty()) {
-            int node_id = std::prev(node_data_.end())->first;
-            pose = (node_data_[node_id].global_pose_2d) * (node_data_[node_id].odom_pose_2d.inverse() * pose);
+            pose = latest_node_.global_pose_2d * latest_node_.odom_pose_2d.inverse() * pose;
         }
-
         return EigenV3FromPose(pose);
     }
 
     void OptimizedSlam::AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<double> &XYs,
                                     const ros::Time &stamp) {
+
         Eigen::Vector3d delta;
         delta[0] = ros_odom_pose[0] - last_ros_odom_pose_[0];
         delta[1] = ros_odom_pose[1] - last_ros_odom_pose_[1];
@@ -84,7 +79,7 @@ namespace optimizedSlam {
                                                        odom_pose)};
         }
 
-        //最大似然法求lmi
+        //最大似然法求lmi；卡方检测判断是否新增lmi
         if (XYs.empty() || XYs.size() % 2 == 1)
             return;
         for (int i = 0; i < XYs.size(); i = i + 2) {
@@ -93,66 +88,81 @@ namespace optimizedSlam {
         }
 
         Solve();
+
+        LandmarksCulling();
+
+        {
+            std::unique_lock<std::mutex> node_lock(mutex_latest_node_);
+            std::unique_lock<std::mutex> lm_lock(mutex_landmarks_);
+            latest_landmarks_.clear();
+            for (auto &landmark_node : landmark_data_) {
+                latest_landmarks_.insert({landmark_node.first, landmark_node.second.global_landmark_xy});
+            }
+            int node_id = std::prev(node_data_.end())->first;
+            latest_node_ = node_data_[node_id];
+        }
     }
 
     void OptimizedSlam::CalculateLikelihood(std::map<int, NodeSpec2D>::iterator &it, Eigen::Vector2d &xy) {
-//        Eigen::Vector2d z_hat = it->second.global_pose_2d * xy;//预测的树干坐标
+//        Eigen::Vector2d z(atan2(xy.y(), xy.x()), xy.norm());
+//        Eigen::Vector2d z_hat_min;
+//
 //        double min_error = std::numeric_limits<double>::max();
 //        int min_lm_id;//最佳的树干编号
+//        transform::Rigid2d node_pose = it->second.global_pose_2d;//当前观测node的位姿
+//
 //        for (auto &landmark_node : landmark_data_) {
-//            Eigen::Vector2d z = landmark_node.second.global_landmark_pose.translation();//树干“真实“的坐标
+//            Eigen::Vector2d lmi_in_node_frame =
+//                    node_pose.inverse() * landmark_node.second.global_landmark_xy;
+//
+//            Eigen::Vector2d z_hat(atan2(lmi_in_node_frame.y(), lmi_in_node_frame.x()), lmi_in_node_frame.norm());
+//
 //            double error = (z - z_hat).transpose() * cov_z_inv_ * (z - z_hat);
 //            if (error < min_error) {
 //                min_error = error;
 //                min_lm_id = landmark_node.first;
+//                z_hat_min = z_hat;
 //            }
 //        }
 
-        Eigen::Vector2d z_hat;
-        z_hat << atan2(xy.y(), xy.x()), xy.norm();
-
+        Eigen::Vector2d z = xy;
+        Eigen::Vector2d z_hat_min;
         double min_error = std::numeric_limits<double>::max();
+        transform::Rigid2d &node_pose = it->second.global_pose_2d;//当前观测node的位姿
         int min_lm_id;//最佳的树干编号
-        transform::Rigid2d node_pose = it->second.global_pose_2d;
         for (auto &landmark_node : landmark_data_) {
-            Eigen::Vector2d Tnode_lmi =
-                    node_pose.inverse() * landmark_node.second.global_landmark_pose.translation();
-            Eigen::Vector2d z;
-            z << atan2(Tnode_lmi.y(), Tnode_lmi.x()), Tnode_lmi.norm();
+
+            Eigen::Vector2d z_hat =
+                    node_pose.inverse() * landmark_node.second.global_landmark_xy;
             double error = (z - z_hat).transpose() * cov_z_inv_ * (z - z_hat);
             if (error < min_error) {
                 min_error = error;
                 min_lm_id = landmark_node.first;
+                z_hat_min = z_hat;
             }
         }
 
-        std::cout << "xy: " << xy(0) << " " << xy(1) << ";" << std::endl;
-        std::cout << "z_hat: " << z_hat(0) << " " << z_hat(1) << ";" << std::endl;
+        std::cout << "z: " << z(0) << " " << z(1) << "; " << "z_hat_min: " << z_hat_min(0) << " " << z_hat_min(1)
+                  << "; " << "chi-square: " << min_error << std::endl;
 
+        int obs_lm_id;
         if (min_error < 5.99) {
-            landmark_data_[min_lm_id].landmark_observations.push_back(
-                    optimizedSlam::optimization::LandmarkNode::LandmarkObservation{
-                            it->first, transform::Rigid2d(xy, it->second.global_pose_2d.rotation().inverse())
-                    });
-
-            //            std::cout << "Node " << it->second.global_pose_2d << " LM " << (min_lm_id) << ": "
-//                      << landmark_data_[min_lm_id].global_landmark_pose << std::endl;
+            obs_lm_id = min_lm_id;
         } else {
             int last_lm_id = -1;
             if (!landmark_data_.empty()) {
                 last_lm_id = std::prev(landmark_data_.end())->first;
             }
-            transform::Rigid2d Tglobal_lmi(it->second.global_pose_2d * xy, 0.0);
-
-            landmark_data_[last_lm_id + 1].global_landmark_pose = Tglobal_lmi;
-
-            landmark_data_[last_lm_id + 1].landmark_observations.push_back(
-                    optimizedSlam::optimization::LandmarkNode::LandmarkObservation{
-                            it->first, it->second.global_pose_2d.inverse() * Tglobal_lmi});
-
-//            std::cout << "Node " << it->second.global_pose_2d << " LM " << (last_lm_id + 1) << ": "
-//                      << landmark_data_[last_lm_id + 1].global_landmark_pose << std::endl;
+            Eigen::Vector2d lmi_in_global_frame = it->second.global_pose_2d * xy;
+            obs_lm_id = last_lm_id + 1;
+            landmark_data_[obs_lm_id].global_landmark_xy = lmi_in_global_frame;
         }
+        landmark_data_[obs_lm_id].landmark_observations.push_back(
+                optimizedSlam::optimization::LandmarkNode::LandmarkObservation{
+                        it->first, xy});
+        landmark_data_[obs_lm_id].latest_obs_node_id.push_back(it->first);
+//            std::cout << "Node " << it->second.global_pose_2d << " LM " << (obs_lm_id) << ": "
+//                      << landmark_data_[obs_lm_id].global_landmark_xy << std::endl;
     }
 
     void OptimizedSlam::Solve() {
@@ -181,18 +191,20 @@ namespace optimizedSlam {
             const int second_node_id = node_it->first;
             const NodeSpec2D &second_node_data = node_it->second;
 
-            const transform::Rigid2d relative_local_slam_pose = first_node_data.odom_pose_2d.inverse() *
-                                                                second_node_data.odom_pose_2d;
+            const transform::Rigid2d relative_odom_pose = first_node_data.odom_pose_2d.inverse() *
+                                                          second_node_data.odom_pose_2d;
             problem.AddResidualBlock(
                     optimization::CreateAutoDiffSpaCostFunction(
-                            optimization::PoseConstraint{relative_local_slam_pose,
+                            optimization::PoseConstraint{relative_odom_pose,
                                                          odom_translation_weight_, odom_rotation_weight_}),
                     nullptr /* loss function */, C_nodes.at(first_node_id).data(),
                     C_nodes.at(second_node_id).data());
         }
 
 
-        std::map<int, std::array<double, 3>> C_landmarks;
+        std::map<int, std::array<double, 2>> C_landmarks;
+
+        int landobs = 0;
 
         for (const auto &landmark_node : landmark_data_) {
             int landmark_id = landmark_node.first;//lm的id
@@ -200,30 +212,28 @@ namespace optimizedSlam {
             for (const auto &observation : landmark_node.second.landmark_observations) {
 
                 if (!C_landmarks.count(landmark_id)) {
-                    //如果这个lmi还没有加入优化变量，就先给他算个初值
-
-                    const transform::Rigid2d starting_point =
-                            node_data_[observation.node_id].global_pose_2d *
-                            observation.landmark_to_tracking_transform;
-                    C_landmarks.emplace(landmark_id, FromPose(starting_point));
-
-                    problem.AddParameterBlock(C_landmarks.at(landmark_id).data(), 3);
-//                    problem.SetParameterBlockConstant(C_landmarks.at(landmark_id).begin() + 2);
+                    C_landmarks[landmark_id] = FromXY(landmark_node.second.global_landmark_xy);
+                    problem.AddParameterBlock(C_landmarks.at(landmark_id).data(), 2);
                 }
 
                 problem.AddResidualBlock(
-                        optimization::CreateAutoDiffSpaCostFunction(
-                                optimization::PoseConstraint{observation.landmark_to_tracking_transform,
-                                                             lm_translation_weight_, lm_rotation_weight_}),
+                        optimization::CreateAutoDiffLmCostFunction(
+                                optimization::PoselmConstraint{observation.landmark_to_tracking_transform,
+                                                               lm_translation_weight_}),
                         nullptr /* loss function */, C_nodes.at(observation.node_id).data(),
                         C_landmarks.at(landmark_id).data());
+
+                landobs++;
             }
         }
 
+        std::cout << "NumResidual:" << problem.NumResidualBlocks() << " NumParameter" << problem.NumParameterBlocks()
+                  << "; landobs:" << landobs << " nodes:" << node_data_.size() << " lm:" << landmark_data_.size()
+                  << std::endl;
 
-        ceres::Solver::Options options;     // 这里有很多配置项可以填
+        ceres::Solver::Options options;
         options.use_nonmonotonic_steps = false;
-        options.max_num_iterations = 50;
+        options.max_num_iterations = 100;
         options.num_threads = 7;
 
         ceres::Solver::Summary summary;                // 优化信息
@@ -241,16 +251,17 @@ namespace optimizedSlam {
                     ToPose(C_node_id_data.second);
         }
         for (const auto &C_landmark : C_landmarks) {
-            landmark_data_[C_landmark.first].global_landmark_pose = ToPose(C_landmark.second);
+            landmark_data_[C_landmark.first].global_landmark_xy = ToXY(C_landmark.second);
         }
     }
 
-// Converts a pose into the 3 optimization variable format used for Ceres:
-// translation in x and y, followed by the rotation angle representing the
-// orientation.
     std::array<double, 3> OptimizedSlam::FromPose(const transform::Rigid2d &pose) {
         return {{pose.translation().x(), pose.translation().y(),
                         pose.normalized_angle()}};
+    }
+
+    std::array<double, 2> OptimizedSlam::FromXY(const Eigen::Vector2d &xy) {
+        return {{xy.x(), xy.y()}};
     }
 
     Eigen::Vector3d OptimizedSlam::EigenV3FromPose(const transform::Rigid2d &pose) {
@@ -258,9 +269,49 @@ namespace optimizedSlam {
                 pose.normalized_angle()};
     }
 
-// Converts a pose as represented for Ceres back to an transform::Rigid2d pose.
     transform::Rigid2d OptimizedSlam::ToPose(const std::array<double, 3> &values) {
         return transform::Rigid2d({values[0], values[1]}, values[2]);
     }
 
+    Eigen::Vector2d OptimizedSlam::ToXY(const std::array<double, 2> &values) {
+        return Eigen::Vector2d(values[0], values[1]);
+    }
+
+    void OptimizedSlam::LandmarksCulling() {
+        transform::Rigid2d &node_pose = std::prev(node_data_.end())->second.global_pose_2d;//当前观测node的位姿
+        int node_id = std::prev(node_data_.end())->first;
+
+        std::vector<int> culling_lms_id;
+        for (auto &landmark_node : landmark_data_) {
+
+            bool current_obs = false;
+            for (auto &id:landmark_node.second.latest_obs_node_id) {
+                if (node_id == id) {
+                    current_obs = true;
+                    landmark_node.second.visible++;
+                }
+            }
+
+            landmark_node.second.latest_obs_node_id.clear();
+
+            if (current_obs)
+                continue;
+
+            Eigen::Vector2d lmi_in_node_frame =
+                    node_pose.inverse() * landmark_node.second.global_landmark_xy;
+
+            Eigen::Vector2d z_hat(atan2(lmi_in_node_frame.y(), lmi_in_node_frame.x()), lmi_in_node_frame.norm());
+            if ((z_hat[0] < M_PI_4 && z_hat[0] > -M_PI_4 && z_hat[1] < 3.5)) {
+                //优化后应该被看到，当时反而没看到: 按照模拟器的设置，在4m [-60,60]以内，应该能看到，我们收紧一点
+                landmark_node.second.visible++;
+                if (double(landmark_node.second.landmark_observations.size()) / (landmark_node.second.visible) <=
+                    0.25) {
+                    culling_lms_id.push_back(landmark_node.first);
+                }
+            }
+        }
+        for (auto &id:culling_lms_id) {
+            landmark_data_.erase(id);
+        }
+    }
 } // namespace optimizedSlam

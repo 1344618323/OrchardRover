@@ -5,6 +5,7 @@
 #include <chrono>
 #include <limits>
 #include <ceres/ceres.h>
+#include <mutex>
 #include "optimized_slam_config.h"
 #include "transform/rigid_transform.h"
 #include "cost_function/spa_cost_function_2d.h"
@@ -26,7 +27,7 @@ namespace optimizedSlam {
 
         void SetSensorPose(const Eigen::Vector3d &sensor_pose);
 
-        const std::map<int, Eigen::Vector3d> GetLandmarks();
+        const std::map<int, Eigen::Vector2d> GetLandmarks();
 
         const Eigen::Vector3d GetPose(const Eigen::Vector3d &odom_pose);
 
@@ -35,11 +36,17 @@ namespace optimizedSlam {
 
         void CalculateLikelihood(std::map<int, NodeSpec2D>::iterator &it, Eigen::Vector2d &xy);
 
+        void LandmarksCulling();
+
         std::array<double, 3> FromPose(const transform::Rigid2d &pose);
+
+        std::array<double, 2> FromXY(const Eigen::Vector2d &xy);
 
         Eigen::Vector3d EigenV3FromPose(const transform::Rigid2d &pose);
 
         transform::Rigid2d ToPose(const std::array<double, 3> &values);
+
+        Eigen::Vector2d ToXY(const std::array<double, 2> &values);
 
     private:
         std::map<int, NodeSpec2D> node_data_;//每进入一个node，就给first+1
@@ -58,6 +65,9 @@ namespace optimizedSlam {
         double lm_translation_weight_;
         double lm_rotation_weight_;
 
+        std::mutex mutex_latest_node_, mutex_landmarks_;
+        NodeSpec2D latest_node_;
+        std::map<int, Eigen::Vector2d> latest_landmarks_;
     };
 }
 #endif

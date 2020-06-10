@@ -23,6 +23,7 @@
 #include "fastslam.h"
 #include "fastslam_localization.h"
 #include "optimized_slam.h"
+#include "sim_odom_data_generator.h"
 
 #define THREAD_NUM 4 // ROS SPIN THREAD NUM
 
@@ -39,10 +40,14 @@ private:
     ros::NodeHandle nh_;
 
     bool pure_localization_;
+
+    /**sim作用的变量**/
     bool use_sim_;
-    float CTrunkPoints[21][2];
+    std::vector<Eigen::Vector2d> CTrunkPoints_;
     geometry_msgs::Pose ground_truth_pose_;
     ros::Subscriber ground_truth_sub_;
+    std::unique_ptr<SimOdomDataGenerator> sim_odom_data_generator_ptr_;
+    /**sim作用的变量**/
 
     ros::Subscriber laser_scan_sub_;
     std::string laser_topic_;

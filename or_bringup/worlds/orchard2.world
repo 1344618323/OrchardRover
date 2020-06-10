@@ -88,7 +88,7 @@ window
 floorplan
 ( 
   name "RoboMaster Map"
-  bitmap "../maps/orchard.pgm"
+  bitmap "../maps/orchard2.pgm"
   size [37.0 20.0 1.000]
   pose [18.5  10.0  0 0 ]
 )

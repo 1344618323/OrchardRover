@@ -52,6 +52,34 @@ namespace optimizedSlam {
         }
 
         template<typename T>
+        static std::array<T, 2> ComputeUnscaledError2D(
+                const Eigen::Vector2d &relative_pose, const T *const node_pose,
+                const T *const lm_xy) {
+            const T cos_theta_i = cos(node_pose[2]);
+            const T sin_theta_i = sin(node_pose[2]);
+            const T delta_x = lm_xy[0] - node_pose[0];
+            const T delta_y = lm_xy[1] - node_pose[1];
+            const T h[2] = {cos_theta_i * delta_x + sin_theta_i * delta_y,
+                            -sin_theta_i * delta_x + cos_theta_i * delta_y};
+            return {{T(relative_pose.x()) - h[0],
+                            T(relative_pose.y()) - h[1]}};
+        }
+
+        template<typename T>
+        std::array<T, 2> ScaleError2D(const std::array<T, 2> &error,
+                                    double translation_weight) {
+            // clang-format off
+            return {{
+                            error[0] * translation_weight,
+                            error[1] * translation_weight,
+                    }};
+            // clang-format on
+        }
+
+
+
+
+        template<typename T>
         static std::array<T, 6> ComputeUnscaledError(
                 const transform::Rigid3d &relative_pose, const T *const start_rotation,
                 const T *const start_translation, const T *const end_rotation,

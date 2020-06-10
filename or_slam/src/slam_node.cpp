@@ -7,6 +7,10 @@ SlamNode::SlamNode(std::string name) {
 }
 
 SlamNode::~SlamNode() {
+    const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
+    for (auto &lm:global_lms) {
+        std::cout << "LM " << lm.first << ": " << lm.second(0) << "," << lm.second(1) << std::endl;
+    }
 }
 
 bool SlamNode::Init() {
@@ -37,18 +41,31 @@ bool SlamNode::Init() {
     slam_ptr_ = std::make_unique<optimizedSlam::OptimizedSlam>(init_pose_, &nh_);
 
     if (use_sim_) {
+//        for (int i = 0; i < 7; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                CTrunkPoints_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 6));
+//            }
+//        }
+
         for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 3; j++) {
-                CTrunkPoints[i * 3 + j][0] = i * 4 + 6.5;
-                CTrunkPoints[i * 3 + j][1] = j * 4 + 6;
+            for (int j = 0; j < 4; j++) {
+                CTrunkPoints_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 5));
             }
         }
+
 
         // 模拟器检测树干方位
         laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSim, this);
         // 模拟器发送树干方位
         sim_trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsgXY>(trunk_obs_topic_, 1);
         ground_truth_sub_ = nh_.subscribe("base_pose_ground_truth", 1, &SlamNode::GroundTruthCallbackForSim, this);
+
+        double alpha1, alpha2, alpha3, alpha4;
+        nh_.param<double>("sim_sensor_odom/alpha1", alpha1, 0.2);
+        nh_.param<double>("sim_sensor_odom/alpha2", alpha2, 0.2);
+        nh_.param<double>("sim_sensor_odom/alpha3", alpha3, 0.2);
+        nh_.param<double>("sim_sensor_odom/alpha4", alpha4, 0.2);
+        sim_odom_data_generator_ptr_ = std::make_unique<SimOdomDataGenerator>(alpha1, alpha2, alpha3, alpha4);
     }
 
     // 处理树干方位消息
@@ -91,17 +108,16 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
     or_msgs::TrunkObsMsgXY msg;
     std::vector<double> XYs;
     std::vector<int> index;
-    for (int i = 0; i < 21; i++) {
-        float delta_x = CTrunkPoints[i][0] - ground_truth_pose_.position.x;
-        float delta_y = CTrunkPoints[i][1] - ground_truth_pose_.position.y;
+    for (int i = 0; i < CTrunkPoints_.size(); i++) {
+        float delta_x = CTrunkPoints_[i][0] - ground_truth_pose_.position.x;
+        float delta_y = CTrunkPoints_[i][1] - ground_truth_pose_.position.y;
         float yaw = tf::getYaw(ground_truth_pose_.orientation);
         float diff = AngleDiff<float>(atan2(delta_y, delta_x), yaw);
         if ((delta_x * delta_x + delta_y * delta_y) < 16 && diff > -M_PI / 3 && diff < M_PI / 3) {
             int ind = diff / M_PI * 180 + 134;
-            XYs.push_back(laser_scan_msg->ranges[ind] * cos(diff));
-            XYs.push_back(laser_scan_msg->ranges[ind] * sin(diff));
-//            std::cout << *(XYs.end() - 2) << " " << *(XYs.end() - 1) << ", " << diff << " "
-//                      << laser_scan_msg->ranges[ind] << std::endl;
+            //因为画的图中树的半径是0.2m
+            XYs.push_back((laser_scan_msg->ranges[ind] + 0.2) * cos(diff));
+            XYs.push_back((laser_scan_msg->ranges[ind] + 0.2) * sin(diff));
         }
     }
     msg.header.stamp = laser_scan_msg->header.stamp;
@@ -129,9 +145,14 @@ void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk
     // else
     //     localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_);
 
+    if (use_sim_) {
+        //考虑到stage中返回的位姿是非常正确的，我们人为给他加误差
+        pose_in_odom = sim_odom_data_generator_ptr_->UpdateAction2(pose_in_odom);
+    }
+
     pose_in_odom_ = pose_in_odom;
 
-    slam_ptr_->AddNodeData(pose_in_odom, trunk_obs_msg->XY, trunk_obs_msg->header.stamp);
+    slam_ptr_->AddNodeData(pose_in_odom_, trunk_obs_msg->XY, trunk_obs_msg->header.stamp);
 
     PublishTf();
 }
@@ -143,13 +164,16 @@ bool SlamNode::PublishTf() {
     Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom_);
 
     try {
+        //得到了Tglobal_base
         tf::Transform tmp_tf(tf::createQuaternionFromYaw(global_pose[2]),
                              tf::Vector3(global_pose[0],
                                          global_pose[1],
                                          0.0));
+        //转成Tbase_global
         tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(),
                                              last_laser_msg_timestamp_,
                                              base_frame_);
+        //转成Todom_global
         this->tf_listener_ptr_->transformPose(odom_frame_,
                                               tmp_tf_stamped,
                                               odom_to_map);
@@ -161,7 +185,7 @@ bool SlamNode::PublishTf() {
 
     latest_tf_ = tf::Transform(tf::Quaternion(odom_to_map.getRotation()),
                                tf::Point(odom_to_map.getOrigin()));
-
+    //发布Tglobal_odom
     tf::StampedTransform tmp_tf_stamped(latest_tf_.inverse(),
                                         transform_expiration,
                                         global_frame_,
@@ -195,7 +219,7 @@ void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
 
     lmcloud_msg_.header.stamp = ros::Time::now();
     lmcloud_msg_.points.clear();
-    const std::map<int, Eigen::Vector3d> global_lms = slam_ptr_->GetLandmarks();
+    const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
 
     for (auto &lm:global_lms) {
         geometry_msgs::Point temp;
@@ -246,3 +270,21 @@ int main(int argc, char **argv) {
     ros::spin();
     return 0;
 }
+
+
+/***********************果园地图***********************/
+//int main() {
+//    Mat area(400, 740, CV_8UC1, Scalar(255));
+//    int x_off = 130;
+//    int y_off = 120;
+//    for (int i = 0; i < 7; i++) {
+//        for (int j = 0; j < 3; j++) {
+//            circle(area, Point(i * 80 + x_off, j * 80 + y_off), 4, Scalar(0), -1);
+//        }
+//    }
+//    rectangle(area, Rect(0, 0, 740, 400), Scalar(0), 1);
+//    imshow("orchard", area);
+//    imwrite("orchard.pgm", area);
+//    cv::waitKey();
+//    return 0;
+//}
