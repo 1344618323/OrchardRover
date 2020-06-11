@@ -59,10 +59,12 @@ private:
 
     /**Variables for visualize**/
     ros::Timer visualize_timer_;
-    ros::Publisher lmcloud_pub_;
-    visualization_msgs::Marker lmcloud_msg_;
-    ros::Publisher particlecloud_pub_;
-    geometry_msgs::PoseArray particlecloud_msg_;
+    ros::Publisher landmarks_pub_;
+    visualization_msgs::Marker landmarks_msg_;
+    ros::Publisher particle_cloud_pub_;
+    geometry_msgs::PoseArray particle_cloud_msg_;
+    visualization_msgs::Marker node_residual_line_;
+    visualization_msgs::Marker lm_residual_line_;
 
     /**Variables for TF**/
     std::string odom_frame_;

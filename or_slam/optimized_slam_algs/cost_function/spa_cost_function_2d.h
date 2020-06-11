@@ -31,11 +31,12 @@ namespace optimized_slam {
             std::vector<LandmarkObservation> landmark_observations;
             Eigen::Vector2d global_landmark_xy;
             int visible;
-            std::vector<int> latest_obs_node_id;
+            int found;
             bool constant;
 
             LandmarkNode() {
                 visible = 0;
+                found = 0;
                 constant = false;
             }
         };

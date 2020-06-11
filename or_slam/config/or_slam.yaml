@@ -16,7 +16,7 @@ or_slam:
   initial_cov_aa: 0.1 #0.03 mapping
 
   sim_sensor_odom:
-    alpha1: 0.05
+    alpha1: 0.03
     alpha2: 0.08
     alpha3: 0.08
     alpha4: 0.01

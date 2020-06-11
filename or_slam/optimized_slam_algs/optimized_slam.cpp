@@ -5,18 +5,22 @@
 namespace optimized_slam {
     OptimizedSlam::OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization)
             : pure_localization_(pure_localization) {
-        nh->param<double>("optimized_slam/odom_translation_weight_", odom_translation_weight_, 1e4);
-        nh->param<double>("optimized_slam/odom_rotation_weight_", odom_rotation_weight_, 1e4);
-        nh->param<double>("optimized_slam/lm_translation_weight_", lm_translation_weight_, 1e5);
-        nh->param<double>("optimized_slam/lm_rotation_weight_", lm_rotation_weight_, 0.0);
+        nh->param<double>("optimized_slam/odom_translation_weight", odom_translation_weight_, 1e4);
+        nh->param<double>("optimized_slam/odom_rotation_weight", odom_rotation_weight_, 1e4);
+        nh->param<double>("optimized_slam/lm_translation_weight", lm_translation_weight_, 1e5);
+        nh->param<double>("optimized_slam/lm_rotation_weight", lm_rotation_weight_, 0.0);
         nh->param<double>("optimized_slam/update_min_d", update_min_d_, 0.2);
         nh->param<double>("optimized_slam/update_min_a", update_min_a_, 0.2);
         Eigen::Matrix2d cov_z;
         cov_z.setZero();
         nh->param<double>("optimized_slam/lm_cov_x", cov_z(0, 0), 0.8);
         nh->param<double>("optimized_slam/lm_cov_y", cov_z(1, 1), 0.8);
-        nh->param<int>("optimized_slam/reserve_node_num", reserve_node_num_, 5);
+        nh->param<int>("optimized_slam/reserve_node_num", reserve_node_num_, 300);
 
+        if (pure_localization_)
+            reserve_node_num_ = 5;
+
+        std::cout << "asf:" << reserve_node_num_ << " " << lm_translation_weight_ << std::endl;
         cov_z_inv_ = cov_z.inverse();
 
         init_global_pose_ = transform::Rigid2d({init_pose.x(), init_pose.y()}, init_pose.z());
@@ -40,6 +44,14 @@ namespace optimized_slam {
         std::unique_lock<std::mutex> lm_lock(mutex_landmarks_);
         return latest_landmarks_;
     };
+
+    const std::vector<ResidualForVisualize> OptimizedSlam::GetResidualForVisualize() {
+        std::unique_lock<std::mutex> lm_lock(mutex_landmarks_);
+        std::vector<ResidualForVisualize> out;
+        std::swap(out, residuals_for_visualize_);
+        return out;
+    }
+
 
     const Eigen::Vector3d OptimizedSlam::GetPose(const Eigen::Vector3d &odom_pose) {
         std::unique_lock<std::mutex> node_lock(mutex_latest_node_);
@@ -103,13 +115,22 @@ namespace optimized_slam {
 
         {
             std::unique_lock<std::mutex> node_lock(mutex_latest_node_);
+            int node_id = std::prev(node_data_.end())->first;
+            latest_node_ = node_data_[node_id];
+
             std::unique_lock<std::mutex> lm_lock(mutex_landmarks_);
             latest_landmarks_.clear();
             for (auto &landmark_node : landmark_data_) {
                 latest_landmarks_.insert({landmark_node.first, landmark_node.second.global_landmark_xy});
+
+                for (auto &obs:landmark_node.second.landmark_observations) {
+                    auto &node_pose = node_data_[obs.node_id].global_pose_2d;
+                    residuals_for_visualize_.push_back(
+                            {node_pose.translation(),
+                             node_pose * obs.landmark_to_tracking_transform,
+                             landmark_node.second.global_landmark_xy});
+                }
             }
-            int node_id = std::prev(node_data_.end())->first;
-            latest_node_ = node_data_[node_id];
         }
     }
 
@@ -174,7 +195,6 @@ namespace optimized_slam {
             landmark_data_[obs_lm_id].landmark_observations.push_back(
                     optimized_slam::optimization::LandmarkNode::LandmarkObservation{
                             it->first, xy});
-            landmark_data_[obs_lm_id].latest_obs_node_id.push_back(it->first);
             //            std::cout << "Node " << it->second.global_pose_2d << " LM " << (obs_lm_id) << ": "
             //              << landmark_data_[obs_lm_id].global_landmark_xy << std::endl;
         }
@@ -251,9 +271,11 @@ namespace optimized_slam {
                   << std::endl;
 
         ceres::Solver::Options options;
-        options.use_nonmonotonic_steps = false;
-        options.max_num_iterations = 100;
-        options.num_threads = 7;
+//        options.use_nonmonotonic_steps = true;
+        options.gradient_tolerance = 1e-16;
+        options.function_tolerance = 1e-16;
+        options.max_num_iterations = 50;
+//        options.num_threads = 7;
 
         ceres::Solver::Summary summary;                // 优化信息
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
@@ -294,19 +316,17 @@ namespace optimized_slam {
                 obs.erase(obs_it);
                 obs_it = obs.begin();
                 obs_end_it = obs.end();
-                landmark_node.second.visible--;
             }
 
             /***若lm被 这次新增加的node 观察到，一定不会删除这个lm；固定的lm也不会删除***/
             bool current_obs = false;
-            for (auto &id:landmark_node.second.latest_obs_node_id) {
-                if (node_id == id) {
-                    current_obs = true;
-                    landmark_node.second.visible++;
-                }
+
+            if (node_id == std::prev(obs.end())->node_id) {
+                current_obs = true;
+                landmark_node.second.visible++;
+                landmark_node.second.found++;
             }
 
-            landmark_node.second.latest_obs_node_id.clear();
             if (current_obs || landmark_node.second.constant)
                 continue;
 
@@ -316,10 +336,8 @@ namespace optimized_slam {
 
             Eigen::Vector2d z_hat(atan2(lmi_in_node_frame.y(), lmi_in_node_frame.x()), lmi_in_node_frame.norm());
             if ((z_hat[0] < M_PI_4 && z_hat[0] > -M_PI_4 && z_hat[1] < 3.5)) {
-
                 landmark_node.second.visible++;
-                if (double(landmark_node.second.landmark_observations.size()) / (landmark_node.second.visible) <=
-                    0.25) {
+                if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
                     culling_lms_id.push_back(landmark_node.first);
                 }
             }
@@ -332,10 +350,8 @@ namespace optimized_slam {
 
     //返回最开始node的id
     int OptimizedSlam::TrimNodeData() {
-        if (pure_localization_) {
-            while (node_data_.size() > reserve_node_num_) {
-                node_data_.erase(node_data_.begin());
-            }
+        while (node_data_.size() > reserve_node_num_) {
+            node_data_.erase(node_data_.begin());
         }
         return node_data_.begin()->first;
     }

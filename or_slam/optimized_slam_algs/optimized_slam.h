@@ -19,6 +19,12 @@ namespace optimized_slam {
         transform::Rigid2d global_pose_2d;
     };
 
+    struct ResidualForVisualize {
+        Eigen::Vector2d node_pose;
+        Eigen::Vector2d lm_obs_xy;
+        Eigen::Vector2d true_obs_xy;
+    };
+
     class OptimizedSlam {
     public:
         OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization = false);
@@ -32,6 +38,8 @@ namespace optimized_slam {
         void SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks);
 
         const std::map<int, Eigen::Vector2d> GetLandmarks();
+
+        const std::vector<ResidualForVisualize> GetResidualForVisualize();
 
         const Eigen::Vector3d GetPose(const Eigen::Vector3d &odom_pose);
 
@@ -74,6 +82,7 @@ namespace optimized_slam {
         std::mutex mutex_latest_node_, mutex_landmarks_;
         NodeSpec2D latest_node_;
         std::map<int, Eigen::Vector2d> latest_landmarks_;
+        std::vector<ResidualForVisualize> residuals_for_visualize_;
 
         const bool pure_localization_;
         int reserve_node_num_;

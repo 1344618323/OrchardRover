@@ -83,27 +83,45 @@ bool SlamNode::Init() {
     tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkObsMsgCallback, this, _1));
 
     // 发布树干坐标
-    lmcloud_pub_ = nh_.advertise<visualization_msgs::Marker>("lmcloud", 1);
-    lmcloud_msg_.header.frame_id = global_frame_;
-    lmcloud_msg_.action = visualization_msgs::Marker::ADD;
-    lmcloud_msg_.type = visualization_msgs::Marker::POINTS;
-    lmcloud_msg_.pose.position.x = 0;
-    lmcloud_msg_.pose.position.y = 0;
-    lmcloud_msg_.pose.position.z = 0;
-    lmcloud_msg_.pose.orientation.x = 0.0;
-    lmcloud_msg_.pose.orientation.y = 0.0;
-    lmcloud_msg_.pose.orientation.z = 0.0;
-    lmcloud_msg_.pose.orientation.w = 1.0;
-    lmcloud_msg_.scale.x = 0.2;
-    lmcloud_msg_.scale.y = 0.2;
-    lmcloud_msg_.color.r = 0.0;
-    lmcloud_msg_.color.g = 0.0;
-    lmcloud_msg_.color.b = 1.0;
-    lmcloud_msg_.color.a = 1.0; //一定要初始化，否则默认为0，看不见！
-    lmcloud_msg_.ns = "lm";
-    lmcloud_msg_.id = 0;
+    landmarks_pub_ = nh_.advertise<visualization_msgs::Marker>("landmarks", 5);
 
-    visualize_timer_ = nh_.createTimer(ros::Duration(0.3), &SlamNode::TimerCallbackForVisualize, this);
+    landmarks_msg_.header.frame_id = global_frame_;
+    landmarks_msg_.action = visualization_msgs::Marker::ADD;
+    landmarks_msg_.type = visualization_msgs::Marker::POINTS;
+    landmarks_msg_.pose.position.x = 0;
+    landmarks_msg_.pose.position.y = 0;
+    landmarks_msg_.pose.position.z = 0;
+    landmarks_msg_.pose.orientation.x = 0.0;
+    landmarks_msg_.pose.orientation.y = 0.0;
+    landmarks_msg_.pose.orientation.z = 0.0;
+    landmarks_msg_.pose.orientation.w = 1.0;
+    landmarks_msg_.scale.x = 0.2;
+    landmarks_msg_.scale.y = 0.2;
+    landmarks_msg_.color.r = 0.0;
+    landmarks_msg_.color.g = 0.0;
+    landmarks_msg_.color.b = 1.0;
+    landmarks_msg_.color.a = 1.0; //一定要初始化，否则默认为0，看不见！
+    landmarks_msg_.ns = "landmark";
+    landmarks_msg_.id = 0;
+
+    node_residual_line_.header.frame_id = global_frame_;
+    node_residual_line_.ns = "residual";
+    node_residual_line_.action = visualization_msgs::Marker::ADD;
+    node_residual_line_.pose.orientation.w = 1.0;
+    node_residual_line_.id = 0;
+    node_residual_line_.type = visualization_msgs::Marker::LINE_LIST;
+    node_residual_line_.scale.x = 0.01;
+    node_residual_line_.color.r = 1.0;
+    node_residual_line_.color.a = 1.0;
+    node_residual_line_.lifetime = ros::Duration();
+
+    lm_residual_line_ = node_residual_line_;
+    lm_residual_line_.id = 1;
+    lm_residual_line_.color.r = 1.0;
+    lm_residual_line_.color.g = 1.0;
+    lm_residual_line_.color.a = 1.0;
+
+    visualize_timer_ = nh_.createTimer(ros::Duration(0.5), &SlamNode::TimerCallbackForVisualize, this);
 
 //    std::vector<std::string> csvtopic = {"truex", "truey", "odomx", "odomy"};
     return true;
@@ -148,9 +166,9 @@ void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk
     }
     //    GetTrunkPosition(trunk_obs_msg);
     // if (!pure_localization_)
-    //     slam_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_, lmcloud_msg_);
+    //     slam_ptr_->Update(pose_in_odom, trunk_obs_vec_, particle_cloud_msg_, landmarks_msg_);
     // else
-    //     localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particlecloud_msg_);
+    //     localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particle_cloud_msg_);
 
     if (use_sim_) {
         //考虑到stage中返回的位姿是非常正确的，我们人为给他加误差
@@ -214,18 +232,18 @@ bool SlamNode::PublishTf() {
 }
 
 void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
-//    if (particlecloud_pub_.getNumSubscribers() > 0) {
-//        particlecloud_msg_.header.stamp = ros::Time::now();
-//        particlecloud_pub_.publish(particlecloud_msg_);
+//    if (particle_cloud_pub_.getNumSubscribers() > 0) {
+//        particle_cloud_msg_.header.stamp = ros::Time::now();
+//        particle_cloud_pub_.publish(particle_cloud_msg_);
 //    }
 //
-//    if (!pure_localization_ && lmcloud_pub_.getNumSubscribers() > 0) {
-//        lmcloud_msg_.header.stamp = ros::Time::now();
-//        lmcloud_pub_.publish(lmcloud_msg_);
+//    if (!pure_localization_ && landmarks_pub_.getNumSubscribers() > 0) {
+//        landmarks_msg_.header.stamp = ros::Time::now();
+//        landmarks_pub_.publish(landmarks_msg_);
 //    }
 
-    lmcloud_msg_.header.stamp = ros::Time::now();
-    lmcloud_msg_.points.clear();
+    landmarks_msg_.header.stamp = ros::Time::now();
+    landmarks_msg_.points.clear();
     const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
 
     for (auto &lm:global_lms) {
@@ -233,9 +251,37 @@ void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
         temp.x = lm.second(0);
         temp.y = lm.second(1);
         temp.z = 0;
-        lmcloud_msg_.points.push_back(temp);
+        landmarks_msg_.points.push_back(temp);
     }
-    lmcloud_pub_.publish(lmcloud_msg_);
+    landmarks_pub_.publish(landmarks_msg_);
+
+    std::vector<optimized_slam::ResidualForVisualize> residual_tmp = slam_ptr_->GetResidualForVisualize();
+    if (residual_tmp.size() > 0) {
+        visualization_msgs::Marker node_residual = node_residual_line_;
+        node_residual.header.stamp = ros::Time::now();
+        visualization_msgs::Marker lm_residual = lm_residual_line_;
+        lm_residual.header.stamp = ros::Time::now();
+
+        for (auto &item:residual_tmp) {
+            geometry_msgs::Point p;
+            p.z = 0;
+
+            p.x = item.node_pose.x();
+            p.y = item.node_pose.y();
+            node_residual.points.push_back(p);
+            p.x = item.lm_obs_xy.x();
+            p.y = item.lm_obs_xy.y();
+            node_residual.points.push_back(p);
+
+            lm_residual.points.push_back(p);
+            p.x = item.true_obs_xy.x();
+            p.y = item.true_obs_xy.y();
+            lm_residual.points.push_back(p);
+        }
+
+        landmarks_pub_.publish(node_residual);
+        landmarks_pub_.publish(lm_residual);
+    }
 }
 
 bool SlamNode::GetPoseFromTf(const std::string &target_frame,
@@ -294,3 +340,62 @@ int main(int argc, char **argv) {
 //    cv::waitKey();
 //    return 0;
 //}
+
+//LM 0: 7.1164,8.80264
+//LM 1: 7.89926,11.7773
+//LM 2: 10.6269,10.3439
+//LM 3: 11.5672,13.1376
+//LM 4: 14.4997,12.486
+//LM 5: 13.5102,9.64658
+//LM 7: 12.5932,6.74735
+//LM 8: 9.5606,14.5453
+//LM 9: 9.8069,7.51215
+//LM 11: 15.4516,5.9673
+//LM 12: 16.4092,8.84701
+//LM 13: 18.4212,5.2118
+//LM 14: 19.289,8.1258
+//LM 15: 14.4019,3.11448
+//LM 18: 8.57602,4.77747
+//LM 19: 5.79729,6.12181
+//LM 20: 17.2967,11.7262
+//LM 21: 20.0952,11.0159
+//LM 22: 21.3249,4.5065
+//LM 23: 22.2556,7.41655
+//LM 24: 25.1387,6.49745
+//LM 25: 24.1682,3.65043
+//LM 26: 22.9464,10.2034
+//LM 27: 11.5225,3.89932
+//LM 28: 17.3048,2.37728
+//LM 29: 20.3269,1.62803
+//LM 30: 23.2277,0.772609
+//LM 31: 9.70113,7.58184
+//LM 32: 3.31828,6.02487
+
+//LM 0: 6.48971,7.71136
+//LM 1: 6.51557,4.72049
+//LM 2: 9.5004,7.6019
+//LM 3: 9.42711,4.58894
+//LM 4: 12.3852,4.6121
+//LM 5: 12.4341,7.63565
+//LM 6: 15.3754,4.55501
+//LM 7: 15.4511,7.56979
+//LM 8: 18.3913,4.63267
+//LM 9: 18.4197,7.64599
+//LM 10: 21.3952,4.63682
+//LM 11: 21.3932,7.66796
+//LM 13: 24.5718,10.6763
+//LM 14: 24.3903,4.60888
+//LM 15: 24.4003,7.6429
+//LM 16: 21.5391,10.7096
+//LM 17: 18.5938,10.938
+//LM 18: 15.5436,10.6915
+//LM 19: 12.3126,10.6401
+//LM 20: 9.49539,10.6225
+//LM 21: 6.54979,10.7426
+//LM 22: 6.54465,13.7616
+//LM 23: 9.56029,13.6675
+//LM 24: 12.5647,13.6694
+//LM 25: 15.6002,13.7607
+//LM 26: 18.5292,13.9812
+//LM 27: 21.7621,13.7351
+//LM 28: 24.6453,13.7544
