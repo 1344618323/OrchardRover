@@ -14,31 +14,30 @@ SlamNode::~SlamNode() {
 }
 
 bool SlamNode::Init() {
-    nh_.param<bool>("pure_localization", pure_localization_, false);
-    nh_.param<bool>("use_sim", use_sim_, true);
-    nh_.param<std::string>("odom_frame_id", odom_frame_, "odom");
-    nh_.param<std::string>("base_frame_id", base_frame_, "base_link");
-    nh_.param<std::string>("base_frame_id", gps_frame_, "gps_link");
-    nh_.param<std::string>("global_frame_id", global_frame_, "map");
-    nh_.param<std::string>("laser_topic_name", laser_topic_, "scan");
-    nh_.param<std::string>("trunk_topic_name", trunk_obs_topic_, "trunk_obs");
+    nh_.param<bool>("or_slam/pure_localization", pure_localization_, false);
+    nh_.param<bool>("or_slam/use_sim", use_sim_, true);
+    nh_.param<std::string>("or_slam/odom_frame_id", odom_frame_, "odom");
+    nh_.param<std::string>("or_slam/base_frame_id", base_frame_, "base_link");
+    nh_.param<std::string>("or_slam/base_frame_id", gps_frame_, "gps_link");
+    nh_.param<std::string>("or_slam/global_frame_id", global_frame_, "map");
+    nh_.param<std::string>("or_slam/laser_topic_name", laser_topic_, "scan");
+    nh_.param<std::string>("or_slam/trunk_topic_name", trunk_obs_topic_, "trunk_obs");
 
     double transform_tolerance;
-    nh_.param<double>("transform_tolerance", transform_tolerance, 0.1);
+    nh_.param<double>("or_slam/transform_tolerance", transform_tolerance, 0.1);
     this->transform_tolerance_ = ros::Duration(transform_tolerance);
 
-    nh_.param<double>("initial_pose_x", init_pose_(0), 0);
-    nh_.param<double>("initial_pose_y", init_pose_(1), 0);
-    nh_.param<double>("initial_pose_a", init_pose_(2), 0);
+    nh_.param<double>("or_slam/initial_pose_x", init_pose_(0), 0);
+    nh_.param<double>("or_slam/initial_pose_y", init_pose_(1), 0);
+    nh_.param<double>("or_slam/initial_pose_a", init_pose_(2), 0);
 
-    nh_.param<double>("initial_cov_xx", init_cov_(0), 0.1); //用于初始化高斯分布滤波器
-    nh_.param<double>("initial_cov_yy", init_cov_(1), 0.1);
-    nh_.param<double>("initial_cov_aa", init_cov_(2), 0.1);
+    nh_.param<double>("or_slam/initial_cov_xx", init_cov_(0), 0.1); //用于初始化高斯分布滤波器
+    nh_.param<double>("or_slam/initial_cov_yy", init_cov_(1), 0.1);
+    nh_.param<double>("or_slam/initial_cov_aa", init_cov_(2), 0.1);
 
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
-
-    slam_ptr_ = std::make_unique<optimizedSlam::OptimizedSlam>(init_pose_, &nh_);
+    slam_ptr_ = std::make_unique<optimizedSlam::OptimizedSlam>(init_pose_, &nh_, pure_localization_);
 
     if (use_sim_) {
 //        for (int i = 0; i < 7; i++) {
@@ -46,26 +45,34 @@ bool SlamNode::Init() {
 //                CTrunkPoints_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 6));
 //            }
 //        }
-
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 4; j++) {
                 CTrunkPoints_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 5));
             }
         }
 
-
         // 模拟器检测树干方位
-        laser_scan_sub_ = nh_.subscribe(laser_topic_, 100, &SlamNode::LaserScanCallbackForSim, this);
+        laser_scan_sub_ = nh_.subscribe(laser_topic_, 10, &SlamNode::LaserScanCallbackForSim, this);
         // 模拟器发送树干方位
-        sim_trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsgXY>(trunk_obs_topic_, 1);
+        trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsgXY>(trunk_obs_topic_, 1);
         ground_truth_sub_ = nh_.subscribe("base_pose_ground_truth", 1, &SlamNode::GroundTruthCallbackForSim, this);
 
         double alpha1, alpha2, alpha3, alpha4;
-        nh_.param<double>("sim_sensor_odom/alpha1", alpha1, 0.2);
-        nh_.param<double>("sim_sensor_odom/alpha2", alpha2, 0.2);
-        nh_.param<double>("sim_sensor_odom/alpha3", alpha3, 0.2);
-        nh_.param<double>("sim_sensor_odom/alpha4", alpha4, 0.2);
+        nh_.param<double>("or_slam/sim_sensor_odom/alpha1", alpha1, 0.2);
+        nh_.param<double>("or_slam/sim_sensor_odom/alpha2", alpha2, 0.2);
+        nh_.param<double>("or_slam/sim_sensor_odom/alpha3", alpha3, 0.2);
+        nh_.param<double>("or_slam/sim_sensor_odom/alpha4", alpha4, 0.2);
         sim_odom_data_generator_ptr_ = std::make_unique<SimOdomDataGenerator>(alpha1, alpha2, alpha3, alpha4);
+    }
+
+    if (pure_localization_) {
+        if (use_sim_) {
+            std::map<int, Eigen::Vector2d> landmarks;
+            for (int i = 0; i < CTrunkPoints_.size(); i++) {
+                landmarks[i] = CTrunkPoints_[i];
+            }
+            slam_ptr_->SetConstantLandmarks(landmarks);
+        }
     }
 
     // 处理树干方位消息
@@ -76,7 +83,7 @@ bool SlamNode::Init() {
     tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkObsMsgCallback, this, _1));
 
     // 发布树干坐标
-    lmcloud_pub_ = nh_.advertise<visualization_msgs::Marker>("lmcloud", 2);
+    lmcloud_pub_ = nh_.advertise<visualization_msgs::Marker>("lmcloud", 1);
     lmcloud_msg_.header.frame_id = global_frame_;
     lmcloud_msg_.action = visualization_msgs::Marker::ADD;
     lmcloud_msg_.type = visualization_msgs::Marker::POINTS;
@@ -96,7 +103,7 @@ bool SlamNode::Init() {
     lmcloud_msg_.ns = "lm";
     lmcloud_msg_.id = 0;
 
-    timer_ = nh_.createTimer(ros::Duration(0.3), &SlamNode::TimerCallbackForVisualize, this);
+    visualize_timer_ = nh_.createTimer(ros::Duration(0.3), &SlamNode::TimerCallbackForVisualize, this);
 
 //    std::vector<std::string> csvtopic = {"truex", "truey", "odomx", "odomy"};
     return true;
@@ -123,7 +130,7 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
     msg.header.stamp = laser_scan_msg->header.stamp;
     msg.header.frame_id = "scan";
     msg.XY = XYs;
-    sim_trunk_obs_pub_.publish(msg);
+    trunk_obs_pub_.publish(msg);
 }
 
 void SlamNode::GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &ground_truth_msg) {
@@ -135,8 +142,8 @@ void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk
     Vec3d pose_in_odom;
     // base_link(0,0)在odom中坐标
     if (!GetPoseFromTf(odom_frame_, base_frame_, trunk_obs_msg->header.stamp, pose_in_odom)) {
-        //LOG_ERROR << trunk_obs_msg->header.stamp;
-        //LOG_ERROR << "Couldn't determine robot's pose";
+        //LOG(ERROR) << trunk_obs_msg->header.stamp;
+        //LOG(ERROR) << "Couldn't determine robot's pose";
         return;
     }
     //    GetTrunkPosition(trunk_obs_msg);
@@ -179,14 +186,14 @@ bool SlamNode::PublishTf() {
                                               odom_to_map);
     }
     catch (tf::TransformException &e) {
-        //LOG_ERROR << "Failed to subtract base to odom transform" << e.what();
+        //LOG(ERROR) << "Failed to subtract base to odom transform" << e.what();
         return false;
     }
 
-    latest_tf_ = tf::Transform(tf::Quaternion(odom_to_map.getRotation()),
-                               tf::Point(odom_to_map.getOrigin()));
+    tf::Transform global_to_odom_tf = tf::Transform(tf::Quaternion(odom_to_map.getRotation()),
+                                                    tf::Point(odom_to_map.getOrigin()));
     //发布Tglobal_odom
-    tf::StampedTransform tmp_tf_stamped(latest_tf_.inverse(),
+    tf::StampedTransform tmp_tf_stamped(global_to_odom_tf.inverse(),
                                         transform_expiration,
                                         global_frame_,
                                         odom_frame_);
@@ -247,7 +254,7 @@ bool SlamNode::GetPoseFromTf(const std::string &target_frame,
                                               pose_stamp);
     }
     catch (tf::TransformException &e) {
-        //LOG_ERROR << "Couldn't transform from "
+        //LOG(ERROR) << "Couldn't transform from "
 //                  << source_frame
 //                  << " to "
 //                  << target_frame;
@@ -270,7 +277,6 @@ int main(int argc, char **argv) {
     ros::spin();
     return 0;
 }
-
 
 /***********************果园地图***********************/
 //int main() {

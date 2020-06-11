@@ -163,7 +163,6 @@ devel/lib/libfastslamalgs.so: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
 devel/lib/libfastslamalgs.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
 devel/lib/libfastslamalgs.so: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/libfastslamalgs.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
-devel/lib/libfastslamalgs.so: /usr/lib/x86_64-linux-gnu/libglog.so
 devel/lib/libfastslamalgs.so: fastslamalgs/CMakeFiles/fastslamalgs.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX shared library ../devel/lib/libfastslamalgs.so"
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/fastslamalgs.dir/link.txt --verbose=$(VERBOSE)

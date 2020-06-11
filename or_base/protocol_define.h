@@ -5,7 +5,7 @@
 #ifndef PROJECT_PROTOCOL_DEFINE_H
 #define PROJECT_PROTOCOL_DEFINE_H
 
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
 /*************传输协议*************/
 //  帧头(0xA5) -> pack_len -> data_id -> data_content -> CRC32(总数据包的校验)
 //  底盘信息 0x01
@@ -66,6 +66,6 @@ namespace leonard_serial_common {
 #pragma pack(pop)
 // 取消 #pragma pack(push, 1) 的作用
 
-} // namespace leonard_serial_common
+} // namespace leonard_serial_communication
 
 #endif //PROJECT_PROTOCOL_DEFINE_H

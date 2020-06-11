@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
                                                                               0.0);
         gimbal_tf_.header.stamp = ros::Time().now();
         gimbal_tf_.transform.rotation = q;
-        gimbal_tf_.transform.translation.x = std::rand()%100;
+        gimbal_tf_.transform.translation.x = std::rand() % 100;
         gimbal_tf_.transform.translation.y = 20;
         gimbal_tf_.transform.translation.z = 0.15;
         br.sendTransform(gimbal_tf_);

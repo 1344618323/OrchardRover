@@ -3,6 +3,7 @@ import rospy
 from std_msgs.msg import String
 from or_msgs.msg import TrunkAngleMsg
 
+
 # def callback(data):
 #     rospy.loginfo(rospy.get_caller_id()+" I heard %s", data.data)
 
@@ -18,7 +19,7 @@ def callback(data):
 
 def listener():
     rospy.init_node('listener', anonymous=True)
-    rospy.Subscriber('chatter', TrunkAngleMsg, callback,queue_size=1)
+    rospy.Subscriber('chatter', TrunkAngleMsg, callback, queue_size=1)
     rospy.spin()
 
 

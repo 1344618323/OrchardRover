@@ -8,14 +8,7 @@ find_package(Ceres REQUIRED)
 
 add_library(${PROJECT_NAME}
         optimized_slam.cpp
-        optimized_slam.h
-        optimized_slam_config.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/common/math.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/transform/rigid_transform.h
         ${CMAKE_CURRENT_SOURCE_DIR}/transform/rigid_transform.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/transform/transform.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/cost_function/cost_helpers_impl.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/cost_function/spa_cost_function_2d.h
         ${CMAKE_CURRENT_SOURCE_DIR}/cost_function/spa_cost_function_2d.cpp
         )
 
@@ -31,6 +24,6 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC
         ${EIGEN3_LIBRARIES}
         ${catkin_LIBRARIES}
-        # ${GLOG_LIBRARY}
         ${CERES_LIBRARIES}
+        glog
         )

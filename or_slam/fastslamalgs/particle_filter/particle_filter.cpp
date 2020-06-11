@@ -63,7 +63,7 @@ double ParticleFilter::NormalizeWeight() {
 bool ParticleFilter::UpdateResample() {
     SampleSetPtr set_ptr = GetCurrentSampleSetPtr();
     SampleSetPtr next_set_ptr = sample_set_ptr_array_[(current_set_ + 1) % 2];
-    
+
     double Neff = 1.0 / NormalizeWeight();
 
     if (Neff < Neff_threshold_) {

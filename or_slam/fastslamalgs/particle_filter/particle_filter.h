@@ -2,7 +2,7 @@
 #define OR_FASTSLAM_ALG_PARTICLE_FILTER_H
 
 #include <memory>
-// #include "log.h"
+#include <glog/logging.h>
 #include "particle_filter_sample.h"
 #include "particle_filter_gaussian_pdf.h"
 

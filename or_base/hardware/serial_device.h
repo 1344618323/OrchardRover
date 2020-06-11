@@ -9,9 +9,9 @@
 #include <string>
 #include <termio.h>
 #include <fcntl.h>
-#include "../log.h"
+#include <glog/logging.h>
 
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
 /**
 * @brief serial device class inherited from hardware interface
 */

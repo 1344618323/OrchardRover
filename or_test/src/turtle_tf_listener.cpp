@@ -51,32 +51,27 @@
 #include <tf/message_filter.h>
 #include "or_msgs/TrunkObsMsg.h"
 
-class fuck
-{
+class fuck {
 public:
-    fuck()
-    {
+    fuck() {
         //即便chatter的frameId必须是map才能进入回调函数
-        point_sub = std::make_shared<message_filters::Subscriber<or_msgs::TrunkObsMsg>>(nh, "chatter", 20);
-        tf_filter = std::make_shared<tf::MessageFilter<or_msgs::TrunkObsMsg>>(*point_sub, tfl, "map", 10);
+        point_sub = std::make_shared < message_filters::Subscriber < or_msgs::TrunkObsMsg >> (nh, "chatter", 20);
+        tf_filter = std::make_shared < tf::MessageFilter < or_msgs::TrunkObsMsg >> (*point_sub, tfl, "map", 10);
         tf_filter->registerCallback(boost::bind(&fuck::msgCallback, this, _1));
     }
+
     //  Callback to register with tf::MessageFilter to be called when transforms are available
-    void msgCallback(const or_msgs::TrunkObsMsg::ConstPtr &msg)
-    {
+    void msgCallback(const or_msgs::TrunkObsMsg::ConstPtr &msg) {
         tf::StampedTransform transform;
-        try
-        {
+        try {
             //issue 2： 想要获取的已有最新变换
             tfl.lookupTransform("map", "base", msg->header.stamp, transform);
         }
-        catch (tf::TransformException &ex)
-        {
+        catch (tf::TransformException &ex) {
             ROS_ERROR("%s", ex.what());
         }
         std::cout << transform.getOrigin().x() << std::endl;
-        for (int i = 0; i < msg->ranges.size(); i++)
-        {
+        for (int i = 0; i < msg->ranges.size(); i++) {
             std::cout << msg->ranges[i] << ",";
         }
         std::cout << std::endl;
@@ -96,12 +91,11 @@ public:
 private:
     ros::NodeHandle nh;
     tf::TransformListener tfl;
-    std::shared_ptr<message_filters::Subscriber<or_msgs::TrunkObsMsg>> point_sub;
-    std::shared_ptr<tf::MessageFilter<or_msgs::TrunkObsMsg>> tf_filter;
+    std::shared_ptr <message_filters::Subscriber<or_msgs::TrunkObsMsg>> point_sub;
+    std::shared_ptr <tf::MessageFilter<or_msgs::TrunkObsMsg>> tf_filter;
 };
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     ros::init(argc, argv, "pose_drawer");
     fuck f;
     ros::spin();

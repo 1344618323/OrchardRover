@@ -1487,12 +1487,12 @@ CMakeFiles/or_slam_node.dir/all: optimized_slam_algs/CMakeFiles/optimized_slam_a
 CMakeFiles/or_slam_node.dir/all: fastslamalgs/CMakeFiles/fastslamalgs.dir/all
 	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/depend
 	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=20,21 "Built target or_slam_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=22,23 "Built target or_slam_node"
 .PHONY : CMakeFiles/or_slam_node.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/or_slam_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/or_slam_node.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/or_slam_node.dir/rule
@@ -1973,12 +1973,12 @@ gtest/gtest/CMakeFiles/gtest_main.dir/clean:
 optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/all:
 	$(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/depend
 	$(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=18,19 "Built target optimized_slam_algs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=18,19,20,21 "Built target optimized_slam_algs"
 .PHONY : optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/all
 
 # Build rule for subdir invocation for target.
 optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 0
 .PHONY : optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/rule

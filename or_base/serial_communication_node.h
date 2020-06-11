@@ -5,30 +5,31 @@
 #ifndef PROJECT_SERIAL_COMM_NODE_H
 #define PROJECT_SERIAL_COMM_NODE_H
 
-#include "log.h"
-#include <ros/ros.h>
 #include <iostream>
-
-#include "hardware/serial_device.h"
-#include "hardware/hardware_interface.h"
-
 #include <thread>
 #include <mutex>
+#include <memory>
 
+#include <glog/logging.h>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
+#include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Quaternion.h>
 #include <nav_msgs/Odometry.h>
+#include <sensor_msgs/NavSatFix.h>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_broadcaster.h>
-#include <sensor_msgs/NavSatFix.h>
-#include <Eigen/Geometry>
 
 #include "protocol_define.h"
 #include "or_msgs/TrunkObsMsg.h"
+#include "hardware/hardware_interface.h"
+#include "hardware/serial_device.h"
+#include "include/writetxt.h"
 
-#include "writetxt.h"
-
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
 
     class SerialComNode {
     public:
@@ -89,7 +90,8 @@ namespace leonard_serial_common {
 
         geometry_msgs::TransformStamped base_gps_tf_;
 
-        std::shared_ptr<HardwareInterface> hardware_device_;
+        std::unique_ptr<HardwareInterface> hardware_device_;
+
         std::thread *receive_loop_thread_;
         std::thread *send_loop_thread_;
         std::mutex mutex_send_, mutex_receive_, mutex_pack_;
@@ -217,6 +219,6 @@ namespace leonard_serial_common {
     const uint8_t CRC8_INIT = 0x77;
     const uint16_t CRC16_INIT = 0x3692;
     const uint16_t CRC_INIT = 0x3AA3;
-} // namespace leonard_serial_common
+} // namespace leonard_serial_communication
 
 #endif //PROJECT_SERIAL_COMM_NODE_H

@@ -1038,32 +1038,32 @@ fastslamalgs/fast:
 	$(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/build
 .PHONY : fastslamalgs/fast
 
-src/slam_node.o: src/slam_node.cpp.o
+slam_node.o: slam_node.cpp.o
 
-.PHONY : src/slam_node.o
+.PHONY : slam_node.o
 
 # target to build an object file
-src/slam_node.cpp.o:
-	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o
-.PHONY : src/slam_node.cpp.o
+slam_node.cpp.o:
+	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/slam_node.cpp.o
+.PHONY : slam_node.cpp.o
 
-src/slam_node.i: src/slam_node.cpp.i
+slam_node.i: slam_node.cpp.i
 
-.PHONY : src/slam_node.i
+.PHONY : slam_node.i
 
 # target to preprocess a source file
-src/slam_node.cpp.i:
-	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/slam_node.cpp.i
-.PHONY : src/slam_node.cpp.i
+slam_node.cpp.i:
+	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/slam_node.cpp.i
+.PHONY : slam_node.cpp.i
 
-src/slam_node.s: src/slam_node.cpp.s
+slam_node.s: slam_node.cpp.s
 
-.PHONY : src/slam_node.s
+.PHONY : slam_node.s
 
 # target to generate assembly for a file
-src/slam_node.cpp.s:
-	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/src/slam_node.cpp.s
-.PHONY : src/slam_node.cpp.s
+slam_node.cpp.s:
+	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/slam_node.cpp.s
+.PHONY : slam_node.cpp.s
 
 # Help Target
 help:
@@ -1145,9 +1145,9 @@ help:
 	@echo "... gtest_main"
 	@echo "... optimized_slam_algs"
 	@echo "... fastslamalgs"
-	@echo "... src/slam_node.o"
-	@echo "... src/slam_node.i"
-	@echo "... src/slam_node.s"
+	@echo "... slam_node.o"
+	@echo "... slam_node.i"
+	@echo "... slam_node.s"
 .PHONY : help
 
 

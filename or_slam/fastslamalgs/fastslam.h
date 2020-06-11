@@ -5,18 +5,22 @@
 
 #include <tf/tf.h>
 #include <geometry_msgs/PoseArray.h>
+#include <visualization_msgs/Marker.h>
 
-// #include "log.h"
+#include <glog/logging.h>
+
+#include <Eigen/LU>
+#include <Eigen/Geometry>
+
 #include "types.h"
+#include "writetxt.h"
 
 #include "fastslam_config.h"
 #include "sensors/sensor_odom.h"
 #include "particle_filter/particle_filter.h"
-#include "../include/types.h"
-#include <visualization_msgs/Marker.h>
-#include "writetxt.h"
-class FastSlam
-{
+
+
+class FastSlam {
 public:
     FastSlam(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh, bool multi_sensor);
 
@@ -94,14 +98,11 @@ protected:
     std::unique_ptr<CsvWriter> csv_writer_;
     std::vector<Vec2d> true_lms_;
 
-    double mindistance(Vec2d x)
-    {
+    double mindistance(Vec2d x) {
         double min = 1000000;
-        for (int i = 0; i < true_lms_.size(); i++)
-        {
-            double dis=(true_lms_[i]-x).norm();
-            if (dis < min)
-            {
+        for (int i = 0; i < true_lms_.size(); i++) {
+            double dis = (true_lms_[i] - x).norm();
+            if (dis < min) {
                 min = dis;
             }
         }

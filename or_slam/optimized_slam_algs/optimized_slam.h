@@ -2,11 +2,12 @@
 #define OR_OPTIMIZED_SLAM_ALG_H
 
 #include <ros/ros.h>
+
 #include <chrono>
 #include <limits>
 #include <ceres/ceres.h>
 #include <mutex>
-#include "optimized_slam_config.h"
+
 #include "transform/rigid_transform.h"
 #include "cost_function/spa_cost_function_2d.h"
 
@@ -19,13 +20,15 @@ namespace optimizedSlam {
 
     class OptimizedSlam {
     public:
-        OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh);
+        OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization = false);
 
         ~OptimizedSlam();
 
         void AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<double> &XYs, const ros::Time &stamp);
 
         void SetSensorPose(const Eigen::Vector3d &sensor_pose);
+
+        void SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks);
 
         const std::map<int, Eigen::Vector2d> GetLandmarks();
 
@@ -36,7 +39,9 @@ namespace optimizedSlam {
 
         void CalculateLikelihood(std::map<int, NodeSpec2D>::iterator &it, Eigen::Vector2d &xy);
 
-        void LandmarksCulling();
+        void LandmarksAndNodeCulling();
+
+        int TrimNodeData();
 
         std::array<double, 3> FromPose(const transform::Rigid2d &pose);
 
@@ -68,6 +73,9 @@ namespace optimizedSlam {
         std::mutex mutex_latest_node_, mutex_landmarks_;
         NodeSpec2D latest_node_;
         std::map<int, Eigen::Vector2d> latest_landmarks_;
+
+        const bool pure_localization_;
+        int reserve_node_num_;
     };
 }
 #endif

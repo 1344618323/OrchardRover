@@ -33,7 +33,7 @@ bool SensorOdom::UpdateAction(SampleSetPtr set_ptr, const SensorOdomData &odom_d
     if (sqrt(odom_data.delta[1] * odom_data.delta[1] +
              odom_data.delta[0] * odom_data.delta[0]) < 0.1)
         delta_rot1 = 0.0;
-    else{
+    else {
         delta_rot1 = AngleDiff<double>(atan2(odom_data.delta[1], odom_data.delta[0]), odom_data.old_pose[2]);
     }
 

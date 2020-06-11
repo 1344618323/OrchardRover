@@ -5,10 +5,9 @@
 #ifndef PROJECT_HARDWARE_INTERFACE_H
 #define PROJECT_HARDWARE_INTERFACE_H
 
+#include <stdint.h>
 
-#include <cstdint>
-
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
     /**
      * @brief Abstract class for hardware as an interface
      */
@@ -24,8 +23,6 @@ namespace leonard_serial_common {
 
         virtual int Write(const uint8_t *buf, int len) = 0;
     };
-
-
 }
 
 #endif //PROJECT_HARDWARE_INTERFACE_H

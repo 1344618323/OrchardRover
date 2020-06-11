@@ -1,49 +1,38 @@
-cmake_minimum_required(VERSION 2.8.3)
-
+cmake_minimum_required(VERSION 3.1)
 project(or_base)
-
-set(CMAKE_BUILD_TYPE Release)
-
 set(CMAKE_CXX_STANDARD 14)
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_module)
-
+set(CMAKE_BUILD_TYPE Release)
 find_package(Eigen3 REQUIRED)
-find_package(Glog REQUIRED)
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  std_msgs
-  tf
-  or_msgs
-  sensor_msgs
-)
+        roscpp
+        std_msgs
+        tf
+        or_msgs
+        sensor_msgs
+        )
 
-catkin_package(
-)
-
+catkin_package()
 
 # 通讯节点
-add_executable(or_base_node
-        serial_comm_node.cpp
-        serial_comm_node.h
-        writetxt.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/hardware/serial_device.cpp
-        )
+add_executable(${PROJECT_NAME}_node
+        serial_communication_node.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/hardware/serial_device.cpp)
 
-target_link_libraries(or_base_node
+target_include_directories(${PROJECT_NAME}_node
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        ${EIGEN3_INCLUDE_DIR})
+
+target_link_libraries(${PROJECT_NAME}_node
         PUBLIC
         ${catkin_LIBRARIES}
-        ${GLOG_LIBRARY}
-        ${EIGEN3_LIBRARIES})
+        ${EIGEN3_LIBRARIES}
+        glog)
 
-target_include_directories(or_base_node
-        PUBLIC
-        ${catkin_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/hardware
-        ${EIGEN3_INCLUDE_DIR}
-        )
-add_dependencies(or_base_node or_msgs_generate_messages)
+add_dependencies(${PROJECT_NAME}_node or_msgs_generate_messages)
 
 
 

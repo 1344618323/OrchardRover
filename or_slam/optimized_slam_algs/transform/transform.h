@@ -1,9 +1,9 @@
 #ifndef OPTIMIZEDSLAM_TRANSFORM_TRANSFORM_H_
 #define OPTIMIZEDSLAM_TRANSFORM_TRANSFORM_H_
 
-#include <cmath>
 #include "Eigen/Core"
 #include "Eigen/Geometry"
+
 #include "common/math.h"
 #include "transform/rigid_transform.h"
 

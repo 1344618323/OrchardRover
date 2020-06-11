@@ -974,32 +974,32 @@ hardware/serial_device.cpp.s:
 	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/hardware/serial_device.cpp.s
 .PHONY : hardware/serial_device.cpp.s
 
-serial_comm_node.o: serial_comm_node.cpp.o
+serial_communication_node.o: serial_communication_node.cpp.o
 
-.PHONY : serial_comm_node.o
+.PHONY : serial_communication_node.o
 
 # target to build an object file
-serial_comm_node.cpp.o:
-	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o
-.PHONY : serial_comm_node.cpp.o
+serial_communication_node.cpp.o:
+	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o
+.PHONY : serial_communication_node.cpp.o
 
-serial_comm_node.i: serial_comm_node.cpp.i
+serial_communication_node.i: serial_communication_node.cpp.i
 
-.PHONY : serial_comm_node.i
+.PHONY : serial_communication_node.i
 
 # target to preprocess a source file
-serial_comm_node.cpp.i:
-	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/serial_comm_node.cpp.i
-.PHONY : serial_comm_node.cpp.i
+serial_communication_node.cpp.i:
+	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/serial_communication_node.cpp.i
+.PHONY : serial_communication_node.cpp.i
 
-serial_comm_node.s: serial_comm_node.cpp.s
+serial_communication_node.s: serial_communication_node.cpp.s
 
-.PHONY : serial_comm_node.s
+.PHONY : serial_communication_node.s
 
 # target to generate assembly for a file
-serial_comm_node.cpp.s:
-	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/serial_comm_node.cpp.s
-.PHONY : serial_comm_node.cpp.s
+serial_communication_node.cpp.s:
+	$(MAKE) -f CMakeFiles/or_base_node.dir/build.make CMakeFiles/or_base_node.dir/serial_communication_node.cpp.s
+.PHONY : serial_communication_node.cpp.s
 
 # Help Target
 help:
@@ -1077,9 +1077,9 @@ help:
 	@echo "... hardware/serial_device.o"
 	@echo "... hardware/serial_device.i"
 	@echo "... hardware/serial_device.s"
-	@echo "... serial_comm_node.o"
-	@echo "... serial_comm_node.i"
-	@echo "... serial_comm_node.s"
+	@echo "... serial_communication_node.o"
+	@echo "... serial_communication_node.i"
+	@echo "... serial_communication_node.s"
 .PHONY : help
 
 

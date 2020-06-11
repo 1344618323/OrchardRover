@@ -8,19 +8,19 @@ def talker():
     # pub = rospy.Publisher('chatter', String, queue_size=10)
     pub = rospy.Publisher('chatterpy', TrunkAngleMsg, queue_size=10)
     rate = rospy.Rate(21)
-    count=0
+    count = 0
     while not rospy.is_shutdown():
         # hello_str = "hello world %s" % rospy.get_time()
         # rospy.loginfo(hello_str)
         # pub.publish(hello_str)
-        data=[]
+        data = []
         data.append(count)
         # for i in range(int(count/10)):
         #     data.append(i)
-        header=rospy.Header()
-        header.stamp=rospy.Time.now()
-        pub.publish(TrunkAngleMsg(header,data))
-        count=count+1
+        header = rospy.Header()
+        header.stamp = rospy.Time.now()
+        pub.publish(TrunkAngleMsg(header, data))
+        count = count + 1
         rate.sleep()
 
 

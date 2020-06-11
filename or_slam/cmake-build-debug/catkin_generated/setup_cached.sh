@@ -8,7 +8,5 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/lib:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam:$ROS_PACKAGE_PATH"

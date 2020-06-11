@@ -2,10 +2,9 @@
 // Created by cxn on 19-2-19.
 //
 
-
 #include "serial_device.h"
 
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
 
     SerialDevice::SerialDevice(std::string port_name,
                                int baudrate) :
@@ -21,17 +20,17 @@ namespace leonard_serial_common {
 
     bool SerialDevice::Init() {
 
-        DLOG_INFO << "Attempting to open device " << port_name_ << " with baudrate " << baudrate_;
+        LOG(INFO) << "Attempting to open device " << port_name_ << " with baudrate " << baudrate_;
         if (port_name_.c_str() == nullptr) {
             port_name_ = "/dev/ttyUSB0";
         }
         if (OpenDevice() && ConfigDevice()) {
             FD_ZERO(&serial_fd_set_);
             FD_SET(serial_fd_, &serial_fd_set_);
-            DLOG_INFO << "...Serial started successfully.";
+            LOG(INFO) << "...Serial started successfully.";
             return true;
         } else {
-            DLOG_ERROR << "...Failed to start serial " << port_name_;
+            LOG(ERROR) << "...Failed to start serial " << port_name_;
             CloseDevice();
             return false;
         }
@@ -48,7 +47,7 @@ namespace leonard_serial_common {
 #endif
 
         if (serial_fd_ < 0) {
-            DLOG_ERROR << "cannot open device " << serial_fd_ << " " << port_name_;
+            LOG(ERROR) << "cannot open device " << serial_fd_ << " " << port_name_;
             return false;
         }
 
@@ -69,7 +68,7 @@ namespace leonard_serial_common {
         int i, j;
         /* save current port parameter */
         if (tcgetattr(serial_fd_, &old_termios_) != 0) {
-            DLOG_ERROR << "fail to save current port";
+            LOG(ERROR) << "fail to save current port";
             return false;
         }
         memset(&new_termios_, 0, sizeof(new_termios_));
@@ -144,7 +143,7 @@ namespace leonard_serial_common {
 
         /* activite the configuration */
         if ((tcsetattr(serial_fd_, TCSANOW, &new_termios_)) != 0) {
-            DLOG_ERROR << "failed to activate serial configuration";
+            LOG(ERROR) << "failed to activate serial configuration";
             return false;
         }
         return true;
@@ -159,11 +158,11 @@ namespace leonard_serial_common {
         } else {
             ret = read(serial_fd_, buf, len);
             while (ret == 0) {
-                LOG_ERROR << "Connection closed, try to reconnect.";
+                LOG(ERROR) << "Connection closed, try to reconnect.";
                 while (!Init()) {
                     usleep(500000);
                 }
-                LOG_INFO << "Reconnect Success.";
+                LOG(INFO) << "Reconnect Success.";
                 ret = read(serial_fd_, buf, len);
             }
             return ret;

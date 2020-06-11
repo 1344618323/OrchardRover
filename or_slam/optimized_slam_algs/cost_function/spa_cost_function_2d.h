@@ -4,8 +4,10 @@
 #include <array>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+
 #include <ceres/ceres.h>
 #include <ceres/jet.h>
+
 #include "common/math.h"
 #include "cost_function/cost_helpers_impl.h"
 #include "transform/rigid_transform.h"
@@ -30,8 +32,11 @@ namespace optimizedSlam {
             Eigen::Vector2d global_landmark_xy;
             int visible;
             std::vector<int> latest_obs_node_id;
+            bool constant;
+
             LandmarkNode() {
                 visible = 0;
+                constant = false;
             }
         };
 

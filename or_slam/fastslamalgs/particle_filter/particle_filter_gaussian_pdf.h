@@ -5,10 +5,8 @@
 #ifndef OR_FASTSLAM_ALG_PARTICLE_FILTER_GAUSSIAN_PDF_H
 #define OR_FASTSLAM_ALG_PARTICLE_FILTER_GAUSSIAN_PDF_H
 
-#include <stdlib.h>
-#include <cmath>
-#include "fastslam_math.h"
-
+#include <math.h>
+#include "or_slam_math.h"
 
 void EigenDecomposition(const Mat3d &matrix_a,
                         Mat3d &matrix_v,

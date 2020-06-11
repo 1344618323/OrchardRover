@@ -6,5 +6,5 @@ CXX_FLAGS = -O3 -DNDEBUG   -std=gnu++14
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"or_base\"
 
-CXX_INCLUDES = -I/home/cxn/myfile/orchardrover_ws/devel/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/hardware -I/usr/include/eigen3 
+CXX_INCLUDES = -I/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base -I/home/cxn/myfile/orchardrover_ws/devel/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 
 

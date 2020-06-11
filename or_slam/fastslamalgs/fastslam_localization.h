@@ -2,12 +2,11 @@
 #define OR_FASTSLAM_LOCALIZATION_ALG_H
 
 #include "fastslam.h"
-#include <writetxt.h>
 
 class FastSlamLocalization : public FastSlam {
 public:
     FastSlamLocalization(const Vec3d &init_pose, const Vec3d &init_cov, ros::NodeHandle *nh,
-                         const std::vector<Vec2d> &land_marks,bool multi_sensor);
+                         const std::vector<Vec2d> &land_marks, bool multi_sensor);
 
     int Update(const Vec3d &pose, const std::vector<Vec2d> &zs,
                geometry_msgs::PoseArray &particle_cloud_pose_msg);

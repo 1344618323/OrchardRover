@@ -46,16 +46,13 @@
 //    return 0;
 //}
 
-class CsvWriter
-{
+class CsvWriter {
 public:
-    CsvWriter(std::string path, std::vector<std::string> topic)
-    {
+    CsvWriter(std::string path, std::vector<std::string> topic) {
         name_ = path;
         outFile_.open(path, std::ios::out); // 打开模式可省略
         int i;
-        for (i = 0; i < topic.size() - 1; i++)
-        {
+        for (i = 0; i < topic.size() - 1; i++) {
             outFile_ << topic[i] << ',';
         }
         outFile_ << topic[i] << std::endl;
@@ -63,21 +60,16 @@ public:
         count_ = 0;
     }
 
-    ~CsvWriter()
-    {
+    ~CsvWriter() {
         outFile_.close();
     }
 
-    template <typename T>
-    void write(T data)
-    {
+    template<typename T>
+    void write(T data) {
         outFile_ << data;
-        if (++count_ % topic_size_ != 0)
-        {
+        if (++count_ % topic_size_ != 0) {
             outFile_ << ',';
-        }
-        else
-        {
+        } else {
             outFile_ << std::endl;
         }
     }

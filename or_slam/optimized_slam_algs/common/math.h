@@ -1,7 +1,7 @@
 #ifndef OPTIMIZED_SLAM_COMMON_MATH_H_
 #define OPTIMIZED_SLAM_COMMON_MATH_H_
 
-#include <cmath>
+#include <math.h>
 #include <vector>
 #include "Eigen/Core"
 

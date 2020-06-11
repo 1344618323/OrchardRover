@@ -1,9 +1,9 @@
 //
 // Created by cxn on 19-2-19.
 //
-#include "serial_comm_node.h"
+#include "serial_communication_node.h"
 
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
     SerialComNode::SerialComNode(std::string name) {
         CHECK(Init()) << "Module " << name << " initialized failed!";
     }
@@ -12,10 +12,10 @@ namespace leonard_serial_common {
         int baud_rate = 115200;
         std::string serial_port;
         nh_.param<std::string>("or_base/serial_port", serial_port, "/dev/or_7523_serial");
-        hardware_device_ = std::make_shared<SerialDevice>(serial_port, baud_rate);
+        hardware_device_ = std::make_unique<SerialDevice>(serial_port, baud_rate);
 
         if (!hardware_device_->Init()) {
-            LOG_ERROR << "Can not open device. ";
+            LOG(ERROR) << "Can not open device. ";
             return false;
         }
 
@@ -68,7 +68,7 @@ namespace leonard_serial_common {
         chassis_speed.vw = vel->angular.z * 1800.0 / M_PI;
 
         if (!SendData((uint8_t *) &chassis_speed, sizeof(cmd_chassis_speed), CMD_SET_CHASSIS_SPEED)) {
-            LOG_WARNING << "Overflow in Chassis CB";
+            LOG(WARNING) << "Overflow in Chassis CB";
         }
     }
 
@@ -361,12 +361,14 @@ namespace leonard_serial_common {
         }
     }
 
-} // namespace leonard_serial_common
+} // namespace leonard_serial_communication
 
 int main(int argc, char **argv) {
-    leonard_serial_common::GLogWrapper gLogWrapper(argv[0]);
+    google::InitGoogleLogging(argv[0]);
+    // FLAGS_log_dir = "./"; //设置log文件输出位置，不设置的话是在tmp文件夹下
+    FLAGS_logtostderr = true;//std::cout输出
     ros::init(argc, argv, "or_base_node");
-    leonard_serial_common::SerialComNode serial_common_node("or_base_node");
+    leonard_serial_communication::SerialComNode serial_common_node("or_base_node");
     ros::spin();
     ros::waitForShutdown();
     return 0;

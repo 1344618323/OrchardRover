@@ -7,20 +7,18 @@
 //   ROS_INFO("I heard: [%s]", msg->data.c_str());
 // }
 
-void chatterCallback(const or_msgs::TrunkObsMsg::ConstPtr& msg)
-{
-  for(int i=0;i<msg->ranges.size();i++){
-    std::cout<<msg->ranges[i]<<",";
-  }
-  std::cout<<std::endl;
+void chatterCallback(const or_msgs::TrunkObsMsg::ConstPtr &msg) {
+    for (int i = 0; i < msg->ranges.size(); i++) {
+        std::cout << msg->ranges[i] << ",";
+    }
+    std::cout << std::endl;
 }
 
-int main(int argc, char **argv)
-{
-  ros::init(argc, argv, "listener");
-  ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
-  ros::spin();
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "listener");
+    ros::NodeHandle n;
+    ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+    ros::spin();
 
-  return 0;
+    return 0;
 }

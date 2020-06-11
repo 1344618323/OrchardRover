@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o"
+  "CMakeFiles/or_slam_node.dir/slam_node.cpp.o"
   "devel/lib/or_slam/or_slam_node"
   "devel/lib/or_slam/or_slam_node.pdb"
 )

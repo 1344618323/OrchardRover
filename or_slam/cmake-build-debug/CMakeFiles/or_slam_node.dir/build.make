@@ -57,27 +57,27 @@ include CMakeFiles/or_slam_node.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/or_slam_node.dir/flags.make
 
-CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o: CMakeFiles/or_slam_node.dir/flags.make
-CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o: ../src/slam_node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/src/slam_node.cpp
+CMakeFiles/or_slam_node.dir/slam_node.cpp.o: CMakeFiles/or_slam_node.dir/flags.make
+CMakeFiles/or_slam_node.dir/slam_node.cpp.o: ../slam_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/or_slam_node.dir/slam_node.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/or_slam_node.dir/slam_node.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/slam_node.cpp
 
-CMakeFiles/or_slam_node.dir/src/slam_node.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/or_slam_node.dir/src/slam_node.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/src/slam_node.cpp > CMakeFiles/or_slam_node.dir/src/slam_node.cpp.i
+CMakeFiles/or_slam_node.dir/slam_node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/or_slam_node.dir/slam_node.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/slam_node.cpp > CMakeFiles/or_slam_node.dir/slam_node.cpp.i
 
-CMakeFiles/or_slam_node.dir/src/slam_node.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/or_slam_node.dir/src/slam_node.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/src/slam_node.cpp -o CMakeFiles/or_slam_node.dir/src/slam_node.cpp.s
+CMakeFiles/or_slam_node.dir/slam_node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/or_slam_node.dir/slam_node.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/slam_node.cpp -o CMakeFiles/or_slam_node.dir/slam_node.cpp.s
 
 # Object files for target or_slam_node
 or_slam_node_OBJECTS = \
-"CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o"
+"CMakeFiles/or_slam_node.dir/slam_node.cpp.o"
 
 # External object files for target or_slam_node
 or_slam_node_EXTERNAL_OBJECTS =
 
-devel/lib/or_slam/or_slam_node: CMakeFiles/or_slam_node.dir/src/slam_node.cpp.o
+devel/lib/or_slam/or_slam_node: CMakeFiles/or_slam_node.dir/slam_node.cpp.o
 devel/lib/or_slam/or_slam_node: CMakeFiles/or_slam_node.dir/build.make
 devel/lib/or_slam/or_slam_node: devel/lib/libfastslamalgs.so
 devel/lib/or_slam/or_slam_node: devel/lib/liboptimized_slam_algs.so
@@ -105,7 +105,9 @@ devel/lib/or_slam/or_slam_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
 devel/lib/or_slam/or_slam_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
 devel/lib/or_slam/or_slam_node: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/or_slam/or_slam_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/or_slam/or_slam_node: /usr/lib/libceres.so.1.12.0
 devel/lib/or_slam/or_slam_node: /usr/lib/x86_64-linux-gnu/libglog.so
+devel/lib/or_slam/or_slam_node: /usr/lib/x86_64-linux-gnu/libgflags.so
 devel/lib/or_slam/or_slam_node: CMakeFiles/or_slam_node.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable devel/lib/or_slam/or_slam_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/or_slam_node.dir/link.txt --verbose=$(VERBOSE)

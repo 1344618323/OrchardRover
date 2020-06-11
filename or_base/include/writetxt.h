@@ -48,7 +48,7 @@
 //}
 
 
-namespace leonard_serial_common {
+namespace leonard_serial_communication {
     class CsvWriter {
     public:
         CsvWriter(std::string path, std::vector<std::string> topic) {

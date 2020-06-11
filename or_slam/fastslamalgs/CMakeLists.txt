@@ -6,17 +6,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_library(${PROJECT_NAME}
         fastslam.cpp
-        fastslam.h
-        fastslam_config.h
         fastslam_localization.cpp
-        fastslam_localization.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/sensor_odom.h
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/sensor_odom.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/particle_filter/particle_filter.h
         ${CMAKE_CURRENT_SOURCE_DIR}/particle_filter/particle_filter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/particle_filter/particle_filter_gaussian_pdf.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/particle_filter/particle_filter_gaussian_pdf.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/particle_filter/particle_filter_sample.h
         )
 
 target_include_directories(${PROJECT_NAME}
@@ -30,5 +23,5 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC
         ${EIGEN3_LIBRARIES}
         ${catkin_LIBRARIES}
-        # ${GLOG_LIBRARY}
+        glog
         )

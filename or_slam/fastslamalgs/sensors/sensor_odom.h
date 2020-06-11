@@ -2,9 +2,9 @@
 #define OR_FASTSLAM_ALG_SENSORS_SENSOR_ODOM_H
 
 #include "memory"
-// #include "log.h"
+#include <glog/logging.h>
 #include "particle_filter/particle_filter.h"
-#include "fastslam_math.h"
+#include "or_slam_math.h"
 
 enum OdomModel {
     ODOM_MODEL_DIFF = 0,

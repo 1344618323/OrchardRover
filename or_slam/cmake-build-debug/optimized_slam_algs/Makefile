@@ -182,6 +182,33 @@ optimized_slam_algs/fast:
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build
 .PHONY : optimized_slam_algs/fast
 
+cost_function/spa_cost_function_2d.o: cost_function/spa_cost_function_2d.cpp.o
+
+.PHONY : cost_function/spa_cost_function_2d.o
+
+# target to build an object file
+cost_function/spa_cost_function_2d.cpp.o:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o
+.PHONY : cost_function/spa_cost_function_2d.cpp.o
+
+cost_function/spa_cost_function_2d.i: cost_function/spa_cost_function_2d.cpp.i
+
+.PHONY : cost_function/spa_cost_function_2d.i
+
+# target to preprocess a source file
+cost_function/spa_cost_function_2d.cpp.i:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.i
+.PHONY : cost_function/spa_cost_function_2d.cpp.i
+
+cost_function/spa_cost_function_2d.s: cost_function/spa_cost_function_2d.cpp.s
+
+.PHONY : cost_function/spa_cost_function_2d.s
+
+# target to generate assembly for a file
+cost_function/spa_cost_function_2d.cpp.s:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.s
+.PHONY : cost_function/spa_cost_function_2d.cpp.s
+
 optimized_slam.o: optimized_slam.cpp.o
 
 .PHONY : optimized_slam.o
@@ -209,6 +236,33 @@ optimized_slam.cpp.s:
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.s
 .PHONY : optimized_slam.cpp.s
 
+transform/rigid_transform.o: transform/rigid_transform.cpp.o
+
+.PHONY : transform/rigid_transform.o
+
+# target to build an object file
+transform/rigid_transform.cpp.o:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o
+.PHONY : transform/rigid_transform.cpp.o
+
+transform/rigid_transform.i: transform/rigid_transform.cpp.i
+
+.PHONY : transform/rigid_transform.i
+
+# target to preprocess a source file
+transform/rigid_transform.cpp.i:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.i
+.PHONY : transform/rigid_transform.cpp.i
+
+transform/rigid_transform.s: transform/rigid_transform.cpp.s
+
+.PHONY : transform/rigid_transform.s
+
+# target to generate assembly for a file
+transform/rigid_transform.cpp.s:
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.s
+.PHONY : transform/rigid_transform.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -223,9 +277,15 @@ help:
 	@echo "... test"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... cost_function/spa_cost_function_2d.o"
+	@echo "... cost_function/spa_cost_function_2d.i"
+	@echo "... cost_function/spa_cost_function_2d.s"
 	@echo "... optimized_slam.o"
 	@echo "... optimized_slam.i"
 	@echo "... optimized_slam.s"
+	@echo "... transform/rigid_transform.o"
+	@echo "... transform/rigid_transform.i"
+	@echo "... transform/rigid_transform.s"
 .PHONY : help
 
 

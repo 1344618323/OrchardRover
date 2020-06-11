@@ -2,8 +2,8 @@
 #include "std_msgs/String.h"
 #include "or_msgs/TrunkObsMsg.h"
 #include <vector>
-int main(int argc, char *argv[])
-{
+
+int main(int argc, char *argv[]) {
     /* code for main function */
     ros::init(argc, argv, "talker");
     ros::NodeHandle n;
@@ -11,8 +11,7 @@ int main(int argc, char *argv[])
     ros::Publisher chatter_pub2 = n.advertise<or_msgs::TrunkObsMsg>("chatter2", 1000);
     ros::Rate loop_rate(0.5);
     int count = 0;
-    while (ros::ok())
-    {
+    while (ros::ok()) {
         // std_msgs::String msg;
         // std::stringstream ss;
         // ss << "hello world " << count;

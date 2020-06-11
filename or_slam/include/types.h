@@ -1,7 +1,7 @@
 #ifndef ORCHARDROVER_SLAM_TYPES_H
 #define ORCHARDROVER_SLAM_TYPES_H
 
-#include <Eigen/Dense>
+#include <Eigen/Core>
 // Use eigen3 as base data structure
 
 using Vec2d = Eigen::Vector2d;

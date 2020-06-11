@@ -163,7 +163,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d &pose)
 
         if (odom_update_)
         {
-            //DLOG_INFO << "Robot has moved, update the filter";
+            //LOG(INFO) << "Robot has moved, update the filter";
             SensorOdomData odom_data;
             odom_data.pose = pose;
             odom_data.delta = delta;
@@ -177,7 +177,7 @@ void FastSlam::UpdateOdomPoseData(const Vec3d &pose)
 void FastSlam::SetSensorPose(const Vec3d &sensor_pose)
 {
     sensor_pose_ = sensor_pose;
-    //DLOG_INFO << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
+    //LOG(INFO) << "sensor pose: " << sensor_pose_[0] << ", " << sensor_pose_[1] << ", " << sensor_pose_[2];
 }
 
 void FastSlam::SetMultiSensorPose(const Vec3d &sensor_pose1, const Vec3d &sensor_pose2)

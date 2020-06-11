@@ -1,7 +1,6 @@
 #ifndef OPTIMIZED_SLAM_TRANSFORM_RIGID_TRANSFORM_H_
 #define OPTIMIZED_SLAM_TRANSFORM_RIGID_TRANSFORM_H_
 
-#include <cmath>
 #include <iostream>
 #include <string>
 #include "Eigen/Core"

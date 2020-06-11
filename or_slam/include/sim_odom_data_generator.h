@@ -2,7 +2,7 @@
 #define OR_SLAM_SIM_SENSORS_SENSOR_ODOM_H
 
 #include <Eigen/Core>
-#include "fastslam_math.h"
+#include "or_slam_math.h"
 
 class SimOdomDataGenerator {
 public:

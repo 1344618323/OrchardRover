@@ -2,7 +2,6 @@
 #define OR_FASTSLAM_ALG_PARTICLE_FILTER_SAMPLE_H
 #include "types.h"
 
-
 class PfLandMark{
 public:
     Vec2d pos;

@@ -70,14 +70,44 @@ optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.s: cma
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.s"
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/optimized_slam.cpp -o CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.s
 
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/flags.make
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o: ../optimized_slam_algs/transform/rigid_transform.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/transform/rigid_transform.cpp
+
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.i"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/transform/rigid_transform.cpp > CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.i
+
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.s"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/transform/rigid_transform.cpp -o CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.s
+
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/flags.make
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o: ../optimized_slam_algs/cost_function/spa_cost_function_2d.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/cost_function/spa_cost_function_2d.cpp
+
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.i"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/cost_function/spa_cost_function_2d.cpp > CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.i
+
+optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.s"
+	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/optimized_slam_algs/cost_function/spa_cost_function_2d.cpp -o CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.s
+
 # Object files for target optimized_slam_algs
 optimized_slam_algs_OBJECTS = \
-"CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.o"
+"CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.o" \
+"CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o" \
+"CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o"
 
 # External object files for target optimized_slam_algs
 optimized_slam_algs_EXTERNAL_OBJECTS =
 
 devel/lib/liboptimized_slam_algs.so: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/optimized_slam.cpp.o
+devel/lib/liboptimized_slam_algs.so: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/transform/rigid_transform.cpp.o
+devel/lib/liboptimized_slam_algs.so: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/cost_function/spa_cost_function_2d.cpp.o
 devel/lib/liboptimized_slam_algs.so: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make
 devel/lib/liboptimized_slam_algs.so: /opt/ros/kinetic/lib/libtf.so
 devel/lib/liboptimized_slam_algs.so: /opt/ros/kinetic/lib/libtf2_ros.so
@@ -103,9 +133,11 @@ devel/lib/liboptimized_slam_algs.so: /usr/lib/x86_64-linux-gnu/libboost_date_tim
 devel/lib/liboptimized_slam_algs.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
 devel/lib/liboptimized_slam_algs.so: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/liboptimized_slam_algs.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/liboptimized_slam_algs.so: /usr/lib/libceres.so.1.12.0
 devel/lib/liboptimized_slam_algs.so: /usr/lib/x86_64-linux-gnu/libglog.so
+devel/lib/liboptimized_slam_algs.so: /usr/lib/x86_64-linux-gnu/libgflags.so
 devel/lib/liboptimized_slam_algs.so: optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library ../devel/lib/liboptimized_slam_algs.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX shared library ../devel/lib/liboptimized_slam_algs.so"
 	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/optimized_slam_algs.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

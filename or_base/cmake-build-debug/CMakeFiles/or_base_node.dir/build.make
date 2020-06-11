@@ -57,18 +57,18 @@ include CMakeFiles/or_base_node.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/or_base_node.dir/flags.make
 
-CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o: CMakeFiles/or_base_node.dir/flags.make
-CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o: ../serial_comm_node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/serial_comm_node.cpp
+CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o: CMakeFiles/or_base_node.dir/flags.make
+CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o: ../serial_communication_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/serial_communication_node.cpp
 
-CMakeFiles/or_base_node.dir/serial_comm_node.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/or_base_node.dir/serial_comm_node.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/serial_comm_node.cpp > CMakeFiles/or_base_node.dir/serial_comm_node.cpp.i
+CMakeFiles/or_base_node.dir/serial_communication_node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/or_base_node.dir/serial_communication_node.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/serial_communication_node.cpp > CMakeFiles/or_base_node.dir/serial_communication_node.cpp.i
 
-CMakeFiles/or_base_node.dir/serial_comm_node.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/or_base_node.dir/serial_comm_node.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/serial_comm_node.cpp -o CMakeFiles/or_base_node.dir/serial_comm_node.cpp.s
+CMakeFiles/or_base_node.dir/serial_communication_node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/or_base_node.dir/serial_communication_node.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/serial_communication_node.cpp -o CMakeFiles/or_base_node.dir/serial_communication_node.cpp.s
 
 CMakeFiles/or_base_node.dir/hardware/serial_device.cpp.o: CMakeFiles/or_base_node.dir/flags.make
 CMakeFiles/or_base_node.dir/hardware/serial_device.cpp.o: ../hardware/serial_device.cpp
@@ -85,13 +85,13 @@ CMakeFiles/or_base_node.dir/hardware/serial_device.cpp.s: cmake_force
 
 # Object files for target or_base_node
 or_base_node_OBJECTS = \
-"CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o" \
+"CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o" \
 "CMakeFiles/or_base_node.dir/hardware/serial_device.cpp.o"
 
 # External object files for target or_base_node
 or_base_node_EXTERNAL_OBJECTS =
 
-devel/lib/or_base/or_base_node: CMakeFiles/or_base_node.dir/serial_comm_node.cpp.o
+devel/lib/or_base/or_base_node: CMakeFiles/or_base_node.dir/serial_communication_node.cpp.o
 devel/lib/or_base/or_base_node: CMakeFiles/or_base_node.dir/hardware/serial_device.cpp.o
 devel/lib/or_base/or_base_node: CMakeFiles/or_base_node.dir/build.make
 devel/lib/or_base/or_base_node: /opt/ros/kinetic/lib/libtf.so
@@ -118,7 +118,6 @@ devel/lib/or_base/or_base_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
 devel/lib/or_base/or_base_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
 devel/lib/or_base/or_base_node: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/or_base/or_base_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
-devel/lib/or_base/or_base_node: /usr/lib/x86_64-linux-gnu/libglog.so
 devel/lib/or_base/or_base_node: CMakeFiles/or_base_node.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_base/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable devel/lib/or_base/or_base_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/or_base_node.dir/link.txt --verbose=$(VERBOSE)
