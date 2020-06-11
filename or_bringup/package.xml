@@ -12,9 +12,7 @@
     <buildtool_depend>catkin</buildtool_depend>
 
     <build_depend>or_test</build_depend>
-
     <run_depend>or_test</run_depend>
-
 
     <export>
     </export>
