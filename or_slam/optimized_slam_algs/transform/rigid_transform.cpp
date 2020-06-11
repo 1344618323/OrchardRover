@@ -1,6 +1,6 @@
 #include "rigid_transform.h"
 
-namespace optimizedSlam
+namespace optimized_slam
 {
   namespace transform
   {
@@ -13,4 +13,4 @@ namespace optimizedSlam
       return yaw_angle * pitch_angle * roll_angle;
     }
   } // namespace transform
-} // namespace optimizedSlam
+} // namespace optimized_slam

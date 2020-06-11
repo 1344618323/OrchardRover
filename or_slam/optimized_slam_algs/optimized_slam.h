@@ -5,13 +5,14 @@
 
 #include <chrono>
 #include <limits>
-#include <ceres/ceres.h>
 #include <mutex>
+
+#include <ceres/ceres.h>
 
 #include "transform/rigid_transform.h"
 #include "cost_function/spa_cost_function_2d.h"
 
-namespace optimizedSlam {
+namespace optimized_slam {
     struct NodeSpec2D {
         ros::Time time;
         transform::Rigid2d odom_pose_2d;

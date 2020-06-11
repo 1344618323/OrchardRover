@@ -5,7 +5,7 @@
 #include <vector>
 #include "Eigen/Core"
 
-namespace optimizedSlam
+namespace optimized_slam
 {
   namespace common
   {
@@ -74,5 +74,5 @@ namespace optimizedSlam
     }
 
   } // namespace common
-} // namespace optimizedSlam
+} // namespace optimized_slam
 #endif // OPTIMIZED_SLAM_COMMON_MATH_H_

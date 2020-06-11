@@ -1,10 +1,10 @@
 #include "spa_cost_function_2d.h"
 
-namespace optimizedSlam {
+namespace optimized_slam {
     namespace optimization {
 
         SpaCostFunction2D::SpaCostFunction2D(
-                const optimizedSlam::optimization::PoseConstraint &observed_relative_pose)
+                const optimized_slam::optimization::PoseConstraint &observed_relative_pose)
                 : observed_relative_pose_(observed_relative_pose) {}
 
         template<typename T>
@@ -21,7 +21,7 @@ namespace optimizedSlam {
         }
 
         AnalyticalSpaCostFunction2D::AnalyticalSpaCostFunction2D(
-                const optimizedSlam::optimization::PoseConstraint &constraint_pose)
+                const optimized_slam::optimization::PoseConstraint &constraint_pose)
                 : observed_relative_pose_(constraint_pose.zbar_ij),
                   translation_weight_(constraint_pose.translation_weight),
                   rotation_weight_(constraint_pose.rotation_weight) {}
@@ -89,7 +89,7 @@ namespace optimizedSlam {
 
 
         ceres::CostFunction *CreateAutoDiffSpaCostFunction(
-                const optimizedSlam::optimization::PoseConstraint &observed_relative_pose) {
+                const optimized_slam::optimization::PoseConstraint &observed_relative_pose) {
             return new ceres::AutoDiffCostFunction<SpaCostFunction2D, 3 /* residuals */,
                     3 /* start pose variables */,
                     3 /* end pose variables */>(
@@ -97,13 +97,13 @@ namespace optimizedSlam {
         }
 
         ceres::CostFunction *CreateAnalyticalSpaCostFunction(
-                const optimizedSlam::optimization::PoseConstraint &observed_relative_pose) {
+                const optimized_slam::optimization::PoseConstraint &observed_relative_pose) {
             return new AnalyticalSpaCostFunction2D(observed_relative_pose);
         }
 
 
         LmCostFunction2D::LmCostFunction2D(
-                const optimizedSlam::optimization::PoselmConstraint &observed_relative_xy)
+                const optimized_slam::optimization::PoselmConstraint &observed_relative_xy)
                 : observed_relative_xy_(observed_relative_xy) {
         }
 
@@ -120,11 +120,11 @@ namespace optimizedSlam {
         }
 
         ceres::CostFunction *CreateAutoDiffLmCostFunction(
-                const optimizedSlam::optimization::PoselmConstraint &observed_relative_xy) {
+                const optimized_slam::optimization::PoselmConstraint &observed_relative_xy) {
             return new ceres::AutoDiffCostFunction<LmCostFunction2D, 2 /* residuals */,
                     3 /* start pose variables */,
                     2 /* end pose variables */>(
                     new LmCostFunction2D(observed_relative_xy));
         }
     } // namespace optimization
-} // namespace optimizedSlam
+} // namespace optimized_slam

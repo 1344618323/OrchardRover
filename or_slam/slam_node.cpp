@@ -37,7 +37,7 @@ bool SlamNode::Init() {
 
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
-    slam_ptr_ = std::make_unique<optimizedSlam::OptimizedSlam>(init_pose_, &nh_, pure_localization_);
+    slam_ptr_ = std::make_unique<optimized_slam::OptimizedSlam>(init_pose_, &nh_, pure_localization_);
 
     if (use_sim_) {
 //        for (int i = 0; i < 7; i++) {

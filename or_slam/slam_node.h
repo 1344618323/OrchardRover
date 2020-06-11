@@ -86,7 +86,7 @@ private:
 
 
     //Algorithm object
-    std::unique_ptr<optimizedSlam::OptimizedSlam> slam_ptr_;
+    std::unique_ptr<optimized_slam::OptimizedSlam> slam_ptr_;
 
     Vec3d pose_in_odom_;
     ros::Time last_laser_msg_timestamp_;

@@ -7,7 +7,7 @@
 #include "Eigen/Geometry"
 #include "common/math.h"
 
-namespace optimizedSlam {
+namespace optimized_slam {
 
     namespace transform {
 
@@ -50,7 +50,7 @@ namespace optimizedSlam {
             Rotation2D rotation() const { return rotation_; }
 
             double normalized_angle() const {
-                return optimizedSlam::common::NormalizeAngleDifference(rotation().angle());
+                return optimized_slam::common::NormalizeAngleDifference(rotation().angle());
             }
 
             Rigid2 inverse() const {
@@ -94,7 +94,7 @@ namespace optimizedSlam {
 // This is needed for gmock.
         template<typename T>
         std::ostream &operator<<(std::ostream &os,
-                                 const optimizedSlam::transform::Rigid2<T> &rigid) {
+                                 const optimized_slam::transform::Rigid2<T> &rigid) {
             os << rigid.DebugString();
             return os;
         }
@@ -204,7 +204,7 @@ namespace optimizedSlam {
 // This is needed for gmock.
         template<typename T>
         std::ostream &operator<<(std::ostream &os,
-                                 const optimizedSlam::transform::Rigid3<T> &rigid) {
+                                 const optimized_slam::transform::Rigid3<T> &rigid) {
             os << rigid.DebugString();
             return os;
         }

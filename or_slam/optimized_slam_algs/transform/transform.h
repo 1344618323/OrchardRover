@@ -7,7 +7,7 @@
 #include "common/math.h"
 #include "transform/rigid_transform.h"
 
-namespace optimizedSlam
+namespace optimized_slam
 {
   namespace transform
   {
@@ -108,6 +108,6 @@ namespace optimizedSlam
     }
 
   } // namespace transform
-} // namespace optimizedSlam
+} // namespace optimized_slam
 
 #endif // OPTIMIZEDSLAM_TRANSFORM_TRANSFORM_H_

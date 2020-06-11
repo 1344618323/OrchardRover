@@ -13,11 +13,11 @@
 #include "transform/rigid_transform.h"
 #include "transform/transform.h"
 
-namespace optimizedSlam {
+namespace optimized_slam {
     namespace optimization {
 
         struct PoseConstraint {
-            optimizedSlam::transform::Rigid2d zbar_ij;
+            optimized_slam::transform::Rigid2d zbar_ij;
             double translation_weight;
             double rotation_weight;
         };
@@ -44,13 +44,13 @@ namespace optimizedSlam {
         class SpaCostFunction2D {
         public:
             explicit SpaCostFunction2D(
-                    const optimizedSlam::optimization::PoseConstraint &observed_relative_pose);
+                    const optimized_slam::optimization::PoseConstraint &observed_relative_pose);
 
             template<typename T>
             bool operator()(const T *const start_pose, const T *const end_pose, T *e) const;
 
         private:
-            const optimizedSlam::optimization::PoseConstraint observed_relative_pose_;
+            const optimized_slam::optimization::PoseConstraint observed_relative_pose_;
         };
 
         class AnalyticalSpaCostFunction2D
@@ -59,7 +59,7 @@ namespace optimizedSlam {
                         3 /* size of end pose */> {
         public:
             explicit AnalyticalSpaCostFunction2D(
-                    const optimizedSlam::optimization::PoseConstraint &constraint_pose);
+                    const optimized_slam::optimization::PoseConstraint &constraint_pose);
 
             virtual ~AnalyticalSpaCostFunction2D();
 
@@ -73,10 +73,10 @@ namespace optimizedSlam {
         };
 
         ceres::CostFunction *CreateAutoDiffSpaCostFunction(
-                const optimizedSlam::optimization::PoseConstraint &observed_relative_pose);
+                const optimized_slam::optimization::PoseConstraint &observed_relative_pose);
 
         ceres::CostFunction *CreateAnalyticalSpaCostFunction(
-                const optimizedSlam::optimization::PoseConstraint &observed_relative_pose);
+                const optimized_slam::optimization::PoseConstraint &observed_relative_pose);
 
         struct PoselmConstraint {
             Eigen::Vector2d zbar_ij;
@@ -87,20 +87,20 @@ namespace optimizedSlam {
         class LmCostFunction2D {
         public:
             explicit LmCostFunction2D(
-                    const optimizedSlam::optimization::PoselmConstraint &observed_relative_xy);
+                    const optimized_slam::optimization::PoselmConstraint &observed_relative_xy);
 
             template<typename T>
             bool operator()(const T *const node_pose, const T *const lm_xy,
                             T *e) const;
 
         private:
-            const optimizedSlam::optimization::PoselmConstraint observed_relative_xy_;
+            const optimized_slam::optimization::PoselmConstraint observed_relative_xy_;
         };
 
         ceres::CostFunction *CreateAutoDiffLmCostFunction(
-                const optimizedSlam::optimization::PoselmConstraint &observed_relative_xy);
+                const optimized_slam::optimization::PoselmConstraint &observed_relative_xy);
 
     } // namespace optimization
-} // namespace optimizedSlam
+} // namespace optimized_slam
 
 #endif // OPTIMIZEDSLAM_OPTIMIZATION_COST_FUNCTIONS_SPA_COST_FUNCTION_2D_H_

@@ -2,7 +2,7 @@
 
 //求Tbase_LMi
 
-namespace optimizedSlam {
+namespace optimized_slam {
     OptimizedSlam::OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization)
             : pure_localization_(pure_localization) {
         nh->param<double>("optimized_slam/odom_translation_weight_", odom_translation_weight_, 1e4);
@@ -56,7 +56,7 @@ namespace optimizedSlam {
         Eigen::Vector3d delta;
         delta[0] = ros_odom_pose[0] - last_ros_odom_pose_[0];
         delta[1] = ros_odom_pose[1] - last_ros_odom_pose_[1];
-        delta[2] = optimizedSlam::common::NormalizeAngleDifference<double>(
+        delta[2] = optimized_slam::common::NormalizeAngleDifference<double>(
                 ros_odom_pose[2] - last_ros_odom_pose_[2]);
 
         // See if we should update the filter
@@ -172,7 +172,7 @@ namespace optimizedSlam {
 
         if (obs_lm_id != -1) {
             landmark_data_[obs_lm_id].landmark_observations.push_back(
-                    optimizedSlam::optimization::LandmarkNode::LandmarkObservation{
+                    optimized_slam::optimization::LandmarkNode::LandmarkObservation{
                             it->first, xy});
             landmark_data_[obs_lm_id].latest_obs_node_id.push_back(it->first);
             //            std::cout << "Node " << it->second.global_pose_2d << " LM " << (obs_lm_id) << ": "
@@ -362,4 +362,4 @@ namespace optimizedSlam {
         return Eigen::Vector2d(values[0], values[1]);
     }
 
-} // namespace optimizedSlam
+} // namespace optimized_slam

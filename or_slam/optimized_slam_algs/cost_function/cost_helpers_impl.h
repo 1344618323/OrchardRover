@@ -5,7 +5,7 @@
 #include "transform/rigid_transform.h"
 #include "transform/transform.h"
 
-namespace optimizedSlam {
+namespace optimized_slam {
     namespace optimization {
 
 /*(cxn)?
@@ -217,6 +217,6 @@ namespace optimizedSlam {
         }
 
     }  // namespace optimization
-}  // namespace optimizedSlam
+}  // namespace optimized_slam
 
 #endif  // OPTIMIZEDSLAM_OPTIMIZATION_COST_FUNCTIONS_COST_HELPERS_IMPL_H_
