@@ -688,6 +688,19 @@ tf_generate_messages_py/fast:
 .PHONY : tf_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named making_maps
+
+# Build rule for target.
+making_maps: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 making_maps
+.PHONY : making_maps
+
+# fast build rule for target.
+making_maps/fast:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/build
+.PHONY : making_maps/fast
+
+#=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -1038,6 +1051,33 @@ fastslamalgs/fast:
 	$(MAKE) -f fastslamalgs/CMakeFiles/fastslamalgs.dir/build.make fastslamalgs/CMakeFiles/fastslamalgs.dir/build
 .PHONY : fastslamalgs/fast
 
+making_maps_main.o: making_maps_main.cpp.o
+
+.PHONY : making_maps_main.o
+
+# target to build an object file
+making_maps_main.cpp.o:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps_main.cpp.o
+.PHONY : making_maps_main.cpp.o
+
+making_maps_main.i: making_maps_main.cpp.i
+
+.PHONY : making_maps_main.i
+
+# target to preprocess a source file
+making_maps_main.cpp.i:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps_main.cpp.i
+.PHONY : making_maps_main.cpp.i
+
+making_maps_main.s: making_maps_main.cpp.s
+
+.PHONY : making_maps_main.s
+
+# target to generate assembly for a file
+making_maps_main.cpp.s:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps_main.cpp.s
+.PHONY : making_maps_main.cpp.s
+
 slam_node.o: slam_node.cpp.o
 
 .PHONY : slam_node.o
@@ -1118,6 +1158,7 @@ help:
 	@echo "... or_msgs_generate_messages_lisp"
 	@echo "... tf_generate_messages_py"
 	@echo "... test"
+	@echo "... making_maps"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_nodejs"
@@ -1145,6 +1186,9 @@ help:
 	@echo "... gtest_main"
 	@echo "... optimized_slam_algs"
 	@echo "... fastslamalgs"
+	@echo "... making_maps_main.o"
+	@echo "... making_maps_main.i"
+	@echo "... making_maps_main.s"
 	@echo "... slam_node.o"
 	@echo "... slam_node.i"
 	@echo "... slam_node.s"

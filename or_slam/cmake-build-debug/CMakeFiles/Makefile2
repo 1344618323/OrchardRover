@@ -53,6 +53,7 @@ CMAKE_BINARY_DIR = /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cma
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/making_maps.dir/all
 all: CMakeFiles/or_slam_node.dir/all
 all: gtest/all
 all: optimized_slam_algs/all
@@ -108,6 +109,7 @@ clean: CMakeFiles/roscpp_generate_messages_py.dir/clean
 clean: CMakeFiles/tf_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/or_msgs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/tf_generate_messages_py.dir/clean
+clean: CMakeFiles/making_maps.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
@@ -1291,6 +1293,33 @@ CMakeFiles/tf_generate_messages_py.dir/clean:
 .PHONY : CMakeFiles/tf_generate_messages_py.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/making_maps.dir
+
+# All Build rule for target.
+CMakeFiles/making_maps.dir/all:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/depend
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=18,19 "Built target making_maps"
+.PHONY : CMakeFiles/making_maps.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/making_maps.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/making_maps.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/making_maps.dir/rule
+
+# Convenience name for target.
+making_maps: CMakeFiles/making_maps.dir/rule
+
+.PHONY : making_maps
+
+# clean rule for target.
+CMakeFiles/making_maps.dir/clean:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/clean
+.PHONY : CMakeFiles/making_maps.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/geometry_msgs_generate_messages_cpp.dir
 
 # All Build rule for target.
@@ -1487,7 +1516,7 @@ CMakeFiles/or_slam_node.dir/all: optimized_slam_algs/CMakeFiles/optimized_slam_a
 CMakeFiles/or_slam_node.dir/all: fastslamalgs/CMakeFiles/fastslamalgs.dir/all
 	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/depend
 	$(MAKE) -f CMakeFiles/or_slam_node.dir/build.make CMakeFiles/or_slam_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=22,23 "Built target or_slam_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=24,25 "Built target or_slam_node"
 .PHONY : CMakeFiles/or_slam_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1973,7 +2002,7 @@ gtest/gtest/CMakeFiles/gtest_main.dir/clean:
 optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/all:
 	$(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/depend
 	$(MAKE) -f optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build.make optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=18,19,20,21 "Built target optimized_slam_algs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles --progress-num=20,21,22,23 "Built target optimized_slam_algs"
 .PHONY : optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/all
 
 # Build rule for subdir invocation for target.

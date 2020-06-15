@@ -50,7 +50,7 @@ public:
     int sample_count = 0;
     //! Vector of samples
     std::vector<ParticleFilterSample> samples_vec;
-    //! Filter statistics mean
+    //! Filter statistics IcpMean
     Vec3d mean;
     //! Filter statistics covariant
     Mat3d covariant;

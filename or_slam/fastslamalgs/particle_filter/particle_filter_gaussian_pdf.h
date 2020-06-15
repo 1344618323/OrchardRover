@@ -27,7 +27,7 @@ public:
      */
     ParticleFilterGaussianPdf() = delete;
     /**
-     * @brief Create a gaussian pdf by mean and covariance
+     * @brief Create a gaussian pdf by IcpMean and covariance
      * @param mean Mean to initialize the gaussian pdf
      * @param covariance Covariance initialize the gaussian pdf
      */

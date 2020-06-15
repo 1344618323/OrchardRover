@@ -45,6 +45,7 @@
 /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/or_msgs_generate_messages_lisp.dir
 /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/tf_generate_messages_py.dir
 /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/test.dir
+/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/making_maps.dir
 /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/geometry_msgs_generate_messages_cpp.dir
 /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir
 /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/std_msgs_generate_messages_nodejs.dir
