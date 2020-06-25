@@ -40,10 +40,11 @@ private:
     //ROS Node handle
     ros::NodeHandle nh_;
     bool pure_localization_;
+    std::vector<Eigen::Vector2d> C_trunkpoints_for_position_;
 
     /**Variables for sim**/
     bool use_sim_;
-    std::vector<Eigen::Vector2d> CTrunkPoints_;
+    std::vector<Eigen::Vector2d> C_trunkpoints_for_sim_;
     geometry_msgs::Pose ground_truth_pose_;
     ros::Subscriber ground_truth_sub_;
     std::unique_ptr<SimOdomDataGenerator> sim_odom_data_generator_ptr_;
@@ -79,19 +80,16 @@ private:
     std::unique_ptr<message_filters::Subscriber<or_msgs::TrunkObsMsgXY>> trunk_obs_sub_;
     std::unique_ptr<tf::MessageFilter<or_msgs::TrunkObsMsgXY>> tf_filter_;
     Vec3d init_pose_;
-    Vec3d init_cov_;
-
-    //record data
-//    std::unique_ptr<CsvWriter> csv_writer_;
-//    std::unique_ptr<FastSlamLocalization> localization_ptr_;
-//    std::vector<Vec2d> trunk_obs_vec_;
-
 
     //Algorithm object
     std::unique_ptr<optimized_slam::OptimizedSlam> slam_ptr_;
 
     Vec3d pose_in_odom_;
     ros::Time last_laser_msg_timestamp_;
+
+    //save and load map
+    std::string out_map_file_name_;
+    std::string read_map_file_name_;
 
 private:
 
@@ -113,6 +111,10 @@ private:
     void TimerCallbackForVisualize(const ros::TimerEvent &e);
 
     bool PublishTf();
+
+    void SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vector2d> &lms);
+
+    void LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms);
 };
 
 #endif

@@ -123,32 +123,32 @@ making_maps/fast:
 	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/build
 .PHONY : making_maps/fast
 
-making_maps_main.o: making_maps_main.cpp.o
+making_maps.o: making_maps.cpp.o
 
-.PHONY : making_maps_main.o
+.PHONY : making_maps.o
 
 # target to build an object file
-making_maps_main.cpp.o:
-	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps_main.cpp.o
-.PHONY : making_maps_main.cpp.o
+making_maps.cpp.o:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps.cpp.o
+.PHONY : making_maps.cpp.o
 
-making_maps_main.i: making_maps_main.cpp.i
+making_maps.i: making_maps.cpp.i
 
-.PHONY : making_maps_main.i
+.PHONY : making_maps.i
 
 # target to preprocess a source file
-making_maps_main.cpp.i:
-	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps_main.cpp.i
-.PHONY : making_maps_main.cpp.i
+making_maps.cpp.i:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps.cpp.i
+.PHONY : making_maps.cpp.i
 
-making_maps_main.s: making_maps_main.cpp.s
+making_maps.s: making_maps.cpp.s
 
-.PHONY : making_maps_main.s
+.PHONY : making_maps.s
 
 # target to generate assembly for a file
-making_maps_main.cpp.s:
-	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps_main.cpp.s
-.PHONY : making_maps_main.cpp.s
+making_maps.cpp.s:
+	$(MAKE) -f CMakeFiles/making_maps.dir/build.make CMakeFiles/making_maps.dir/making_maps.cpp.s
+.PHONY : making_maps.cpp.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... making_maps"
-	@echo "... making_maps_main.o"
-	@echo "... making_maps_main.i"
-	@echo "... making_maps_main.s"
+	@echo "... making_maps.o"
+	@echo "... making_maps.i"
+	@echo "... making_maps.s"
 .PHONY : help
 
 

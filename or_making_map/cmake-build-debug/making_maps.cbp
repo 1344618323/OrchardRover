@@ -90,7 +90,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps_main.cpp">
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp">
+			<Option target="making_maps"/>
+		</Unit>
+		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.h">
 			<Option target="making_maps"/>
 		</Unit>
 		<Unit filename="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/CMakeLists.txt">

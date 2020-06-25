@@ -57,27 +57,27 @@ include CMakeFiles/making_maps.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/making_maps.dir/flags.make
 
-CMakeFiles/making_maps.dir/making_maps_main.cpp.o: CMakeFiles/making_maps.dir/flags.make
-CMakeFiles/making_maps.dir/making_maps_main.cpp.o: ../making_maps_main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/making_maps.dir/making_maps_main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/making_maps.dir/making_maps_main.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps_main.cpp
+CMakeFiles/making_maps.dir/making_maps.cpp.o: CMakeFiles/making_maps.dir/flags.make
+CMakeFiles/making_maps.dir/making_maps.cpp.o: ../making_maps.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/making_maps.dir/making_maps.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/making_maps.dir/making_maps.cpp.o -c /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp
 
-CMakeFiles/making_maps.dir/making_maps_main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/making_maps.dir/making_maps_main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps_main.cpp > CMakeFiles/making_maps.dir/making_maps_main.cpp.i
+CMakeFiles/making_maps.dir/making_maps.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/making_maps.dir/making_maps.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp > CMakeFiles/making_maps.dir/making_maps.cpp.i
 
-CMakeFiles/making_maps.dir/making_maps_main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/making_maps.dir/making_maps_main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps_main.cpp -o CMakeFiles/making_maps.dir/making_maps_main.cpp.s
+CMakeFiles/making_maps.dir/making_maps.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/making_maps.dir/making_maps.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp -o CMakeFiles/making_maps.dir/making_maps.cpp.s
 
 # Object files for target making_maps
 making_maps_OBJECTS = \
-"CMakeFiles/making_maps.dir/making_maps_main.cpp.o"
+"CMakeFiles/making_maps.dir/making_maps.cpp.o"
 
 # External object files for target making_maps
 making_maps_EXTERNAL_OBJECTS =
 
-making_maps: CMakeFiles/making_maps.dir/making_maps_main.cpp.o
+making_maps: CMakeFiles/making_maps.dir/making_maps.cpp.o
 making_maps: CMakeFiles/making_maps.dir/build.make
 making_maps: /usr/local/lib/libopencv_stitching.so.3.4.7
 making_maps: /usr/local/lib/libopencv_shape.so.3.4.7

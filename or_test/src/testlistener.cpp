@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "or_msgs/TrunkObsMsg.h"
+#include "sensor_msgs/LaserScan.h"
 
 // void chatterCallback(const std_msgs::String::ConstPtr& msg)
 // {
@@ -14,11 +15,15 @@ void chatterCallback(const or_msgs::TrunkObsMsg::ConstPtr &msg) {
     std::cout << std::endl;
 }
 
+void LaserScanCallback(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg) {
+
+}
+
 int main(int argc, char **argv) {
     ros::init(argc, argv, "listener");
     ros::NodeHandle n;
-    ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+    //ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+    ros::Subscriber sub = n.subscribe("scan", 10, LaserScanCallback);
     ros::spin();
-
     return 0;
 }

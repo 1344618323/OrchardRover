@@ -1,17 +1,74 @@
 #include "slam_node.h"
 
 //s1默认是10hz，720个点
+// 第一个数据点是：商标处，让后从上看是逆时针0~719
+// 而laser-link的x轴是冲着线的方向（也就是商标处方向的反方向）：也就是说按 laser-link坐标系，数据是 -pai～pai 采集的
+
 SlamNode::SlamNode(std::string name) {
     CHECK(Init()) << "Module " << name << " initialized failed!"
                   << " pure localization is:" << pure_localization_;
 }
 
 SlamNode::~SlamNode() {
-    const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
-    for (auto &lm:global_lms) {
-        std::cout << "LM " << lm.first << ": " << lm.second(0) << "," << lm.second(1) << std::endl;
+    const std::map<int, Eigen::Vector2d> &global_lms = slam_ptr_->GetLandmarks();
+    auto it = global_lms.begin();
+    int idx = 0;
+    while (it != global_lms.end()) {
+        std::cout << "LM " << idx << ": " << it->second(0) << "," << it->second(1) << std::endl;
+        it++;
+        idx++;
+    }
+    SaveMaptoTxt(out_map_file_name_, global_lms);
+}
+
+void SlamNode::LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms) {
+    std::ifstream f;
+    f.open(filename.c_str());
+    if (!f.is_open()) {
+        std::cerr << " can't open map file " << std::endl;
+        return;
+    } else {
+        std::cout << " Load map from: " << filename << std::endl;
+    }
+
+    while (!f.eof()) {
+        std::string s;
+        std::getline(f, s);
+        if (!s.empty()) {
+            std::stringstream ss;
+            ss << s;
+            double x, y;
+            int idx;
+            ss >> x;
+            ss >> y;
+            ss >> idx;
+            lms[idx] = Eigen::Vector2d(x, y);
+        }
     }
 }
+
+void SlamNode::SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vector2d> &lms) {
+    std::ofstream foutC;
+    foutC.open(filename.c_str());
+    if (!foutC.is_open()) {
+        std::cerr << " can't open cam pose file " << std::endl;
+        return;
+    }
+    std::cout << " Save map to: " << filename << std::endl;
+    auto it = lms.begin();
+    int idx = 0;
+    while (it != lms.end()) {
+        foutC.setf(std::ios::fixed, std::ios::floatfield);
+        foutC.precision(5);
+        foutC << it->second(0) << " "
+              << it->second(1) << " "
+              << idx << std::endl;
+        it++;
+        idx++;
+    }
+    foutC.close();
+}
+
 
 bool SlamNode::Init() {
     nh_.param<bool>("or_slam/pure_localization", pure_localization_, false);
@@ -31,23 +88,22 @@ bool SlamNode::Init() {
     nh_.param<double>("or_slam/initial_pose_y", init_pose_(1), 0);
     nh_.param<double>("or_slam/initial_pose_a", init_pose_(2), 0);
 
-    nh_.param<double>("or_slam/initial_cov_xx", init_cov_(0), 0.1); //用于初始化高斯分布滤波器
-    nh_.param<double>("or_slam/initial_cov_yy", init_cov_(1), 0.1);
-    nh_.param<double>("or_slam/initial_cov_aa", init_cov_(2), 0.1);
-
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
     slam_ptr_ = std::make_unique<optimized_slam::OptimizedSlam>(init_pose_, &nh_, pure_localization_);
 
+    nh_.param<std::string>("or_slam/out_map_file_name", out_map_file_name_, "out_map.txt");
+    nh_.param<std::string>("or_slam/read_map_file_name", read_map_file_name_, "read_map.txt");
+
     if (use_sim_) {
 //        for (int i = 0; i < 7; i++) {
 //            for (int j = 0; j < 3; j++) {
-//                CTrunkPoints_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 6));
+//                C_trunkpoints_for_sim_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 6));
 //            }
 //        }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 4; j++) {
-                CTrunkPoints_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 5));
+                C_trunkpoints_for_sim_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 5));
             }
         }
 
@@ -66,13 +122,15 @@ bool SlamNode::Init() {
     }
 
     if (pure_localization_) {
+        std::map<int, Eigen::Vector2d> landmarks;
         if (use_sim_) {
-            std::map<int, Eigen::Vector2d> landmarks;
-            for (int i = 0; i < CTrunkPoints_.size(); i++) {
-                landmarks[i] = CTrunkPoints_[i];
+            for (int i = 0; i < C_trunkpoints_for_sim_.size(); i++) {
+                landmarks[i] = C_trunkpoints_for_sim_[i];
             }
-            slam_ptr_->SetConstantLandmarks(landmarks);
+        } else {
+            LoadMapFromTxt(read_map_file_name_, landmarks);
         }
+        slam_ptr_->SetConstantLandmarks(landmarks);
     }
 
     // 处理树干方位消息
@@ -133,9 +191,9 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
     or_msgs::TrunkObsMsgXY msg;
     std::vector<double> XYs;
     std::vector<int> index;
-    for (int i = 0; i < CTrunkPoints_.size(); i++) {
-        float delta_x = CTrunkPoints_[i][0] - ground_truth_pose_.position.x;
-        float delta_y = CTrunkPoints_[i][1] - ground_truth_pose_.position.y;
+    for (int i = 0; i < C_trunkpoints_for_sim_.size(); i++) {
+        float delta_x = C_trunkpoints_for_sim_[i][0] - ground_truth_pose_.position.x;
+        float delta_y = C_trunkpoints_for_sim_[i][1] - ground_truth_pose_.position.y;
         float yaw = tf::getYaw(ground_truth_pose_.orientation);
         float diff = AngleDiff<float>(atan2(delta_y, delta_x), yaw);
         if ((delta_x * delta_x + delta_y * delta_y) < 16 && diff > -M_PI / 3 && diff < M_PI / 3) {

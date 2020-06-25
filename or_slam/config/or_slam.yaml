@@ -13,12 +13,14 @@ or_slam:
   initial_pose_a: 0
   initial_cov_xx: 0.1
   initial_cov_yy: 0.1
-  initial_cov_aa: 0.1 #0.03 mapping
+
+  out_map_file_name: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
+  read_map_file_name: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/out_map.txt
 
   sim_sensor_odom:
-    alpha1: 0.03
-    alpha2: 0.08
-    alpha3: 0.08
+    alpha1: 0.03  #yaw
+    alpha2: 0.08  #x
+    alpha3: 0.08  #y
     alpha4: 0.01
 #    alpha1: 0.1
 #    alpha2: 0.1

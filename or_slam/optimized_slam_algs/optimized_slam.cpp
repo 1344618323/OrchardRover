@@ -19,8 +19,9 @@ namespace optimized_slam {
 
         if (pure_localization_)
             reserve_node_num_ = 5;
+        if (reserve_node_num_ == 0)
+            reserve_node_num_ = 1;
 
-        std::cout << "asf:" << reserve_node_num_ << " " << lm_translation_weight_ << std::endl;
         cov_z_inv_ = cov_z.inverse();
 
         init_global_pose_ = transform::Rigid2d({init_pose.x(), init_pose.y()}, init_pose.z());
@@ -115,8 +116,10 @@ namespace optimized_slam {
 
         {
             std::unique_lock<std::mutex> node_lock(mutex_latest_node_);
-            int node_id = std::prev(node_data_.end())->first;
-            latest_node_ = node_data_[node_id];
+            if (!node_data_.empty()) {
+                int node_id = std::prev(node_data_.end())->first;
+                latest_node_ = node_data_[node_id];
+            }
 
             std::unique_lock<std::mutex> lm_lock(mutex_landmarks_);
             latest_landmarks_.clear();
@@ -236,7 +239,6 @@ namespace optimized_slam {
                     C_nodes.at(second_node_id).data());
         }
 
-
         std::map<int, std::array<double, 2>> C_landmarks;
 
         int land_obs = 0;
@@ -302,6 +304,9 @@ namespace optimized_slam {
         int bound_node_id = TrimNodeData();
         std::cout << "bound_node_id: " << bound_node_id << std::endl;
 
+        if (node_data_.empty())
+            return;
+
         transform::Rigid2d &node_pose = std::prev(node_data_.end())->second.global_pose_2d;//当前观测node的位姿
         int node_id = std::prev(node_data_.end())->first;
 
@@ -321,7 +326,9 @@ namespace optimized_slam {
             /***若lm被 这次新增加的node 观察到，一定不会删除这个lm；固定的lm也不会删除***/
             bool current_obs = false;
 
-            if (node_id == std::prev(obs.end())->node_id) {
+            if (obs.size() == 0)
+                current_obs = true;
+            else if (node_id == std::prev(obs.end())->node_id) {
                 current_obs = true;
                 landmark_node.second.visible++;
                 landmark_node.second.found++;

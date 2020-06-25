@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 
     geometry_msgs::TransformStamped gimbal_tf_;
     gimbal_tf_.header.frame_id = "map";
-    gimbal_tf_.child_frame_id = "base";
+    gimbal_tf_.child_frame_id = "laser";
     while (ros::ok()) {
         geometry_msgs::Quaternion q = tf::createQuaternionMsgFromRollPitchYaw(0.0,
                                                                               0.0,

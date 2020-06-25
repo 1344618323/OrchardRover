@@ -6,7 +6,7 @@ find_package(Eigen3 REQUIRED)
 
 find_package(OpenCV)
 add_executable(making_maps
-        making_maps_main.cpp
+        making_maps.cpp
         )
 target_include_directories(making_maps
         PUBLIC
