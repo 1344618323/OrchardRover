@@ -3,16 +3,16 @@
 #include "ros/ros.h"
 #include <stdio.h>
 #include <pthread.h>
-#include <opencv2/opencv.hpp>
-#include "MvErrorDefine.h"
-#include "CameraParams.h"
-#include "MvCameraControl.h"
+#include <MvCameraControl.h>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
-#define MAX_IMAGE_DATA_SIZE (20 * 1024 * 1024)
-#define IMAGE_DATA_SIZE (10 * 1024 * 1024)
-#define IMAGE_SAVE_SIZE (10 * 1024 * 1024)
+#define MAX_IMAGE_DATA_SIZE (4 * 1440 * 1080)
+#define IMAGE_DATA_SIZE (4 * 1440 * 1080)
+#define IMAGE_SAVE_SIZE (4 * 1440 * 1080)
 
 enum CamerProperties
 {
@@ -26,7 +26,6 @@ enum CamerProperties
     CAP_PROP_GAIN,              //亮度
     CAP_PROP_SATURATION_ENABLE, //饱和度可调
     CAP_PROP_SATURATION         //饱和度
-
 };
 
 class Camera

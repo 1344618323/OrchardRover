@@ -1,4 +1,4 @@
-#include "leonard_hk_camera.hpp"
+#include "leonard_hk_camera.h"
 
 Camera::Camera() : handle(NULL)
 {

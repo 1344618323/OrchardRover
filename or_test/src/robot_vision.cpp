@@ -29,10 +29,9 @@ private:
     image_transport::Subscriber image_sub_; //定义ROS图象接收器
     //image_transport::Publisher image_pub_; //定义ROS图象发布器
 public:
-    RGB_GRAY()
-            : it_(nh_) //构造函数
+    RGB_GRAY() : it_(nh_) //构造函数
     {
-        image_sub_ = it_.subscribe("camera/rgb/image_raw", 1, &RGB_GRAY::convert_callback,
+        image_sub_ = it_.subscribe("/usb_cam/image_raw", 1, &RGB_GRAY::convert_callback,
                                    this); //定义图象接受器，订阅话题是“camera/rgb/image_raw”
         // image_pub_ = it_.publishe("", 1); //定义图象发布器
         //初始化输入输出窗口
@@ -67,12 +66,21 @@ public:
     /*
        这是图象处理的主要函数，一般会把图像处理的主要程序写在这个函数中。这里的例子只是一个彩色图象到灰度图象的转化
     */
+    int i = 0;
+
     void image_process(cv::Mat img) {
         cv::Mat img_out;
         cv::cvtColor(img, img_out, CV_RGB2GRAY);  //转换成灰度图象
         cv::imshow(INPUT, img);
         cv::imshow(OUTPUT, img_out);
-        cv::waitKey(5);
+
+        auto key = cv::waitKey(10);
+
+        if (key == 27) {
+            std::stringstream ss;
+            ss << "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_test/img/" << (i++) << ".jpg";
+            imwrite(ss.str(), img_out);
+        }
     }
 };
 

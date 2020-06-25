@@ -1,60 +1,39 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(hk_camera)
 
-## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  std_msgs
-  cv_bridge
-  image_transport
-  camera_info_manager
+        roscpp
+        std_msgs
+        cv_bridge
+        image_transport
+        camera_info_manager
 )
 
-catkin_package(
-  INCLUDE_DIRS
-  CATKIN_DEPENDS roscpp rospy std_msgs
-#  DEPENDS system_lib
-)
+catkin_package()
 
+find_package(OpenCV REQUIRED)
 
-find_package(OpenCV)
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
-  /opt/MVS/include/
-)
-LINK_DIRECTORIES(
-  /opt/MVS/lib/64/
+#添加库文件搜索路径，一定要在 add_executable要使用该库文件执行文件 之前写，否则无效
+link_directories(
+        /opt/MVS/lib/64/
 )
 
 add_executable(${PROJECT_NAME}_node
-  leonard_hk_camera.cpp
-  leonard_hk_camera.hpp
-)
+        leonard_hk_camera.cpp
+        )
 
-add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_include_directories(${PROJECT_NAME}_node 
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        ${OpenCV_INCLUDE_DIRS}
+        /opt/MVS/include/
+        )
 
 target_link_libraries(${PROJECT_NAME}_node
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBRARIES}
-  GCBase_gcc421_v3_0
-  MvCameraControl
-  GenApi_gcc421_v3_0
-  MVGigEVisionSDK
-  log4cpp_gcc421_v3_0
-  MVRender
-  Log_gcc421_v3_0
-  MvUsb3vTL
-  MathParser_gcc421_v3_0
-  NodeMapData_gcc421_v3_0
-  MediaProcess
-  XmlParser_gcc421_v3_0
-  X11
-)
+        ${catkin_LIBRARIES}
+        ${OpenCV_LIBRARIES}
+        MvCameraControl
+        )
