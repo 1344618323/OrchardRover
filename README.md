@@ -42,7 +42,7 @@ costmap：全局分辨率0.5m+局部0.1m
 * or_bringup：   常用launch启动文件，包括 Ros Stage 仿真的配置文件	
 * or_detection： CNN 树干检测
 * or_slam：      图优化实现、Fastslam1.0 算法实现
-* or_lasercamcal： 相机雷达外参标定
+* or_lasercamcal： 相机雷达外参标定（[旷世开源的标定程序](https://github.com/MegviiRobot/CamLaserCalibraTool)）
 
 ## 仿真效果
 （老版本fastslam的效果！）
