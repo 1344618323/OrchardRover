@@ -1,0 +1,33 @@
+%YAML:1.0
+
+#common parameters
+savePath: "/home/cxn/test_ws/log/"
+bag_path: "/home/cxn/calibra_project/LaserCameraCal_ws/2020-06-25-22-24-13.bag"
+
+scan_topic_name: "/scan"
+img_topic_name: "/usb_cam/image_raw"
+
+# tag info
+tag_type: 1 # 1: kalibr_tag, 2: apriltag
+tag_size: 0.055 # tag size, unit meter
+tag_spacing: 0.3 # tag spacing, only used in kalibr_tag. For details, please see kalibr tag description.
+black_border: 2 # if you use kalibr_tag black_boarder = 2; if you use apriltag black_boarder = 1
+
+#camera calibration 
+model_type: PINHOLE
+camera_name: camera
+image_width: 640
+image_height: 540
+
+distortion_parameters:
+   k1: -0.3866
+   k2: 0.1656
+   p1: 0.0
+   p2: 0.0
+
+projection_parameters:
+   fx: 511.9756
+   fy: 512.0048
+   cx: 364.3669
+   cy: 275.9138
+

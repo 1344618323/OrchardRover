@@ -72,14 +72,14 @@ public:
         cv::Mat img_out;
         cv::cvtColor(img, img_out, CV_RGB2GRAY);  //转换成灰度图象
         cv::imshow(INPUT, img);
-        cv::imshow(OUTPUT, img_out);
+        // cv::imshow(OUTPUT, img_out);
 
         auto key = cv::waitKey(10);
 
-        if (key == 27) {
+        if (key == 13) {
             std::stringstream ss;
             ss << "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_test/img/" << (i++) << ".jpg";
-            imwrite(ss.str(), img_out);
+            imwrite(ss.str(), img);
         }
     }
 };

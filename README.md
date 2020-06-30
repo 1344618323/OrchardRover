@@ -4,8 +4,8 @@ OrchardRover 是一套基于 ROS 开发的果园移动机器人 SLAM 系统。�
 
 目前的方案
 * 建立以树干坐标表征的二维果园地图
-* 传感器：单目相机 + 激光雷达 + 底盘里程计（下位机解算）
-* 使用 CNN 检测图像中的树干，并结合雷达数据计算树干相对机器人的方位
+* 传感器：单目相机 + 激光雷达 + 底盘里程计（下位机解算） + GPS
+* 使用 CNN 检测图像中的树干，并结合雷达数据计算树干相对机器人的方位（要对雷达与相机做外参标定）
 * 基于图优化的slam方法
 
 * slam部分
@@ -24,7 +24,7 @@ gps：Tgps_node'，Tglobal_node'插值得到，优化Tglobal_gps顶点、两个n
 ```
 图优化：树干坐标固定，只优化最新的5个机器人位姿顶点
 gps,延用slam中的Tlocal_ECEF，这样就能得到Tgps_node'了，
-并用slam中优化出来的Tglobal_gps，就可以得到对应的Tglobal_node'了（这个值可用作粒子分布初值与粒子权重计算）
+并用slam中优化出来的Tglobal_gps，就可以得到对应的Tglobal_node'了
 ```
 
 * 规划部分
@@ -41,7 +41,8 @@ costmap：全局分辨率0.5m+局部0.1m
 * or_base：	    Pc与Stm32的通讯包
 * or_bringup：   常用launch启动文件，包括 Ros Stage 仿真的配置文件	
 * or_detection： CNN 树干检测
-* or_slam：      Fastslam1.0 算法实现
+* or_slam：      图优化实现、Fastslam1.0 算法实现
+* or_lasercamcal： 相机雷达外参标定
 
 ## 仿真效果
 （老版本fastslam的效果！）

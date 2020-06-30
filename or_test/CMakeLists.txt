@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1)
 project(or_test)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
         message_filters
         nav_msgs
         tf
+        rosbag
         )
 
 ## System dependencies are found with CMake's conventions
@@ -62,6 +63,7 @@ target_include_directories(timesynchronizer
 target_link_libraries(timesynchronizer
         ${catkin_LIBRARIES}
         )
+add_dependencies(timesynchronizer or_msgs_generate_messages)
 
 ## turtle_tf_broadcaster
 add_executable(turtle_tf_broadcaster
@@ -88,6 +90,7 @@ target_include_directories(turtle_tf_listener
 target_link_libraries(turtle_tf_listener
         ${catkin_LIBRARIES}
         )
+add_dependencies(turtle_tf_listener or_msgs_generate_messages)
 
 ## add_executable(robot_vision
 add_executable(robot_vision
@@ -104,6 +107,20 @@ target_include_directories(robot_vision
 target_link_libraries(robot_vision
         ${catkin_LIBRARIES}
         ${OpenCV_LIBS}
+        )
+
+add_executable(test_bag
+        src/test_bag.cpp
+        )
+
+target_include_directories(test_bag
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        )
+
+target_link_libraries(test_bag
+        ${catkin_LIBRARIES}
         )
 
 catkin_install_python(PROGRAMS

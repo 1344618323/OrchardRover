@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1)
 project(hk_camera)
 
-add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_module)
 
 find_package(catkin REQUIRED COMPONENTS
         roscpp
@@ -21,7 +22,8 @@ link_directories(
 )
 
 add_executable(${PROJECT_NAME}_node
-        leonard_hk_camera.cpp
+        hk_camera_node.cpp
+        hk_camera.cpp
         )
 
 target_include_directories(${PROJECT_NAME}_node 
