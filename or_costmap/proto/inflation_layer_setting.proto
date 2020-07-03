@@ -1,0 +1,7 @@
+syntax = "proto2";
+package or_costmap;
+
+message ParaInflationLayer {
+  required double inflation_radius = 1;
+  required double cost_scaling_factor = 2;
+}

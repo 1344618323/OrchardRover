@@ -1,0 +1,8 @@
+prefix=/home/cxn/test_ws/src/costmap/or_costmap/cmake-build-debug/devel
+
+Name: or_costmap
+Description: Description of or_costmap
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
