@@ -1,0 +1,3 @@
+or_detection:
+  visualize: true
+  cam_only: false

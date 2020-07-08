@@ -1,6 +1,6 @@
 or_slam:
-  pure_localization: true
-  use_sim: true
+  pure_localization: false
+  use_sim: false
   odom_frame_id: "odom"
   base_frame_id: "base_link"
   global_frame_id: "map"
@@ -10,7 +10,7 @@ or_slam:
   trunk_std_radius: 0.2
 
   initial_pose_x: 2.5 #2.5
-  initial_pose_y: 8 #8
+  initial_pose_y: 25 #8
   initial_pose_a: 0
   initial_cov_xx: 0.1
   initial_cov_yy: 0.1

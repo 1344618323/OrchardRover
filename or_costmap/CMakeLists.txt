@@ -21,7 +21,8 @@ find_package(Boost REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS
-  include
+  ${CMAKE_CURRENT_SOURCE_DIR}/proto
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 
@@ -47,8 +48,8 @@ add_library(or_costmap
 
 target_include_directories(or_costmap
         PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/proto
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${catkin_INCLUDE_DIRS}
         ${EIGEN3_INCLUDE_DIRS}
         )

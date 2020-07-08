@@ -149,16 +149,19 @@ namespace leonard_serial_communication {
                 ros::Time current_time = ros::Time::now();
 
                 memcpy(&chassis_info_, data_addr, data_length);
-                odom_msg_.header.stamp = current_time;
-                odom_msg_.pose.pose.position.x = chassis_info_.position_x_mm / 1000.;
-                odom_msg_.pose.pose.position.y = chassis_info_.position_y_mm / 1000.;
-                odom_msg_.pose.pose.position.z = 0.0;
                 geometry_msgs::Quaternion q = tf::createQuaternionMsgFromYaw(chassis_info_.gyro_angle / 1800.0 * M_PI);
-                odom_msg_.pose.pose.orientation = q;
-                // odom_msg_.twist.twist.linear.x = chassis_info_.v_x_mm / 1000.0;
-                // odom_msg_.twist.twist.linear.y = chassis_info_.v_y_mm / 1000.0;
-                // odom_msg_.twist.twist.angular.z = chassis_info_.gyro_rate / 1800.0 * M_PI;
-                odom_pub_.publish(odom_msg_);
+                
+                if(odom_pub_.getNumSubscribers() > 0){
+                    odom_msg_.header.stamp = current_time;
+                    odom_msg_.pose.pose.position.x = chassis_info_.position_x_mm / 1000.;
+                    odom_msg_.pose.pose.position.y = chassis_info_.position_y_mm / 1000.;
+                    odom_msg_.pose.pose.position.z = 0.0;
+                    odom_msg_.pose.pose.orientation = q;
+                    // odom_msg_.twist.twist.linear.x = chassis_info_.v_x_mm / 1000.0;
+                    // odom_msg_.twist.twist.linear.y = chassis_info_.v_y_mm / 1000.0;
+                    // odom_msg_.twist.twist.angular.z = chassis_info_.gyro_rate / 1800.0 * M_PI;
+                    odom_pub_.publish(odom_msg_);
+                }
 
                 odom_tf_.header.stamp = current_time;
                 odom_tf_.transform.translation.x = chassis_info_.position_x_mm / 1000.;

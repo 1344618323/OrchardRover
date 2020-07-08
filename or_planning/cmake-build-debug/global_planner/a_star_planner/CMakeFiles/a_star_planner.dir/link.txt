@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -O3 -DNDEBUG   -shared -Wl,-soname,liba_star_planner.so -o ../../devel/lib/liba_star_planner.so CMakeFiles/a_star_planner.dir/proto/a_star_planner_config.pb.cc.o CMakeFiles/a_star_planner.dir/a_star_planner.cpp.o  -lor_costmap 

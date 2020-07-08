@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: or_planning
+Description: Description of or_planning
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

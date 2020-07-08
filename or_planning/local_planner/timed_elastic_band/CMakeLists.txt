@@ -5,6 +5,23 @@ set(CMAKE_BUILD_TYPE Release)
 
 aux_source_directory(src/. SRC_LIST)
 
+set(EXTERNAL_INCLUDE_DIRS
+        ${EIGEN3_INCLUDE_DIR}
+        ${SUITESPARSE_INCLUDE_DIRS}
+        ${G2O_INCLUDE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/proto
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        )
+
+set(EXTERNAL_LIBS
+        ${SUITESPARSE_LIBRARIES}
+        ${G2O_LIBRARIES}
+        ${catkin_LIBRARIES}
+        ${PROTOBUF_LIBRARIES}
+        )
+
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/proto/*.proto")
 
 rrts_protobuf_generate_cpp(
@@ -24,7 +41,7 @@ add_library(${PROJECT_NAME}
 target_include_directories(
         ${PROJECT_NAME}
         PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${EXTERNAL_INCLUDE_DIRS}
         )
 
 target_link_libraries(${PROJECT_NAME}

@@ -12,9 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package()
 
-
 catkin_install_python(PROGRAMS         
-  scripts/trunk_detection.py
-  scripts/trunk_detection_laser_cam.py
+  scripts/test_trunk_detection.py
+  scripts/trunk_detection_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/cxn/test_ws/src/costmap/or_planning/cmake-build-debug/devel/setup.sh

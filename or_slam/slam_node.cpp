@@ -233,7 +233,7 @@ void SlamNode::GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &gro
 }
 
 void SlamNode::TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_obs_msg) {
-    last_laser_msg_timestamp_ = trunk_obs_msg->header.stamp;
+    last_obs_msg_timestamp_ = trunk_obs_msg->header.stamp;
     Vec3d pose_in_odom;
     // base_link(0,0)在odom中坐标
     if (!GetPoseFromTf(odom_frame_, base_frame_, trunk_obs_msg->header.stamp, pose_in_odom)) {
@@ -258,7 +258,7 @@ void SlamNode::TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &tru
 }
 
 bool SlamNode::PublishTf() {
-    ros::Time transform_expiration = (last_laser_msg_timestamp_ + transform_tolerance_);
+    ros::Time transform_expiration = (last_obs_msg_timestamp_ + transform_tolerance_);
     // Subtracting base to odom from map to base and send map to odom instead
     tf::Stamped<tf::Pose> odom_to_map;
     Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom_);
@@ -271,7 +271,7 @@ bool SlamNode::PublishTf() {
                                          0.0));
         //转成Tbase_global
         tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(),
-                                             last_laser_msg_timestamp_,
+                                             last_obs_msg_timestamp_,
                                              base_frame_);
         //转成Todom_global
         this->tf_listener_ptr_->transformPose(odom_frame_,
@@ -308,45 +308,47 @@ bool SlamNode::PublishTf() {
 
 void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
 
-    landmarks_msg_.header.stamp = ros::Time::now();
-    landmarks_msg_.points.clear();
-    const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
+    if (landmarks_pub_.getNumSubscribers() > 0){
+        landmarks_msg_.header.stamp = ros::Time::now();
+        landmarks_msg_.points.clear();
+        const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
 
-    for (auto &lm:global_lms) {
-        geometry_msgs::Point temp;
-        temp.x = lm.second(0);
-        temp.y = lm.second(1);
-        temp.z = 0;
-        landmarks_msg_.points.push_back(temp);
-    }
-    landmarks_pub_.publish(landmarks_msg_);
-
-    std::vector<optimized_slam::ResidualForVisualize> residual_tmp = slam_ptr_->GetResidualForVisualize();
-    if (residual_tmp.size() > 0) {
-        visualization_msgs::Marker node_residual = node_residual_line_;
-        node_residual.header.stamp = ros::Time::now();
-        visualization_msgs::Marker lm_residual = lm_residual_line_;
-        lm_residual.header.stamp = ros::Time::now();
-
-        for (auto &item:residual_tmp) {
-            geometry_msgs::Point p;
-            p.z = 0;
-
-            p.x = item.node_pose.x();
-            p.y = item.node_pose.y();
-            node_residual.points.push_back(p);
-            p.x = item.lm_obs_xy.x();
-            p.y = item.lm_obs_xy.y();
-            node_residual.points.push_back(p);
-
-            lm_residual.points.push_back(p);
-            p.x = item.true_obs_xy.x();
-            p.y = item.true_obs_xy.y();
-            lm_residual.points.push_back(p);
+        for (auto &lm:global_lms) {
+            geometry_msgs::Point temp;
+            temp.x = lm.second(0);
+            temp.y = lm.second(1);
+            temp.z = 0;
+            landmarks_msg_.points.push_back(temp);
         }
 
-        landmarks_pub_.publish(node_residual);
-        landmarks_pub_.publish(lm_residual);
+        landmarks_pub_.publish(landmarks_msg_);
+        
+        std::vector<optimized_slam::ResidualForVisualize> residual_tmp = slam_ptr_->GetResidualForVisualize();
+        if (residual_tmp.size() > 0) {
+            visualization_msgs::Marker node_residual = node_residual_line_;
+            node_residual.header.stamp = ros::Time::now();
+            visualization_msgs::Marker lm_residual = lm_residual_line_;
+            lm_residual.header.stamp = ros::Time::now();
+
+            for (auto &item:residual_tmp) {
+                geometry_msgs::Point p;
+                p.z = 0;
+
+                p.x = item.node_pose.x();
+                p.y = item.node_pose.y();
+                node_residual.points.push_back(p);
+                p.x = item.lm_obs_xy.x();
+                p.y = item.lm_obs_xy.y();
+                node_residual.points.push_back(p);
+
+                lm_residual.points.push_back(p);
+                p.x = item.true_obs_xy.x();
+                p.y = item.true_obs_xy.y();
+                lm_residual.points.push_back(p);
+            }
+            landmarks_pub_.publish(node_residual);
+            landmarks_pub_.publish(lm_residual);
+        }
     }
 }
 

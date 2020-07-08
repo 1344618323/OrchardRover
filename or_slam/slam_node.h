@@ -86,7 +86,7 @@ private:
     std::unique_ptr<optimized_slam::OptimizedSlam> slam_ptr_;
 
     Vec3d pose_in_odom_;
-    ros::Time last_laser_msg_timestamp_;
+    ros::Time last_obs_msg_timestamp_;
 
     //save and load map
     std::string out_map_file_name_;

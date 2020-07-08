@@ -4,6 +4,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_module)
 set(CMAKE_BUILD_TYPE Release)
 
+
+add_subdirectory(timed_elastic_band)
+
 set(EXTERNAL_INCLUDE_DIRS
         ${EIGEN3_INCLUDE_DIR}
         ${SUITESPARSE_INCLUDE_DIRS}
@@ -21,7 +24,6 @@ set(EXTERNAL_LIBS
         or_costmap
         )
 
-add_subdirectory(timed_elastic_band)
 
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/proto/*.proto")
 rrts_protobuf_generate_cpp(${CMAKE_CURRENT_SOURCE_DIR}/proto
@@ -30,7 +32,7 @@ rrts_protobuf_generate_cpp(${CMAKE_CURRENT_SOURCE_DIR}/proto
         ${ProtoFiles}
         )
 
-aux_source_directory(src/.  SRC_LIST)
+aux_source_directory(src/. SRC_LIST)
 
 #local planner node
 add_executable(${PROJECT_NAME}_node
@@ -46,7 +48,7 @@ target_include_directories(${PROJECT_NAME}_node
 
 target_link_libraries(${PROJECT_NAME}_node
         PUBLIC
-#        planning::timed_elastic_band
+        planning::timed_elastic_band
         ${EXTERNAL_LIBS}
         )
 add_dependencies(${PROJECT_NAME}_node
