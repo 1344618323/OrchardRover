@@ -7,6 +7,7 @@ or_slam:
   laser_topic_name: "scan"
   trunk_topic_name: "trunk_obs"
   transform_tolerance: 0.1
+  trunk_std_radius: 0.2
 
   initial_pose_x: 2.5 #2.5
   initial_pose_y: 8 #8
@@ -14,7 +15,9 @@ or_slam:
   initial_cov_xx: 0.1
   initial_cov_yy: 0.1
 
+  #地图输出位置
   out_map_file_name: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
+  #地图读取位置
   read_map_file_name: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/out_map.txt
 
   sim_sensor_odom:

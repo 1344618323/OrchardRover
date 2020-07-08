@@ -31,9 +31,6 @@ namespace optimized_slam {
     OptimizedSlam::~OptimizedSlam() {
     }
 
-    void OptimizedSlam::SetSensorPose(const Eigen::Vector3d &sensor_pose) {
-    }
-
     void OptimizedSlam::SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks) {
         for (auto &landmark_node : landmarks) {
             landmark_data_[landmark_node.first].global_landmark_xy = landmark_node.second;
@@ -105,7 +102,7 @@ namespace optimized_slam {
         //最大似然法求lmi；卡方检测判断是否新增lmi
         if (XYs.empty())
             return;
-        for(auto item:XYs){
+        for (auto item:XYs) {
             CalculateLikelihood((--node_data_.end()), item);
         }
 

@@ -23,12 +23,15 @@ import message_filters
 from sensor_msgs.msg import Image, LaserScan
 import geometry_msgs.msg
 import cv_bridge
+import std_msgs.msg
 
 from or_msgs.msg import TrunkObsMsgXY
 
 
 CLASSES = ('__background__',
            'tree', 'pine_tree')
+
+# 用网络找树干
 
 
 def DetectTrunkByNet(net, im):
@@ -99,7 +102,7 @@ class TrunkDetector:
 
 class CameraLaser:
     def __init__(self):
-        ###########读yaml文件##########
+        ###########读yaml文件：相机内参，相机雷达外参##########
         fs = cv2.FileStorage(
             '/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_lasercamcal/config/calibra_config_pinhole.yaml', cv2.FileStorage_READ)
         self.fx = fs.getNode('projection_parameters').getNode('fx').real()
@@ -112,19 +115,22 @@ class CameraLaser:
         self.p2 = fs.getNode('distortion_parameters').getNode('p2').real()
         self.image_width = fs.getNode('image_width').real()
         self.image_height = fs.getNode('image_height').real()
-        self.internal_Mat = np.array(
-            [[self.fx, 0, self.cx], [0, self.fy, self.cy], [0, 0, 1]])
         # 关闭文件
         fs.release()
+        # 内参矩阵
+        self.internal_Mat = np.array(
+            [[self.fx, 0, self.cx], [0, self.fy, self.cy], [0, 0, 1]])
 
         fs = cv2.FileStorage(
             '/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_lasercamcal/log/result.yaml', cv2.FileStorage_READ)
         self.extrinsic_Tlc_ = fs.getNode('extrinsicTlc').mat()
         fs.release()
+        # 计算 Tcam_laser
         self.Rcl = (self.extrinsic_Tlc_[0:3, 0:3]).T
         self.tcl = - \
             np.dot(self.Rcl, (self.extrinsic_Tlc_[0:3, 3]).reshape(3, 1))
 
+    # 相机坐标系P3d -> 归一化平面坐标p_u（函数输入参数，维度3×1） -> 畸变d_u（函数输出参数，维度3×1） -> 归一化平面坐标畸变后 p_u+d_u
     def Distortion(self, p_u):
         d_u = np.zeros(3)
         mx2_u = p_u[0] * p_u[0]                         # x^2
@@ -138,6 +144,8 @@ class CameraLaser:
             mxy_u + self.p1 * (rho2_u + 2.0 * my2_u)
         return d_u
 
+    # 相机坐标系P3d（函数输入参数,维度3×N） -> 归一化平面坐标p_u -> 畸变d_u（函数输出参数） ->
+    #   归一化平面坐标畸变后 p_u+d_u -> 像素坐标系坐标(函数输出参数，维度2×N)
     def SpaceToPlane(self, P3d):
         P2d = []
         # Project points to the normalised plane
@@ -157,11 +165,13 @@ class CameraLaser:
         P2d = np.dot(self.internal_Mat, P2d)
         return P2d[0:2, :]
 
-    def ProjectPoints(self, objectPoints):
-        # objectPoints:3*N
-        P3d = np.dot(self.Rcl, objectPoints)+self.tcl
+    # 激光雷达坐标系坐标 laserPoints (函数输入参数,维度3×N) ->  相机坐标系坐标 P3d -> 像素坐标系坐标(函数输出参数，维度2×N)
+    def ProjectPoints(self, laserPoints):
+        # laserPoints:3*N
+        P3d = np.dot(self.Rcl, laserPoints)+self.tcl
         return self.SpaceToPlane(P3d)
 
+    # 将一帧sensor_msgs.msg.LaserScan(函数输入参数)  转成 激光雷达坐标系坐标 points (函数输出参数,维度3×N)
     def TranScanToPoints(self, scan_in):
         points = []
         # -60~60度，-120~120,240~480
@@ -183,6 +193,7 @@ class CameraLaser:
                 points = np.hstack((points, p))
         return points
 
+    # 在 输入图片 process_img 上绘制 激光点 投影效果
     def ShowProject(self, process_img):
         points = self.TranScanToPoints(scan_in)
         img_points = self.ProjectPoints(points)
@@ -193,6 +204,8 @@ class CameraLaser:
             if x >= 0 and x < self.image_width and y >= 0 and y < self.image_height:
                 cv2.circle(process_img, (x, y), 1, (0, 0, 255), -1)
 
+    # 建立map关系 map(像素坐标系u分量)=激光雷达坐标系坐标
+    # 若对同一个u有多个激光坐标，选近距离的
     def ProjectAndMap(self, scan_in):
         points = self.TranScanToPoints(scan_in)
         img_points = self.ProjectPoints(points)
@@ -209,6 +222,7 @@ class CameraLaser:
         return points_map
 
 
+# 用opencv在图像中写文字
 def draw_text(img, point, text, drawType="custom"):
     '''
     :param img:
@@ -217,9 +231,9 @@ def draw_text(img, point, text, drawType="custom"):
     :param drawType: custom or custom
     :return:
     '''
-    fontScale = 0.4
+    fontScale = 0.6
     thickness = 5
-    text_thickness = 1
+    text_thickness = 2
     bg_color = (255, 0, 0)
     fontFace = cv2.FONT_HERSHEY_SIMPLEX
     # fontFace=cv2.FONT_HERSHEY_SIMPLEX
@@ -235,6 +249,8 @@ def draw_text(img, point, text, drawType="custom"):
     elif drawType == "simple":
         cv2.putText(img, '%d' % (text), point, fontFace, 0.5, (255, 0, 0))
     return img
+
+# 输入limits（boundingBoxes）,找出每个box中心点u 对应的 激光坐标
 
 
 def CalcTrunkDepth(limits, points_map, process_img=None, visualize=False):
@@ -254,8 +270,9 @@ def CalcTrunkDepth(limits, points_map, process_img=None, visualize=False):
 
             if visualize == True:
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                text = '{:.1f},{:.1f}'.format(p.x,p.y)
-                draw_text(process_img,(int(limit[0]), int(limit[3])+40),text,drawType="custom")
+                text = '{:.1f},{:.1f}'.format(p.x, p.y)
+                draw_text(process_img, (int(limit[0]), int(
+                    limit[3])), text, drawType="custom")
 
     return laser_points
 
@@ -298,9 +315,12 @@ if __name__ == '__main__':
         laser_points = CalcTrunkDepth(boxes, points_map, process_img, True)
 
         if laser_points != []:
-            obs_pub.publish(TrunkObsMsgXY(None, laser_points))
+            # hdr = std_msgs.msg.Header(stamp=rospy.Time.now(), frame_id='scan')
+            hdr = std_msgs.msg.Header(
+                stamp=scan_in.header.stamp, frame_id='laser')
+            obs_pub.publish(TrunkObsMsgXY(hdr, laser_points))
 
-        cv2.imshow("out", process_img)
+        cv2.imshow("ProcessImg", process_img)
         cv2.waitKey(5)
 
     cv2.destroyAllWindows()

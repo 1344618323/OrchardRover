@@ -92,13 +92,16 @@ private:
     std::string out_map_file_name_;
     std::string read_map_file_name_;
 
+    Eigen::Isometry2d sensor_pose_;
+    double trunk_std_radius_;
+
 private:
 
     void GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &ground_truth_msg);
 
     void LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg);
 
-    void TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_angle_msg);
+    void TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_obs_msg);
 
     bool GetPoseFromTf(const std::string &target_frame,
                        const std::string &source_frame,
@@ -116,6 +119,8 @@ private:
     void SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vector2d> &lms);
 
     void LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms);
+
+    bool GetSensorPose();
 };
 
 #endif

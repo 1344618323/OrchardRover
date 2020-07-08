@@ -33,8 +33,6 @@ namespace optimized_slam {
 
         void AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<Eigen::Vector2d> &XYs, const ros::Time &stamp);
 
-        void SetSensorPose(const Eigen::Vector3d &sensor_pose);
-
         void SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks);
 
         const std::map<int, Eigen::Vector2d> GetLandmarks();

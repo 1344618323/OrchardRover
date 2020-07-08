@@ -14,7 +14,6 @@
 
   <!-- Run the slam node -->
   <rosparam command="load" file="$(find or_slam)/config/or_slam.yaml" />
-  <!-- <rosparam command="load" file="$(find or_slam)/fastslamalgs/config/fastslam.yaml" /> -->
   <rosparam command="load" file="$(find or_slam)/optimized_slam_algs/config/optimizedslam.yaml" />
   <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
 

@@ -71,6 +71,7 @@ void SlamNode::SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vec
 
 
 bool SlamNode::Init() {
+    nh_.param<double>("or_slam/trunk_std_radius", trunk_std_radius_, 0.2);
     nh_.param<bool>("or_slam/pure_localization", pure_localization_, false);
     nh_.param<bool>("or_slam/use_sim", use_sim_, true);
     nh_.param<std::string>("or_slam/odom_frame_id", odom_frame_, "odom");
@@ -96,11 +97,9 @@ bool SlamNode::Init() {
     nh_.param<std::string>("or_slam/read_map_file_name", read_map_file_name_, "read_map.txt");
 
     if (use_sim_) {
-//        for (int i = 0; i < 7; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                C_trunkpoints_for_sim_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 6));
-//            }
-//        }
+        //仿真器图的树半径是0.2m
+        trunk_std_radius_ = 0.2;
+
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 4; j++) {
                 C_trunkpoints_for_sim_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 5));
@@ -111,8 +110,9 @@ bool SlamNode::Init() {
         laser_scan_sub_ = nh_.subscribe(laser_topic_, 10, &SlamNode::LaserScanCallbackForSim, this);
         // 模拟器发送树干方位
         trunk_obs_pub_ = nh_.advertise<or_msgs::TrunkObsMsgXY>(trunk_obs_topic_, 1);
+        // 接收stage发布的全局信息
         ground_truth_sub_ = nh_.subscribe("base_pose_ground_truth", 1, &SlamNode::GroundTruthCallbackForSim, this);
-
+        // 用于模拟器给odom加入噪声（目前配置的ros_stage发布的odom是没有噪声，绝对准确的，只能出此下策，还不会配置有噪声的odom）
         double alpha1, alpha2, alpha3, alpha4;
         nh_.param<double>("or_slam/sim_sensor_odom/alpha1", alpha1, 0.2);
         nh_.param<double>("or_slam/sim_sensor_odom/alpha2", alpha2, 0.2);
@@ -135,10 +135,10 @@ bool SlamNode::Init() {
 
     // 处理树干方位消息
     trunk_obs_sub_ =
-            std::make_unique<message_filters::Subscriber<or_msgs::TrunkObsMsgXY >>(nh_, trunk_obs_topic_, 10);
+            std::make_unique<message_filters::Subscriber<or_msgs::TrunkObsMsgXY >>(nh_, trunk_obs_topic_, 5);
     tf_filter_ = std::make_unique<tf::MessageFilter<or_msgs::TrunkObsMsgXY >>(*trunk_obs_sub_, *tf_listener_ptr_,
-                                                                              "scan", 10);
-    tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkObsMsgCallback, this, _1));
+                                                                              "laser", 5);
+    tf_filter_->registerCallback(boost::bind(&SlamNode::TrunkObsMsgXYCallback, this, _1));
 
     // 发布树干坐标
     landmarks_pub_ = nh_.advertise<visualization_msgs::Marker>("landmarks", 5);
@@ -181,7 +181,20 @@ bool SlamNode::Init() {
 
     visualize_timer_ = nh_.createTimer(ros::Duration(0.5), &SlamNode::TimerCallbackForVisualize, this);
 
-//    std::vector<std::string> csvtopic = {"truex", "truey", "odomx", "odomy"};
+    return GetSensorPose();
+}
+
+
+bool SlamNode::GetSensorPose() {
+    //获得Tbase_laser
+    auto laser_scan_msg = ros::topic::waitForMessage<sensor_msgs::LaserScan>(laser_topic_);
+    Eigen::Vector3d pose;
+    GetPoseFromTf(base_frame_, laser_scan_msg->header.frame_id, ros::Time(), pose);
+    std::cout << "Sensor Pose:" << pose.transpose() << std::endl;
+    sensor_pose_.setIdentity();
+    sensor_pose_.rotate(Eigen::Rotation2Dd(pose[2]));
+    Eigen::Vector2d t = pose.head(2);
+    sensor_pose_.pretranslate(t);
     return true;
 }
 
@@ -198,16 +211,19 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
         float diff = AngleDiff<float>(atan2(delta_y, delta_x), yaw);
         if ((delta_x * delta_x + delta_y * delta_y) < 16 && diff > -M_PI / 3 && diff < M_PI / 3) {
             int ind = diff / M_PI * 180 + 134;
-            //因为画的图中树的半径是0.2m
-            geometry_msgs::Point p;
-            p.x=(laser_scan_msg->ranges[ind] + 0.2) * cos(diff);
-            p.y=(laser_scan_msg->ranges[ind] + 0.2) * sin(diff);
-            p.z=0.0;
-            XYs.push_back(p);
+            //若激光距离与到树干的距离不一致，就认为是障碍物
+            if (fabs(laser_scan_msg->ranges[ind] - std::sqrt(delta_x * delta_x + delta_y * delta_y)) < 0.5) {
+                //因为画的图中树的半径是0.2m
+                geometry_msgs::Point p;
+                p.x = (laser_scan_msg->ranges[ind] + trunk_std_radius_) * cos(diff);
+                p.y = (laser_scan_msg->ranges[ind] + trunk_std_radius_) * sin(diff);
+                p.z = 0.0;
+                XYs.push_back(p);
+            }
         }
     }
     msg.header.stamp = laser_scan_msg->header.stamp;
-    msg.header.frame_id = "scan";
+    msg.header.frame_id = "laser";
     msg.XYs = XYs;
     trunk_obs_pub_.publish(msg);
 }
@@ -216,7 +232,7 @@ void SlamNode::GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &gro
     ground_truth_pose_ = ground_truth_msg->pose.pose;
 }
 
-void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_obs_msg) {
+void SlamNode::TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_obs_msg) {
     last_laser_msg_timestamp_ = trunk_obs_msg->header.stamp;
     Vec3d pose_in_odom;
     // base_link(0,0)在odom中坐标
@@ -225,11 +241,6 @@ void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk
         //LOG(ERROR) << "Couldn't determine robot's pose";
         return;
     }
-    //    GetTrunkPosition(trunk_obs_msg);
-    // if (!pure_localization_)
-    //     slam_ptr_->Update(pose_in_odom, trunk_obs_vec_, particle_cloud_msg_, landmarks_msg_);
-    // else
-    //     localization_ptr_->Update(pose_in_odom, trunk_obs_vec_, particle_cloud_msg_);
 
     if (use_sim_) {
         //考虑到stage中返回的位姿是非常正确的，我们人为给他加误差
@@ -239,13 +250,10 @@ void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk
     pose_in_odom_ = pose_in_odom;
 
     std::vector<Eigen::Vector2d> xys;
-
-    for(auto &item :trunk_obs_msg->XYs){
-        xys.emplace_back(item.x,item.y);
+    for (auto &item :trunk_obs_msg->XYs) {
+        xys.push_back(sensor_pose_ * Eigen::Vector2d(item.x, item.y));
     }
-
     slam_ptr_->AddNodeData(pose_in_odom_, xys, trunk_obs_msg->header.stamp);
-
     PublishTf();
 }
 
@@ -299,15 +307,6 @@ bool SlamNode::PublishTf() {
 }
 
 void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
-//    if (particle_cloud_pub_.getNumSubscribers() > 0) {
-//        particle_cloud_msg_.header.stamp = ros::Time::now();
-//        particle_cloud_pub_.publish(particle_cloud_msg_);
-//    }
-//
-//    if (!pure_localization_ && landmarks_pub_.getNumSubscribers() > 0) {
-//        landmarks_msg_.header.stamp = ros::Time::now();
-//        landmarks_pub_.publish(landmarks_msg_);
-//    }
 
     landmarks_msg_.header.stamp = ros::Time::now();
     landmarks_msg_.points.clear();
@@ -376,7 +375,6 @@ bool SlamNode::GetPoseFromTf(const std::string &target_frame,
 
     pose[0] = pose_stamp.getOrigin().x();
     pose[1] = pose_stamp.getOrigin().y();
-    pose[2] = 0;
     double yaw, pitch, roll;
     pose_stamp.getBasis().getEulerYPR(yaw, pitch, roll);
     pose[2] = yaw;
