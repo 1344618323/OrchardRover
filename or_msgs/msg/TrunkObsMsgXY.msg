@@ -1,2 +1,2 @@
 std_msgs/Header header
-float64[] XY
+geometry_msgs/Point[] XYs

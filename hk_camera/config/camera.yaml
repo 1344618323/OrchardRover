@@ -3,7 +3,7 @@ camera:
   height: 1080            #图像高度
   FrameRateEnable: true
   FrameRate: 100          #帧率
-  ExposureTime: 10000      #曝光时间,zlx的源码是1000的
+  ExposureTime: 10000      #曝光时间,室外1000，室内10000
   GammaEnable: true
   Gamma: 0.45              #伽马因子
   Gain: 5                 #亮度

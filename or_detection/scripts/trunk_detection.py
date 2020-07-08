@@ -58,7 +58,7 @@ def vis_detections(im, class_name, dets, thresh=0.9):
     cv2.imshow("im", im)
 
 
-def detecte_and_draw(net, im, str):
+def detecte_and_draw(net, im):
     """Detect object classes in an image using pre-computed object proposals."""
 
     # Detect all object classes and regress object bounds
@@ -94,7 +94,7 @@ def detecte_and_draw(net, im, str):
     for enumpubbox in pubbox:
         cv2.rectangle(im, (int(enumpubbox[0]), int(enumpubbox[3])), (int(
             enumpubbox[2]), int(enumpubbox[1])), (0, 255, 0), 5)
-    cv2.imshow(str, im)
+    cv2.imshow('out', im)
     return pubbox
 
 
@@ -141,9 +141,8 @@ if __name__ == '__main__':
 
     ##################用于雷达####################
 
-    # detect_trunk = DetectTrunk()
-    # angle_pub = rospy.Publisher(
-    #     'trunk_obs', TrunkObsMsg, queue_size=10)
+    detect_trunk = DetectTrunk()
+    angle_pub = rospy.Publisher('trunk_obs', TrunkObsMsg, queue_size=10)
 
     # while not rospy.is_shutdown():
     #     if detect_trunk.procimg == []:
@@ -183,85 +182,20 @@ if __name__ == '__main__':
     #     out=im
     #     # cv2.imshow('frame',out)
 
-    ###################用于超声波####################
-    angle_pub = rospy.Publisher(
-        'ultrasonic_cam', TrunkObsMsg, queue_size=100)
 
-    observe_msg = ObserveMsg()
+    im_names = ['/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_171646.jpg',
+        '/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_181206.jpg']
+    for im_name in im_names:
+        print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+        print 'Demo for {}'.format(im_name)
+        # Load the demo image
+        im = cv2.imread(im_name)
+        boxes=detecte_and_draw(net, im)
+        angle=[]
+        for box in boxes:
+            angle.append(math.atan2((CAMERAux-box[2]),CAMERAFdSx))
+            angle.append(math.atan2((CAMERAux-box[0]),CAMERAFdSx))
+        # angle_pub.publish(TrunkObsMsg(None,angle))
 
-    # cap = cv2.VideoCapture(
-    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
-    # cap2 = cv2.VideoCapture(
-    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/beisu3.mp4')
-    cap = cv2.VideoCapture(0)
-    cap2 = cv2.VideoCapture(1)
-    while cap.isOpened() and \
-            cap2.isOpened() and\
-            not rospy.is_shutdown():
-
-        valids = [0, 0]
-        bearings = [0, 0]
-
-        ret, im = cap.read()
-        if ret == True and observe_msg.obser_admin[0] == 1:
-            out = im
-            out = cv2.resize(im, (640, 480))
-            boxes = detecte_and_draw(net, out, "im1")
-            if boxes != []:
-                minabsangle = 180
-                minangle = 0
-                for box in boxes:
-                    angle = 0.0935*(box[2]+box[0])/2-31.7933
-                    if (math.fabs(angle) < minabsangle) and\
-                        (observe_msg.cur_angle[0]+angle < 90) and\
-                            (observe_msg.cur_angle[0]+angle > -90):
-                        minangle = angle
-                        minabsangle = math.fabs(angle)
-                if(minabsangle != 180):
-                    valids[0] = 2
-                    bearings[0] = -minangle
-                    observe_msg.obser_admin[0] = 0
-
-        ret, im = cap2.read()
-        if ret == True and observe_msg.obser_admin[1] == 1:
-            out = im
-            out = cv2.resize(im, (640, 480))
-            boxes = detecte_and_draw(net, out, "im2")
-            if boxes != []:
-
-                minabsangle = 180
-                minangle = 0
-                for box in boxes:
-                    # angle = 0.0935*(box[2]+box[0])/2-34.0377
-                    angle = math.atan2((box[2]+box[0])/2-314, 357)*180/math.pi
-                    if math.fabs(angle) < minabsangle and\
-                        (observe_msg.cur_angle[1]+angle < 90) and\
-                            (observe_msg.cur_angle[1]+angle > -90):
-                        minangle = angle
-                        minabsangle = math.fabs(angle)
-                if(minabsangle != 180):
-                    valids[1] = 2
-                    bearings[1] = -minangle
-                    observe_msg.obser_admin[1] = 0
-                    angle_pub.publish(TrunkObsMsg( None, valids, bearings, None))
-
-        cv2.waitKey(1)
-    cap.release()
-    cv2.destroyAllWindows()
-
-    # im_names = ['/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_171646.jpg',
-    #     '/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_181206.jpg']
-    # for im_name in im_names:
-    #     print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-    #     print 'Demo for {}'.format(im_name)
-    #     # Load the demo image
-    #     im = cv2.imread(im_name)
-    #     boxes=detecte_and_draw(net, im)
-    #     angle=[]
-    #     for box in boxes:
-    #         angle.append(math.atan2((CAMERAux-box[2]),CAMERAFdSx))
-    #         angle.append(math.atan2((CAMERAux-box[0]),CAMERAFdSx))
-    #     angle_pub.publish(TrunkObsMsg(None,angle))
-
-    # cv2.waitKey(0);
+    cv2.waitKey(0);
     rospy.spin()

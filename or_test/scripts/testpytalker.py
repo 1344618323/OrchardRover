@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import String
-from or_msgs.msg import TrunkAngleMsg
+from or_msgs.msg import TrunkObsMsgXY
 
 def talker():
     rospy.init_node('talker', anonymous=True)
     # pub = rospy.Publisher('chatter', String, queue_size=10)
-    pub = rospy.Publisher('chatterpy', TrunkAngleMsg, queue_size=10)
+    pub = rospy.Publisher('chatterpy', TrunkObsMsgXY, queue_size=10)
     rate = rospy.Rate(21)
     count = 0
     while not rospy.is_shutdown():
@@ -19,7 +19,7 @@ def talker():
         #     data.append(i)
         header = rospy.Header()
         header.stamp = rospy.Time.now()
-        pub.publish(TrunkAngleMsg(header, data))
+        pub.publish(TrunkObsMsgXY(header, data))
         count = count + 1
         rate.sleep()
 

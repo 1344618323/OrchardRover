@@ -1,0 +1,5 @@
+<launch>
+  <master auto="start"/>
+  <include file="$(find hk_camera)/launch/hk_camera_show.launch" />
+  <include file="$(find rplidar_ros)/launch/view_rplidar_s1.launch" />
+</launch>

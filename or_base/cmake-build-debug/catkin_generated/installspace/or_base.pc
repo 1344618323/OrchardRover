@@ -1,8 +1,0 @@
-prefix=/usr/local
-
-Name: or_base
-Description: Description of or_base
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

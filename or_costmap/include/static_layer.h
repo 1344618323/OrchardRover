@@ -9,8 +9,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include "costmap_layer.h"
 #include "static_layer_setting.pb.h"
-#include "io.h"
-#include "ros/package.h"
+#include "proto_io/io.h"
+#include <ros/package.h>
 
 namespace or_costmap {
     /*

@@ -54,6 +54,7 @@
         "valarray": "cpp",
         "*.ipp": "cpp",
         "mutex": "cpp",
-        "core": "cpp"
+        "core": "cpp",
+        "string": "cpp"
     }
 }

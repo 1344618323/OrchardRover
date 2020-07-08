@@ -37,6 +37,7 @@ public:
         //初始化输入输出窗口
         cv::namedWindow(INPUT);
         cv::namedWindow(OUTPUT);
+        std::cout<<"按回车截图"<<std::endl;
     }
 
     ~RGB_GRAY() //析构函数

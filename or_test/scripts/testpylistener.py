@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import String
-from or_msgs.msg import TrunkAngleMsg
+from or_msgs.msg import TrunkObsMsgXY
 
 
 # def callback(data):
@@ -14,12 +14,12 @@ from or_msgs.msg import TrunkAngleMsg
 
 
 def callback(data):
-    print data.angle
+    print data.XY
 
 
 def listener():
     rospy.init_node('listener', anonymous=True)
-    rospy.Subscriber('chatter', TrunkAngleMsg, callback, queue_size=1)
+    rospy.Subscriber('chatter', TrunkObsMsgXY, callback, queue_size=1)
     rospy.spin()
 
 

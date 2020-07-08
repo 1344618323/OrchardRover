@@ -1,8 +1,0 @@
-prefix=/usr/local
-
-Name: hk_camera
-Description: Description of hk_camera
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

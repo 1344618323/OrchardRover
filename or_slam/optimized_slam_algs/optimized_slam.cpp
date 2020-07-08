@@ -63,7 +63,7 @@ namespace optimized_slam {
         return EigenV3FromPose(pose);
     }
 
-    void OptimizedSlam::AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<double> &XYs,
+    void OptimizedSlam::AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<Eigen::Vector2d> &XYs,
                                     const ros::Time &stamp) {
 
         Eigen::Vector3d delta;
@@ -103,11 +103,10 @@ namespace optimized_slam {
         }
 
         //最大似然法求lmi；卡方检测判断是否新增lmi
-        if (XYs.empty() || XYs.size() % 2 == 1)
+        if (XYs.empty())
             return;
-        for (int i = 0; i < XYs.size(); i = i + 2) {
-            Eigen::Vector2d xy{XYs[i], XYs[i + 1]};
-            CalculateLikelihood((--node_data_.end()), xy);
+        for(auto item:XYs){
+            CalculateLikelihood((--node_data_.end()), item);
         }
 
         Solve();

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1)
 project(or_detection)
 find_package(catkin REQUIRED COMPONENTS 
   rospy
@@ -7,11 +7,14 @@ find_package(catkin REQUIRED COMPONENTS
   or_msgs
   cv_bridge
   sensor_msgs
+  geometry_msgs
 )
 
 catkin_package()
 
-catkin_install_python(PROGRAMS
+
+catkin_install_python(PROGRAMS         
   scripts/trunk_detection.py
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
+  scripts/trunk_detection_laser_cam.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

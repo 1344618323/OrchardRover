@@ -189,7 +189,7 @@ bool SlamNode::Init() {
 void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &laser_scan_msg) {
     // for simulation
     or_msgs::TrunkObsMsgXY msg;
-    std::vector<double> XYs;
+    std::vector<geometry_msgs::Point> XYs;
     std::vector<int> index;
     for (int i = 0; i < C_trunkpoints_for_sim_.size(); i++) {
         float delta_x = C_trunkpoints_for_sim_[i][0] - ground_truth_pose_.position.x;
@@ -199,13 +199,16 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
         if ((delta_x * delta_x + delta_y * delta_y) < 16 && diff > -M_PI / 3 && diff < M_PI / 3) {
             int ind = diff / M_PI * 180 + 134;
             //因为画的图中树的半径是0.2m
-            XYs.push_back((laser_scan_msg->ranges[ind] + 0.2) * cos(diff));
-            XYs.push_back((laser_scan_msg->ranges[ind] + 0.2) * sin(diff));
+            geometry_msgs::Point p;
+            p.x=(laser_scan_msg->ranges[ind] + 0.2) * cos(diff);
+            p.y=(laser_scan_msg->ranges[ind] + 0.2) * sin(diff);
+            p.z=0.0;
+            XYs.push_back(p);
         }
     }
     msg.header.stamp = laser_scan_msg->header.stamp;
     msg.header.frame_id = "scan";
-    msg.XY = XYs;
+    msg.XYs = XYs;
     trunk_obs_pub_.publish(msg);
 }
 
@@ -235,7 +238,13 @@ void SlamNode::TrunkObsMsgCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk
 
     pose_in_odom_ = pose_in_odom;
 
-    slam_ptr_->AddNodeData(pose_in_odom_, trunk_obs_msg->XY, trunk_obs_msg->header.stamp);
+    std::vector<Eigen::Vector2d> xys;
+
+    for(auto &item :trunk_obs_msg->XYs){
+        xys.emplace_back(item.x,item.y);
+    }
+
+    slam_ptr_->AddNodeData(pose_in_odom_, xys, trunk_obs_msg->header.stamp);
 
     PublishTf();
 }

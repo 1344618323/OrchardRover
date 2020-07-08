@@ -4,7 +4,7 @@
 
 #include "inflation_layer.h"
 #include "inflation_layer_setting.pb.h"
-#include "io.h"
+#include "proto_io/io.h"
 
 namespace or_costmap {
     InflationLayer::InflationLayer()
@@ -33,7 +33,7 @@ namespace or_costmap {
         need_reinflation_ = false;
         double inflation_radius, cost_scaling_factor;
         ParaInflationLayer para_inflation;
-        or_io::ReadProtoFromTextFile(layered_costmap_->GetInflationFilePath().c_str(), &para_inflation);
+        or_common::ReadProtoFromTextFile(layered_costmap_->GetInflationFilePath().c_str(), &para_inflation);
         inflation_radius = para_inflation.inflation_radius();
         cost_scaling_factor = para_inflation.cost_scaling_factor();
         need_reinflation_ = false;

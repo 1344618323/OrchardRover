@@ -13,13 +13,15 @@ find_package(catkin REQUIRED COMPONENTS
         laser_geometry
         sensor_msgs
         geometry_msgs
-        or_io
+        or_common
         )
 
 find_package(PCL 1.7 REQUIRED)
 find_package(Boost REQUIRED)
 
 catkin_package(
+  INCLUDE_DIRS
+  include
 )
 
 
@@ -59,10 +61,6 @@ target_link_libraries(or_costmap
 
 #test project
 add_executable(test_costmap src/test_costmap.cpp)
-
-target_include_directories(test_costmap
-        PUBLIC
-        )
 
 target_link_libraries(test_costmap
         or_costmap

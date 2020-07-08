@@ -97,7 +97,7 @@ namespace or_costmap {
     void CostmapInterface::LoadParameter() {
 
         ParaCollection ParaCollectionConfig;
-        or_io::ReadProtoFromTextFile(config_file_.c_str(), &ParaCollectionConfig);
+        or_common::ReadProtoFromTextFile(config_file_.c_str(), &ParaCollectionConfig);
 
 
         config_file_ = ros::package::getPath("or_costmap") +

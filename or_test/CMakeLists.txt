@@ -124,8 +124,8 @@ target_link_libraries(test_bag
         ${catkin_LIBRARIES}
         )
 
-catkin_install_python(PROGRAMS
+catkin_install_python(PROGRAMS         
         scripts/testpylistener.py
         scripts/testpytalker.py
-        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
-        )
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

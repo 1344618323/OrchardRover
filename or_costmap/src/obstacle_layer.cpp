@@ -3,7 +3,7 @@
 //
 
 #include <ros/package.h>
-#include <io.h>
+#include "proto_io/io.h"
 #include "obstacle_layer.h"
 #include "obstacle_layer_setting.pb.h"
 
@@ -12,7 +12,7 @@ namespace or_costmap {
         ros::NodeHandle nh;
         ParaObstacleLayer para_obstacle;
 
-        or_io::ReadProtoFromTextFile(layered_costmap_->GetObstacleFilePath().c_str(), &para_obstacle);
+        or_common::ReadProtoFromTextFile(layered_costmap_->GetObstacleFilePath().c_str(), &para_obstacle);
         double observation_keep_time = 0.1, expected_update_rate = 10.0, min_obstacle_height = 0.2,
                 max_obstacle_height = 0.6, obstacle_range = 2.5, raytrace_range = 3.0, transform_tolerance = 0.2;
         observation_keep_time = para_obstacle.observation_keep_time();

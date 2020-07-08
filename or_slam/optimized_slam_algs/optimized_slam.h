@@ -31,7 +31,7 @@ namespace optimized_slam {
 
         ~OptimizedSlam();
 
-        void AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<double> &XYs, const ros::Time &stamp);
+        void AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<Eigen::Vector2d> &XYs, const ros::Time &stamp);
 
         void SetSensorPose(const Eigen::Vector3d &sensor_pose);
 

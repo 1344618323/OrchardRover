@@ -9,7 +9,7 @@ namespace or_costmap {
         ros::NodeHandle nh;
         is_current_ = true;
         ParaStaticLayer para_static_layer;
-        or_io::ReadProtoFromTextFile(layered_costmap_->GetStaticFilePath().c_str(), &para_static_layer);
+        or_common::ReadProtoFromTextFile(layered_costmap_->GetStaticFilePath().c_str(), &para_static_layer);
         global_frame_ = layered_costmap_->GetGlobalFrameID();
         first_map_only_ = para_static_layer.first_map_only();
         subscribe_to_updates_ = para_static_layer.subscribe_to_updates();
