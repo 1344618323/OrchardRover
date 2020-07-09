@@ -53,6 +53,7 @@ CMAKE_BINARY_DIR = /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_m
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/making_maps2.dir/all
 all: CMakeFiles/making_maps.dir/all
 
 .PHONY : all
@@ -63,9 +64,37 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/making_maps2.dir/clean
 clean: CMakeFiles/making_maps.dir/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/making_maps2.dir
+
+# All Build rule for target.
+CMakeFiles/making_maps2.dir/all:
+	$(MAKE) -f CMakeFiles/making_maps2.dir/build.make CMakeFiles/making_maps2.dir/depend
+	$(MAKE) -f CMakeFiles/making_maps2.dir/build.make CMakeFiles/making_maps2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target making_maps2"
+.PHONY : CMakeFiles/making_maps2.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/making_maps2.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/making_maps2.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/making_maps2.dir/rule
+
+# Convenience name for target.
+making_maps2: CMakeFiles/making_maps2.dir/rule
+
+.PHONY : making_maps2
+
+# clean rule for target.
+CMakeFiles/making_maps2.dir/clean:
+	$(MAKE) -f CMakeFiles/making_maps2.dir/build.make CMakeFiles/making_maps2.dir/clean
+.PHONY : CMakeFiles/making_maps2.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/making_maps.dir

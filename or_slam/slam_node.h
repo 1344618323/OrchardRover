@@ -27,8 +27,6 @@
 #include "fastslam_localization.h"
 #include "optimized_slam.h"
 
-#define THREAD_NUM 4 // ROS SPIN THREAD NUM
-
 class SlamNode {
 public:
     SlamNode(std::string name);
@@ -95,6 +93,9 @@ private:
     Eigen::Isometry2d sensor_pose_;
     double trunk_std_radius_;
 
+    std::mutex publishTf_mutex_;
+
+
 private:
 
     void GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &ground_truth_msg);
@@ -116,7 +117,7 @@ private:
 
     bool PublishTf();
 
-    void SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vector2d> &lms);
+    void SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vector2d> &lms, Eigen::Vector3d init_pose);
 
     void LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms);
 

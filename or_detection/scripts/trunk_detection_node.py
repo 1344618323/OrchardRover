@@ -184,7 +184,7 @@ class CameraLaser:
 
         for i in range(239, 480):
             r = scan_in.ranges[i]
-            if r <= scan_in.range_min or r > float(35.0):
+            if r <= scan_in.range_min or r > float(15.0):
                 continue
             p = np.zeros(3).reshape(3, 1)
             p[0] = math.cos(scan_in.angle_min + i * scan_in.angle_increment)*r
@@ -266,7 +266,7 @@ def CalcTrunkDepth(limits, points_map, process_img=None, visualize=False):
                 if visualize:
                     cv2.circle(process_img, (int(points_map[key][1][0]), int(
                         points_map[key][1][1])), 3, (0, 0, 255), -1)
-        if len(vec) > 0:
+        if len(vec) > 2:
             mid = len(vec)/2
             p = geometry_msgs.msg.Point()
             p.x = vec[mid][0][0]

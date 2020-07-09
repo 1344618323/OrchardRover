@@ -20,3 +20,18 @@ target_link_libraries(making_maps
         ${OpenCV_LIBRARIES}
         ${EIGEN3_LIBRARIES}
         )
+
+add_executable(making_maps2
+        making_maps2.cpp
+        )
+target_include_directories(making_maps2
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${OpenCV_INCLUDE_DIRS}
+        ${EIGEN3_INCLUDE_DIR}
+        )
+target_link_libraries(making_maps2
+        PUBLIC
+        ${OpenCV_LIBRARIES}
+        ${EIGEN3_LIBRARIES}
+        )

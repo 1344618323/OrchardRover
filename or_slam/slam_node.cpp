@@ -18,7 +18,7 @@ SlamNode::~SlamNode() {
         it++;
         idx++;
     }
-    SaveMaptoTxt(out_map_file_name_, global_lms);
+    SaveMaptoTxt(out_map_file_name_, global_lms, init_pose_);
 }
 
 void SlamNode::LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms) {
@@ -31,6 +31,8 @@ void SlamNode::LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2
         std::cout << " Load map from: " << filename << std::endl;
     }
 
+    bool begin = false;
+
     while (!f.eof()) {
         std::string s;
         std::getline(f, s);
@@ -39,15 +41,25 @@ void SlamNode::LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2
             ss << s;
             double x, y;
             int idx;
-            ss >> x;
-            ss >> y;
-            ss >> idx;
-            lms[idx] = Eigen::Vector2d(x, y);
+            if (begin) {
+                ss >> x;
+                ss >> y;
+                ss >> idx;
+                lms[idx] = Eigen::Vector2d(x, y);
+            } else {
+                ss >> x;
+                ss >> y;
+                init_pose_(0) = x;
+                init_pose_(1) = y;
+                init_pose_(2) = 0;
+                begin = true;
+            }
         }
     }
 }
 
-void SlamNode::SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vector2d> &lms) {
+void SlamNode::SaveMaptoTxt(std::string filename,
+                            const std::map<int, Eigen::Vector2d> &lms, Eigen::Vector3d init_pose) {
     std::ofstream foutC;
     foutC.open(filename.c_str());
     if (!foutC.is_open()) {
@@ -55,11 +67,16 @@ void SlamNode::SaveMaptoTxt(std::string filename, const std::map<int, Eigen::Vec
         return;
     }
     std::cout << " Save map to: " << filename << std::endl;
+
+    foutC.setf(std::ios::fixed, std::ios::floatfield);
+    foutC.precision(5);
+
+    foutC << init_pose(0) << " "
+          << init_pose(1) << std::endl;
+
     auto it = lms.begin();
     int idx = 0;
     while (it != lms.end()) {
-        foutC.setf(std::ios::fixed, std::ios::floatfield);
-        foutC.precision(5);
         foutC << it->second(0) << " "
               << it->second(1) << " "
               << idx << std::endl;
@@ -85,13 +102,8 @@ bool SlamNode::Init() {
     nh_.param<double>("or_slam/transform_tolerance", transform_tolerance, 0.1);
     this->transform_tolerance_ = ros::Duration(transform_tolerance);
 
-    nh_.param<double>("or_slam/initial_pose_x", init_pose_(0), 0);
-    nh_.param<double>("or_slam/initial_pose_y", init_pose_(1), 0);
-    nh_.param<double>("or_slam/initial_pose_a", init_pose_(2), 0);
-
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
-    slam_ptr_ = std::make_unique<optimized_slam::OptimizedSlam>(init_pose_, &nh_, pure_localization_);
 
     nh_.param<std::string>("or_slam/out_map_file_name", out_map_file_name_, "out_map.txt");
     nh_.param<std::string>("or_slam/read_map_file_name", read_map_file_name_, "read_map.txt");
@@ -121,17 +133,25 @@ bool SlamNode::Init() {
         sim_odom_data_generator_ptr_ = std::make_unique<SimOdomDataGenerator>(alpha1, alpha2, alpha3, alpha4);
     }
 
+    std::map<int, Eigen::Vector2d> landmarks;
     if (pure_localization_) {
-        std::map<int, Eigen::Vector2d> landmarks;
         if (use_sim_) {
+            nh_.param<double>("or_slam/initial_pose_x", init_pose_(0), 0);
+            nh_.param<double>("or_slam/initial_pose_y", init_pose_(1), 0);
+            nh_.param<double>("or_slam/initial_pose_a", init_pose_(2), 0);
             for (int i = 0; i < C_trunkpoints_for_sim_.size(); i++) {
                 landmarks[i] = C_trunkpoints_for_sim_[i];
             }
         } else {
             LoadMapFromTxt(read_map_file_name_, landmarks);
         }
-        slam_ptr_->SetConstantLandmarks(landmarks);
+    } else {
+        nh_.param<double>("or_slam/initial_pose_x", init_pose_(0), 0);
+        nh_.param<double>("or_slam/initial_pose_y", init_pose_(1), 0);
+        nh_.param<double>("or_slam/initial_pose_a", init_pose_(2), 0);
     }
+    slam_ptr_ = std::make_unique<optimized_slam::OptimizedSlam>(init_pose_, &nh_, pure_localization_, use_sim_);
+    slam_ptr_->SetConstantLandmarks(landmarks);
 
     // 处理树干方位消息
     trunk_obs_sub_ =
@@ -233,6 +253,7 @@ void SlamNode::GroundTruthCallbackForSim(const nav_msgs::Odometry::ConstPtr &gro
 }
 
 void SlamNode::TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &trunk_obs_msg) {
+    std::unique_lock<std::mutex> guard(publishTf_mutex_);
     last_obs_msg_timestamp_ = trunk_obs_msg->header.stamp;
     Vec3d pose_in_odom;
     // base_link(0,0)在odom中坐标
@@ -254,11 +275,14 @@ void SlamNode::TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &tru
         xys.push_back(sensor_pose_ * Eigen::Vector2d(item.x, item.y));
     }
     slam_ptr_->AddNodeData(pose_in_odom_, xys, trunk_obs_msg->header.stamp);
+
     PublishTf();
 }
 
+
 bool SlamNode::PublishTf() {
-    ros::Time transform_expiration = (last_obs_msg_timestamp_ + transform_tolerance_);
+
+    ros::Time transform_expiration = last_obs_msg_timestamp_ + transform_tolerance_;
     // Subtracting base to odom from map to base and send map to odom instead
     tf::Stamped<tf::Pose> odom_to_map;
     Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom_);
@@ -292,23 +316,12 @@ bool SlamNode::PublishTf() {
                                         odom_frame_);
     this->tf_broadcaster_ptr_->sendTransform(tmp_tf_stamped);
 
-    // if (!pure_localization_) {
-    //     csv_writer_->write(slam_ptr_->gus_pose(0));
-    //     csv_writer_->write(slam_ptr_->gus_pose(1));
-    // } else {
-    //     csv_writer_->write(localization_ptr_->gus_pose(0));
-    //     csv_writer_->write(localization_ptr_->gus_pose(1));
-    // }
-
-    // csv_writer_->write(pose_in_odom_(0));
-    // csv_writer_->write(pose_in_odom_(1));
-
     return true;
 }
 
 void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
 
-    if (landmarks_pub_.getNumSubscribers() > 0){
+    if (landmarks_pub_.getNumSubscribers() > 0) {
         landmarks_msg_.header.stamp = ros::Time::now();
         landmarks_msg_.points.clear();
         const std::map<int, Eigen::Vector2d> global_lms = slam_ptr_->GetLandmarks();
@@ -322,7 +335,7 @@ void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
         }
 
         landmarks_pub_.publish(landmarks_msg_);
-        
+
         std::vector<optimized_slam::ResidualForVisualize> residual_tmp = slam_ptr_->GetResidualForVisualize();
         if (residual_tmp.size() > 0) {
             visualization_msgs::Marker node_residual = node_residual_line_;
@@ -348,6 +361,66 @@ void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
             }
             landmarks_pub_.publish(node_residual);
             landmarks_pub_.publish(lm_residual);
+        }
+    }
+
+    if (ros::Time().now() - last_obs_msg_timestamp_ > ros::Duration(0.2)) {
+        std::unique_lock<std::mutex> guard(publishTf_mutex_, std::try_to_lock);
+        if (guard.owns_lock()) {
+            Vec3d pose_in_odom;
+            // base_link(0,0)在odom中坐标
+            tf::Stamped<tf::Pose> ident(tf::Transform(tf::createIdentityQuaternion(),
+                                                      tf::Vector3(0, 0, 0)),
+                                        ros::Time(0),
+                                        base_frame_);
+            //求source_frame中的原点位姿在target_frame中的位姿
+            tf::Stamped<tf::Pose> pose_stamp;
+            try {
+                this->tf_listener_ptr_->transformPose(odom_frame_,
+                                                      ident,
+                                                      pose_stamp);
+            }
+            catch (tf::TransformException &e) {
+                return;
+            }
+
+            pose_in_odom[0] = pose_stamp.getOrigin().x();
+            pose_in_odom[1] = pose_stamp.getOrigin().y();
+            double yaw, pitch, roll;
+            pose_stamp.getBasis().getEulerYPR(yaw, pitch, roll);
+            pose_in_odom[2] = yaw;
+
+            tf::Stamped<tf::Pose> odom_to_map;
+            Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom);
+
+            try {
+                //得到了Tglobal_base
+                tf::Transform tmp_tf(tf::createQuaternionFromYaw(global_pose[2]),
+                                     tf::Vector3(global_pose[0],
+                                                 global_pose[1],
+                                                 0.0));
+                //转成Tbase_global
+                tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(),
+                                                     pose_stamp.stamp_,
+                                                     base_frame_);
+                //转成Todom_global
+                this->tf_listener_ptr_->transformPose(odom_frame_,
+                                                      tmp_tf_stamped,
+                                                      odom_to_map);
+            }
+            catch (tf::TransformException &e) {
+                //LOG(ERROR) << "Failed to subtract base to odom transform" << e.what();
+                return;
+            }
+
+            tf::Transform global_to_odom_tf = tf::Transform(tf::Quaternion(odom_to_map.getRotation()),
+                                                            tf::Point(odom_to_map.getOrigin()));
+            //发布Tglobal_odom
+            tf::StampedTransform tmp_tf_stamped(global_to_odom_tf.inverse(),
+                                                pose_stamp.stamp_,
+                                                global_frame_,
+                                                odom_frame_);
+            this->tf_broadcaster_ptr_->sendTransform(tmp_tf_stamped);
         }
     }
 }

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
-
 project(optimized_slam_algs)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_BUILD_TYPE Release)
 
 find_package(Ceres REQUIRED)
 

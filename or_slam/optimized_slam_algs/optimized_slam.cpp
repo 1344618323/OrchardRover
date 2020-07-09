@@ -3,8 +3,9 @@
 //求Tbase_LMi
 
 namespace optimized_slam {
-    OptimizedSlam::OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization)
-            : pure_localization_(pure_localization) {
+    OptimizedSlam::OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization,
+                                 const bool &use_sim)
+            : pure_localization_(pure_localization), use_sim_(use_sim) {
         nh->param<double>("optimized_slam/odom_translation_weight", odom_translation_weight_, 1e4);
         nh->param<double>("optimized_slam/odom_rotation_weight", odom_rotation_weight_, 1e4);
         nh->param<double>("optimized_slam/lm_translation_weight", lm_translation_weight_, 1e5);
@@ -264,9 +265,9 @@ namespace optimized_slam {
             }
         }
 
-        std::cout << "NumResidual:" << problem.NumResidualBlocks() << " NumParameter" << problem.NumParameterBlocks()
-                  << "; land_obs:" << land_obs << " nodes:" << node_data_.size() << " lm:" << landmark_data_.size()
-                  << std::endl;
+//        std::cout << "NumResidual:" << problem.NumResidualBlocks() << " NumParameter" << problem.NumParameterBlocks()
+//                  << "; land_obs:" << land_obs << " nodes:" << node_data_.size() << " lm:" << landmark_data_.size()
+//                  << std::endl;
 
         ceres::Solver::Options options;
 //        options.use_nonmonotonic_steps = true;
@@ -298,7 +299,7 @@ namespace optimized_slam {
 
         //先删除没用的node
         int bound_node_id = TrimNodeData();
-        std::cout << "bound_node_id: " << bound_node_id << std::endl;
+//        std::cout << "bound_node_id: " << bound_node_id << std::endl;
 
         if (node_data_.empty())
             return;
@@ -333,15 +334,27 @@ namespace optimized_slam {
             if (current_obs || landmark_node.second.constant)
                 continue;
 
-            /***优化后应该被看到，当时反而没看到: 按照模拟器的设置，在4m [-60,60]以内，应该能看到，我们收紧一点***/
+            /***优化后应该被看到，当时反而没看到***/
             Eigen::Vector2d lmi_in_node_frame =
                     node_pose.inverse() * landmark_node.second.global_landmark_xy;
 
             Eigen::Vector2d z_hat(atan2(lmi_in_node_frame.y(), lmi_in_node_frame.x()), lmi_in_node_frame.norm());
-            if ((z_hat[0] < M_PI_4 && z_hat[0] > -M_PI_4 && z_hat[1] < 3.5)) {
-                landmark_node.second.visible++;
-                if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
-                    culling_lms_id.push_back(landmark_node.first);
+
+            if (use_sim_) {
+                //按照模拟器的设置，在4m [-60,60]以内，应该能看到，我们收紧一点
+                if (z_hat[0] < M_PI_4 && z_hat[0] > -M_PI_4 && z_hat[1] < 3.5) {
+                    landmark_node.second.visible++;
+                    if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
+                        culling_lms_id.push_back(landmark_node.first);
+                    }
+                }
+            } else {
+                //?这样搞的话，有的树干可能是因为遮挡才看不见的，这个判断没有考虑这种情况
+                if (z_hat[0] < M_PI / 6 && z_hat[0] > -M_PI / 6 && z_hat[1] < 5) {
+                    landmark_node.second.visible++;
+                    if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
+                        culling_lms_id.push_back(landmark_node.first);
+                    }
                 }
             }
         }

@@ -27,7 +27,7 @@ namespace optimized_slam {
 
     class OptimizedSlam {
     public:
-        OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization = false);
+        OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization = false,const bool &use_sim=false);
 
         ~OptimizedSlam();
 
@@ -83,6 +83,7 @@ namespace optimized_slam {
         std::vector<ResidualForVisualize> residuals_for_visualize_;
 
         const bool pure_localization_;
+        const bool use_sim_;
         int reserve_node_num_;
     };
 }

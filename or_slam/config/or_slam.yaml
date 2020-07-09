@@ -7,10 +7,10 @@ or_slam:
   laser_topic_name: "scan"
   trunk_topic_name: "trunk_obs"
   transform_tolerance: 0.1
-  trunk_std_radius: 0.2
+  trunk_std_radius: 0.16
 
-  initial_pose_x: 2.5 #2.5
-  initial_pose_y: 25 #8
+  initial_pose_x: 0 #2.5
+  initial_pose_y: 0 #8
   initial_pose_a: 0
   initial_cov_xx: 0.1
   initial_cov_yy: 0.1
