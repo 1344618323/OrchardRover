@@ -342,7 +342,7 @@ namespace optimized_slam {
 
             if (use_sim_) {
                 //按照模拟器的设置，在4m [-60,60]以内，应该能看到，我们收紧一点
-                if (z_hat[0] < M_PI_4 && z_hat[0] > -M_PI_4 && z_hat[1] < 3.5) {
+                if ((fabs(z_hat[0]) < M_PI_4) && (z_hat[1] < 3.5) && (lmi_in_node_frame.x()>0)) {
                     landmark_node.second.visible++;
                     if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
                         culling_lms_id.push_back(landmark_node.first);
@@ -350,7 +350,7 @@ namespace optimized_slam {
                 }
             } else {
                 //?这样搞的话，有的树干可能是因为遮挡才看不见的，这个判断没有考虑这种情况
-                if (z_hat[0] < M_PI / 6 && z_hat[0] > -M_PI / 6 && z_hat[1] < 5) {
+                if ((fabs(z_hat[0]) < M_PI/6) && (lmi_in_node_frame.x()>0)) {
                     landmark_node.second.visible++;
                     if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
                         culling_lms_id.push_back(landmark_node.first);

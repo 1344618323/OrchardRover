@@ -2,8 +2,8 @@
 // Created by cxn on 2020/7/1.
 //
 
-#ifndef ROBORTS_COSTMAP_LAYERED_COSTMAP_H
-#define ROBORTS_COSTMAP_LAYERED_COSTMAP_H
+#ifndef OR_COSTMAP_LAYERED_COSTMAP_H
+#define OR_COSTMAP_LAYERED_COSTMAP_H
 
 #include <geometry_msgs/Point.h>
 #include "costmap_2d.h"
@@ -157,4 +157,4 @@ namespace or_costmap {
         std::vector<Layer *> plugins_;
     };
 }
-#endif //ROBORTS_COSTMAP_LAYERED_COSTMAP_H
+#endif //OR_COSTMAP_LAYERED_COSTMAP_H

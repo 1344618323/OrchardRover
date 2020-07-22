@@ -5,6 +5,10 @@ set(CMAKE_BUILD_TYPE Release)
 
 aux_source_directory(src/. SRC_LIST)
 
+# 尽量避免直接包 ${CMAKE_CURRENT_SOURCE_DIR}吧
+# 写成         ${CMAKE_CURRENT_SOURCE_DIR}/include
+#             ${CMAKE_CURRENT_SOURCE_DIR}/proto
+# 更有指向性一点
 set(EXTERNAL_INCLUDE_DIRS
         ${EIGEN3_INCLUDE_DIR}
         ${SUITESPARSE_INCLUDE_DIRS}
@@ -34,7 +38,6 @@ rrts_protobuf_generate_cpp(
 add_library(${PROJECT_NAME}
         SHARED
         ${timed_elastic_bandProtoSrc}
-        ${timed_elastic_bandProtoHds}
         ${SRC_LIST}
         )
 

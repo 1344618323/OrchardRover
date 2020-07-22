@@ -1,8 +1,0 @@
-prefix=/home/cxn/test_ws/src/costmap/or_planning/cmake-build-debug/devel
-
-Name: or_planning
-Description: Description of or_planning
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

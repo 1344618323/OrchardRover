@@ -2,8 +2,8 @@
 // Created by cxn on 2020/7/1.
 //
 
-#ifndef ROBORTS_COSTMAP_COSTMAP_2D_H
-#define ROBORTS_COSTMAP_COSTMAP_2D_H
+#ifndef OR_COSTMAP_COSTMAP_2D_H
+#define OR_COSTMAP_COSTMAP_2D_H
 
 #include <vector>
 #include <queue>
@@ -477,4 +477,4 @@ namespace or_costmap {
     };
 }
 
-#endif //ROBORTS_COSTMAP_COSTMAP_2D_H
+#endif //OR_COSTMAP_COSTMAP_2D_H

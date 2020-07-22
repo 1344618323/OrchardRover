@@ -1,5 +1,5 @@
 or_slam:
-  pure_localization: false
+  pure_localization: true
   use_sim: false
   odom_frame_id: "odom"
   base_frame_id: "base_link"

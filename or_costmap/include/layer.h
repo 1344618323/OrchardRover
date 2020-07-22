@@ -2,8 +2,8 @@
 // Created by cxn on 2020/7/1.
 //
 
-#ifndef ROBORTS_COSTMAP_LAYER_H
-#define ROBORTS_COSTMAP_LAYER_H
+#ifndef OR_COSTMAP_LAYER_H
+#define OR_COSTMAP_LAYER_H
 
 #include <tf/tf.h>
 #include <tf/transform_listener.h>
@@ -115,4 +115,4 @@ namespace or_costmap {
     };
 }
 
-#endif //ROBORTS_COSTMAP_LAYER_H
+#endif //OR_COSTMAP_LAYER_H

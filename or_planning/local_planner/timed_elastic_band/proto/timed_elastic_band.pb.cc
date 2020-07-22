@@ -58,16 +58,6 @@ public:
  ::google::protobuf::internal::ExplicitlyConstructed<Optimization>
      _instance;
 } _Optimization_default_instance_;
-class HomotopyClassPlannerDefaultTypeInternal {
-public:
- ::google::protobuf::internal::ExplicitlyConstructed<HomotopyClassPlanner>
-     _instance;
-} _HomotopyClassPlanner_default_instance_;
-class RecoveryDefaultTypeInternal {
-public:
- ::google::protobuf::internal::ExplicitlyConstructed<Recovery>
-     _instance;
-} _Recovery_default_instance_;
 class ConfigDefaultTypeInternal {
 public:
  ::google::protobuf::internal::ExplicitlyConstructed<Config>
@@ -79,7 +69,7 @@ namespace protobuf_timed_5felastic_5fband_2eproto {
 
 namespace {
 
-::google::protobuf::Metadata file_level_metadata[11];
+::google::protobuf::Metadata file_level_metadata[9];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 }  // namespace
@@ -95,8 +85,6 @@ PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
     TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
-  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
   { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
   { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
   { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
@@ -221,27 +209,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, min_obstacle_dist_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, inflation_dist_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, include_costmap_obstacles_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, costmap_obstacles_behind_robot_dist_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, obstacle_poses_affected_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, legacy_obstacle_association_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, obstacle_association_cutoff_factor_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, obstacle_association_force_inclusion_factor_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, costmap_converter_plugin_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, costmap_converter_spin_thread_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Obstacles, costmap_converter_rate_),
+  0,
   1,
   2,
-  5,
   3,
-  4,
-  6,
-  8,
-  9,
-  0,
-  7,
-  10,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Optimization, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Optimization, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -291,66 +265,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION
   19,
   20,
   21,
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, enable_homotopy_class_planning_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, enable_multithreading_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, simple_exploration_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, max_number_classes_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, selection_obst_cost_scale_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, selection_prefer_initial_plan_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, selection_viapoint_cost_scale_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, selection_cost_hysteresis_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, selection_alternative_time_cost_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, roadmap_graph_no_samples_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, roadmap_graph_area_width_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, roadmap_graph_area_length_scale_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, h_signature_prescaler_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, h_signature_threshold_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, obstacle_keypoint_offset_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, obstacle_heading_threshold_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, viapoints_all_candidates_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HomotopyClassPlanner, visualize_hc_graph_),
-  0,
-  1,
-  2,
-  4,
-  5,
-  6,
-  7,
-  8,
-  3,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, shrink_horizon_min_duration_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, oscillation_recovery_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, shrink_horizon_backup_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, oscillation_v_eps_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, oscillation_omega_eps_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, oscillation_recovery_min_duration_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Recovery, oscillation_filter_duration_),
-  4,
-  5,
-  6,
-  0,
-  1,
-  2,
-  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -362,18 +276,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, tolerance_opt_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, obstacles_opt_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, optimize_info_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, hcp_opt_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, robot_type_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Config, recovery_info_),
   0,
   1,
   2,
   3,
   4,
   5,
-  6,
   ~0u,
-  7,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(FrameID)},
@@ -382,11 +292,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTR
   { 51, 63, sizeof(FootprintModel)},
   { 70, 85, sizeof(Robot)},
   { 95, 103, sizeof(GoalTolerance)},
-  { 106, 122, sizeof(Obstacles)},
-  { 133, 160, sizeof(Optimization)},
-  { 182, 205, sizeof(HomotopyClassPlanner)},
-  { 223, 235, sizeof(Recovery)},
-  { 242, 256, sizeof(Config)},
+  { 106, 115, sizeof(Obstacles)},
+  { 119, 146, sizeof(Optimization)},
+  { 168, 180, sizeof(Config)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -398,8 +306,6 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&_GoalTolerance_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&_Obstacles_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&_Optimization_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&_HomotopyClassPlanner_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&_Recovery_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&_Config_default_instance_),
 };
 
@@ -421,7 +327,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 11);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 9);
 }
 
 }  // namespace
@@ -445,11 +351,7 @@ void TableStruct::InitDefaultsImpl() {
   ::google::protobuf::internal::OnShutdownDestroyMessage(
       &_Obstacles_default_instance_);_Optimization_default_instance_._instance.DefaultConstruct();
   ::google::protobuf::internal::OnShutdownDestroyMessage(
-      &_Optimization_default_instance_);_HomotopyClassPlanner_default_instance_._instance.DefaultConstruct();
-  ::google::protobuf::internal::OnShutdownDestroyMessage(
-      &_HomotopyClassPlanner_default_instance_);_Recovery_default_instance_._instance.DefaultConstruct();
-  ::google::protobuf::internal::OnShutdownDestroyMessage(
-      &_Recovery_default_instance_);_Config_default_instance_._instance.DefaultConstruct();
+      &_Optimization_default_instance_);_Config_default_instance_._instance.DefaultConstruct();
   ::google::protobuf::internal::OnShutdownDestroyMessage(
       &_Config_default_instance_);_Config_default_instance_._instance.get_mutable()->opt_frame_ = const_cast< ::or_local_planner::FrameID*>(
       ::or_local_planner::FrameID::internal_default_instance());
@@ -463,10 +365,6 @@ void TableStruct::InitDefaultsImpl() {
       ::or_local_planner::Obstacles::internal_default_instance());
   _Config_default_instance_._instance.get_mutable()->optimize_info_ = const_cast< ::or_local_planner::Optimization*>(
       ::or_local_planner::Optimization::internal_default_instance());
-  _Config_default_instance_._instance.get_mutable()->hcp_opt_ = const_cast< ::or_local_planner::HomotopyClassPlanner*>(
-      ::or_local_planner::HomotopyClassPlanner::internal_default_instance());
-  _Config_default_instance_._instance.get_mutable()->recovery_info_ = const_cast< ::or_local_planner::Recovery*>(
-      ::or_local_planner::Recovery::internal_default_instance());
 }
 
 void InitDefaults() {
@@ -507,71 +405,40 @@ void AddDescriptorsImpl() {
       " \n\030cmd_angle_instead_rotvel\030\n \001(\010\"]\n\rGoa"
       "lTolerance\022\031\n\021xy_goal_tolerance\030\001 \001(\002\022\032\n"
       "\022yaw_goal_tolerance\030\002 \001(\002\022\025\n\rfree_goal_v"
-      "el\030\003 \001(\010\"\236\003\n\tObstacles\022\031\n\021min_obstacle_d"
-      "ist\030\001 \001(\002\022\026\n\016inflation_dist\030\002 \001(\002\022!\n\031inc"
-      "lude_costmap_obstacles\030\003 \001(\010\022+\n#costmap_"
-      "obstacles_behind_robot_dist\030\004 \001(\002\022\037\n\027obs"
-      "tacle_poses_affected\030\005 \001(\002\022#\n\033legacy_obs"
-      "tacle_association\030\006 \001(\010\022*\n\"obstacle_asso"
-      "ciation_cutoff_factor\030\007 \001(\002\0223\n+obstacle_"
-      "association_force_inclusion_factor\030\010 \001(\002"
-      "\022 \n\030costmap_converter_plugin\030\t \001(\t\022%\n\035co"
-      "stmap_converter_spin_thread\030\n \001(\010\022\036\n\026cos"
-      "tmap_converter_rate\030\013 \001(\002\"\224\005\n\014Optimizati"
-      "on\022\033\n\023no_inner_iterations\030\001 \001(\005\022\033\n\023no_ou"
-      "ter_iterations\030\002 \001(\005\022\035\n\025optimization_act"
-      "ivate\030\003 \001(\010\022\034\n\024optimization_verbose\030\004 \001("
-      "\010\022\027\n\017penalty_epsilon\030\005 \001(\002\022\030\n\020weight_max"
-      "_vel_x\030\006 \001(\002\022\030\n\020weight_max_vel_y\030\007 \001(\002\022\034"
-      "\n\024weight_max_vel_theta\030\010 \001(\002\022\030\n\020weight_a"
-      "cc_lim_x\030\t \001(\002\022\030\n\020weight_acc_lim_y\030\n \001(\002"
-      "\022\033\n\023weight_acc_lim_thet\030\013 \001(\002\022\034\n\024weight_"
-      "kinematics_nh\030\014 \001(\002\022\'\n\037weight_kinematics"
-      "_forward_drive\030\r \001(\002\022(\n weight_kinematic"
-      "s_turning_radius\030\016 \001(\002\022\032\n\022weight_optimal"
-      "time\030\017 \001(\002\022\027\n\017weight_obstacle\030\020 \001(\002\022\030\n\020w"
-      "eight_inflation\030\021 \001(\002\022\037\n\027weight_dynamic_"
-      "obstacle\030\022 \001(\002\022\027\n\017weight_viapoint\030\023 \001(\002\022"
-      "\033\n\023weight_adapt_factor\030\024 \001(\002\022\034\n\024weight_p"
-      "refer_rotdir\030\025 \001(\002\022\034\n\024weight_acc_lim_the"
-      "ta\030\026 \001(\002\"\201\005\n\024HomotopyClassPlanner\022&\n\036ena"
-      "ble_homotopy_class_planning\030\001 \001(\010\022\035\n\025ena"
-      "ble_multithreading\030\002 \001(\010\022\032\n\022simple_explo"
-      "ration\030\003 \001(\010\022\032\n\022max_number_classes\030\004 \001(\005"
-      "\022!\n\031selection_obst_cost_scale\030\005 \001(\002\022%\n\035s"
-      "election_prefer_initial_plan\030\006 \001(\002\022%\n\035se"
-      "lection_viapoint_cost_scale\030\007 \001(\002\022!\n\031sel"
-      "ection_cost_hysteresis\030\010 \001(\002\022\'\n\037selectio"
-      "n_alternative_time_cost\030\t \001(\010\022 \n\030roadmap"
-      "_graph_no_samples\030\n \001(\005\022 \n\030roadmap_graph"
-      "_area_width\030\013 \001(\005\022\'\n\037roadmap_graph_area_"
-      "length_scale\030\014 \001(\002\022\035\n\025h_signature_presca"
-      "ler\030\r \001(\002\022\035\n\025h_signature_threshold\030\016 \001(\002"
-      "\022 \n\030obstacle_keypoint_offset\030\017 \001(\002\022\"\n\032ob"
-      "stacle_heading_threshold\030\020 \001(\002\022 \n\030viapoi"
-      "nts_all_candidates\030\021 \001(\010\022\032\n\022visualize_hc"
-      "_graph\030\022 \001(\010\"\366\001\n\010Recovery\022#\n\033shrink_hori"
-      "zon_min_duration\030\001 \001(\010\022\034\n\024oscillation_re"
-      "covery\030\002 \001(\010\022\035\n\025shrink_horizon_backup\030\003 "
-      "\001(\010\022\031\n\021oscillation_v_eps\030\004 \001(\001\022\035\n\025oscill"
-      "ation_omega_eps\030\005 \001(\001\022)\n!oscillation_rec"
-      "overy_min_duration\030\006 \001(\001\022#\n\033oscillation_"
-      "filter_duration\030\007 \001(\001\"\342\003\n\006Config\022,\n\topt_"
-      "frame\030\001 \001(\0132\031.or_local_planner.FrameID\0224"
-      "\n\016trajectory_opt\030\002 \001(\0132\034.or_local_planne"
-      "r.Trajectory\022/\n\016kinematics_opt\030\003 \001(\0132\027.o"
-      "r_local_planner.Robot\0226\n\rtolerance_opt\030\004"
-      " \001(\0132\037.or_local_planner.GoalTolerance\0222\n"
-      "\robstacles_opt\030\005 \001(\0132\033.or_local_planner."
-      "Obstacles\0225\n\roptimize_info\030\006 \001(\0132\036.or_lo"
-      "cal_planner.Optimization\0227\n\007hcp_opt\030\007 \001("
-      "\0132&.or_local_planner.HomotopyClassPlanne"
-      "r\0224\n\nrobot_type\030\010 \003(\0132 .or_local_planner"
-      ".FootprintModel\0221\n\rrecovery_info\030\t \001(\0132\032"
-      ".or_local_planner.Recovery"
+      "el\030\003 \001(\010\"\264\001\n\tObstacles\022\031\n\021min_obstacle_d"
+      "ist\030\001 \001(\002\022+\n#costmap_obstacles_behind_ro"
+      "bot_dist\030\002 \001(\002\022*\n\"obstacle_association_c"
+      "utoff_factor\030\003 \001(\002\0223\n+obstacle_associati"
+      "on_force_inclusion_factor\030\004 \001(\002\"\224\005\n\014Opti"
+      "mization\022\033\n\023no_inner_iterations\030\001 \001(\005\022\033\n"
+      "\023no_outer_iterations\030\002 \001(\005\022\035\n\025optimizati"
+      "on_activate\030\003 \001(\010\022\034\n\024optimization_verbos"
+      "e\030\004 \001(\010\022\027\n\017penalty_epsilon\030\005 \001(\002\022\030\n\020weig"
+      "ht_max_vel_x\030\006 \001(\002\022\030\n\020weight_max_vel_y\030\007"
+      " \001(\002\022\034\n\024weight_max_vel_theta\030\010 \001(\002\022\030\n\020we"
+      "ight_acc_lim_x\030\t \001(\002\022\030\n\020weight_acc_lim_y"
+      "\030\n \001(\002\022\033\n\023weight_acc_lim_thet\030\013 \001(\002\022\034\n\024w"
+      "eight_kinematics_nh\030\014 \001(\002\022\'\n\037weight_kine"
+      "matics_forward_drive\030\r \001(\002\022(\n weight_kin"
+      "ematics_turning_radius\030\016 \001(\002\022\032\n\022weight_o"
+      "ptimaltime\030\017 \001(\002\022\027\n\017weight_obstacle\030\020 \001("
+      "\002\022\030\n\020weight_inflation\030\021 \001(\002\022\037\n\027weight_dy"
+      "namic_obstacle\030\022 \001(\002\022\027\n\017weight_viapoint\030"
+      "\023 \001(\002\022\033\n\023weight_adapt_factor\030\024 \001(\002\022\034\n\024we"
+      "ight_prefer_rotdir\030\025 \001(\002\022\034\n\024weight_acc_l"
+      "im_theta\030\026 \001(\002\"\366\002\n\006Config\022,\n\topt_frame\030\001"
+      " \001(\0132\031.or_local_planner.FrameID\0224\n\016traje"
+      "ctory_opt\030\002 \001(\0132\034.or_local_planner.Traje"
+      "ctory\022/\n\016kinematics_opt\030\003 \001(\0132\027.or_local"
+      "_planner.Robot\0226\n\rtolerance_opt\030\004 \001(\0132\037."
+      "or_local_planner.GoalTolerance\0222\n\robstac"
+      "les_opt\030\005 \001(\0132\033.or_local_planner.Obstacl"
+      "es\0225\n\roptimize_info\030\006 \001(\0132\036.or_local_pla"
+      "nner.Optimization\0224\n\nrobot_type\030\007 \003(\0132 ."
+      "or_local_planner.FootprintModel"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 3666);
+      descriptor, 2431);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "timed_elastic_band.proto", &protobuf_RegisterTypes);
 }
@@ -4341,16 +4208,9 @@ void GoalTolerance::set_free_goal_vel(bool value) {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Obstacles::kMinObstacleDistFieldNumber;
-const int Obstacles::kInflationDistFieldNumber;
-const int Obstacles::kIncludeCostmapObstaclesFieldNumber;
 const int Obstacles::kCostmapObstaclesBehindRobotDistFieldNumber;
-const int Obstacles::kObstaclePosesAffectedFieldNumber;
-const int Obstacles::kLegacyObstacleAssociationFieldNumber;
 const int Obstacles::kObstacleAssociationCutoffFactorFieldNumber;
 const int Obstacles::kObstacleAssociationForceInclusionFactorFieldNumber;
-const int Obstacles::kCostmapConverterPluginFieldNumber;
-const int Obstacles::kCostmapConverterSpinThreadFieldNumber;
-const int Obstacles::kCostmapConverterRateFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Obstacles::Obstacles()
@@ -4367,22 +4227,17 @@ Obstacles::Obstacles(const Obstacles& from)
       _has_bits_(from._has_bits_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  costmap_converter_plugin_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.has_costmap_converter_plugin()) {
-    costmap_converter_plugin_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.costmap_converter_plugin_);
-  }
   ::memcpy(&min_obstacle_dist_, &from.min_obstacle_dist_,
-    static_cast<size_t>(reinterpret_cast<char*>(&costmap_converter_rate_) -
-    reinterpret_cast<char*>(&min_obstacle_dist_)) + sizeof(costmap_converter_rate_));
+    static_cast<size_t>(reinterpret_cast<char*>(&obstacle_association_force_inclusion_factor_) -
+    reinterpret_cast<char*>(&min_obstacle_dist_)) + sizeof(obstacle_association_force_inclusion_factor_));
   // @@protoc_insertion_point(copy_constructor:or_local_planner.Obstacles)
 }
 
 void Obstacles::SharedCtor() {
   _cached_size_ = 0;
-  costmap_converter_plugin_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&min_obstacle_dist_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&costmap_converter_rate_) -
-      reinterpret_cast<char*>(&min_obstacle_dist_)) + sizeof(costmap_converter_rate_));
+      reinterpret_cast<char*>(&obstacle_association_force_inclusion_factor_) -
+      reinterpret_cast<char*>(&min_obstacle_dist_)) + sizeof(obstacle_association_force_inclusion_factor_));
 }
 
 Obstacles::~Obstacles() {
@@ -4391,7 +4246,6 @@ Obstacles::~Obstacles() {
 }
 
 void Obstacles::SharedDtor() {
-  costmap_converter_plugin_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void Obstacles::SetCachedSize(int size) const {
@@ -4423,20 +4277,11 @@ void Obstacles::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (has_costmap_converter_plugin()) {
-    GOOGLE_DCHECK(!costmap_converter_plugin_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    (*costmap_converter_plugin_.UnsafeRawStringPointer())->clear();
-  }
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 254u) {
+  if (cached_has_bits & 15u) {
     ::memset(&min_obstacle_dist_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&costmap_converter_spin_thread_) -
-        reinterpret_cast<char*>(&min_obstacle_dist_)) + sizeof(costmap_converter_spin_thread_));
-  }
-  if (cached_has_bits & 1792u) {
-    ::memset(&obstacle_association_cutoff_factor_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&costmap_converter_rate_) -
-        reinterpret_cast<char*>(&obstacle_association_cutoff_factor_)) + sizeof(costmap_converter_rate_));
+        reinterpret_cast<char*>(&obstacle_association_force_inclusion_factor_) -
+        reinterpret_cast<char*>(&min_obstacle_dist_)) + sizeof(obstacle_association_force_inclusion_factor_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -4466,38 +4311,10 @@ bool Obstacles::MergePartialFromCodedStream(
         break;
       }
 
-      // optional float inflation_dist = 2;
+      // optional float costmap_obstacles_behind_robot_dist = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(21u /* 21 & 0xFF */)) {
-          set_has_inflation_dist();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &inflation_dist_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool include_costmap_obstacles = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          set_has_include_costmap_obstacles();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &include_costmap_obstacles_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float costmap_obstacles_behind_robot_dist = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(37u /* 37 & 0xFF */)) {
           set_has_costmap_obstacles_behind_robot_dist();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -4508,38 +4325,10 @@ bool Obstacles::MergePartialFromCodedStream(
         break;
       }
 
-      // optional float obstacle_poses_affected = 5;
-      case 5: {
+      // optional float obstacle_association_cutoff_factor = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
-          set_has_obstacle_poses_affected();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &obstacle_poses_affected_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool legacy_obstacle_association = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-          set_has_legacy_obstacle_association();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &legacy_obstacle_association_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float obstacle_association_cutoff_factor = 7;
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(61u /* 61 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(29u /* 29 & 0xFF */)) {
           set_has_obstacle_association_cutoff_factor();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -4550,58 +4339,14 @@ bool Obstacles::MergePartialFromCodedStream(
         break;
       }
 
-      // optional float obstacle_association_force_inclusion_factor = 8;
-      case 8: {
+      // optional float obstacle_association_force_inclusion_factor = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(69u /* 69 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(37u /* 37 & 0xFF */)) {
           set_has_obstacle_association_force_inclusion_factor();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &obstacle_association_force_inclusion_factor_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional string costmap_converter_plugin = 9;
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_costmap_converter_plugin()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->costmap_converter_plugin().data(), static_cast<int>(this->costmap_converter_plugin().length()),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "or_local_planner.Obstacles.costmap_converter_plugin");
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool costmap_converter_spin_thread = 10;
-      case 10: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
-          set_has_costmap_converter_spin_thread();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &costmap_converter_spin_thread_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float costmap_converter_rate = 11;
-      case 11: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(93u /* 93 & 0xFF */)) {
-          set_has_costmap_converter_rate();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &costmap_converter_rate_)));
         } else {
           goto handle_unusual;
         }
@@ -4636,63 +4381,23 @@ void Obstacles::SerializeWithCachedSizes(
 
   cached_has_bits = _has_bits_[0];
   // optional float min_obstacle_dist = 1;
-  if (cached_has_bits & 0x00000002u) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->min_obstacle_dist(), output);
   }
 
-  // optional float inflation_dist = 2;
+  // optional float costmap_obstacles_behind_robot_dist = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->costmap_obstacles_behind_robot_dist(), output);
+  }
+
+  // optional float obstacle_association_cutoff_factor = 3;
   if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->inflation_dist(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->obstacle_association_cutoff_factor(), output);
   }
 
-  // optional bool include_costmap_obstacles = 3;
-  if (cached_has_bits & 0x00000020u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->include_costmap_obstacles(), output);
-  }
-
-  // optional float costmap_obstacles_behind_robot_dist = 4;
+  // optional float obstacle_association_force_inclusion_factor = 4;
   if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->costmap_obstacles_behind_robot_dist(), output);
-  }
-
-  // optional float obstacle_poses_affected = 5;
-  if (cached_has_bits & 0x00000010u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->obstacle_poses_affected(), output);
-  }
-
-  // optional bool legacy_obstacle_association = 6;
-  if (cached_has_bits & 0x00000040u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(6, this->legacy_obstacle_association(), output);
-  }
-
-  // optional float obstacle_association_cutoff_factor = 7;
-  if (cached_has_bits & 0x00000100u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->obstacle_association_cutoff_factor(), output);
-  }
-
-  // optional float obstacle_association_force_inclusion_factor = 8;
-  if (cached_has_bits & 0x00000200u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(8, this->obstacle_association_force_inclusion_factor(), output);
-  }
-
-  // optional string costmap_converter_plugin = 9;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->costmap_converter_plugin().data(), static_cast<int>(this->costmap_converter_plugin().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "or_local_planner.Obstacles.costmap_converter_plugin");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      9, this->costmap_converter_plugin(), output);
-  }
-
-  // optional bool costmap_converter_spin_thread = 10;
-  if (cached_has_bits & 0x00000080u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(10, this->costmap_converter_spin_thread(), output);
-  }
-
-  // optional float costmap_converter_rate = 11;
-  if (cached_has_bits & 0x00000400u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(11, this->costmap_converter_rate(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->obstacle_association_force_inclusion_factor(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4711,64 +4416,23 @@ void Obstacles::SerializeWithCachedSizes(
 
   cached_has_bits = _has_bits_[0];
   // optional float min_obstacle_dist = 1;
-  if (cached_has_bits & 0x00000002u) {
+  if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->min_obstacle_dist(), target);
   }
 
-  // optional float inflation_dist = 2;
+  // optional float costmap_obstacles_behind_robot_dist = 2;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->costmap_obstacles_behind_robot_dist(), target);
+  }
+
+  // optional float obstacle_association_cutoff_factor = 3;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->inflation_dist(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->obstacle_association_cutoff_factor(), target);
   }
 
-  // optional bool include_costmap_obstacles = 3;
-  if (cached_has_bits & 0x00000020u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->include_costmap_obstacles(), target);
-  }
-
-  // optional float costmap_obstacles_behind_robot_dist = 4;
+  // optional float obstacle_association_force_inclusion_factor = 4;
   if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->costmap_obstacles_behind_robot_dist(), target);
-  }
-
-  // optional float obstacle_poses_affected = 5;
-  if (cached_has_bits & 0x00000010u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->obstacle_poses_affected(), target);
-  }
-
-  // optional bool legacy_obstacle_association = 6;
-  if (cached_has_bits & 0x00000040u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(6, this->legacy_obstacle_association(), target);
-  }
-
-  // optional float obstacle_association_cutoff_factor = 7;
-  if (cached_has_bits & 0x00000100u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->obstacle_association_cutoff_factor(), target);
-  }
-
-  // optional float obstacle_association_force_inclusion_factor = 8;
-  if (cached_has_bits & 0x00000200u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(8, this->obstacle_association_force_inclusion_factor(), target);
-  }
-
-  // optional string costmap_converter_plugin = 9;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->costmap_converter_plugin().data(), static_cast<int>(this->costmap_converter_plugin().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "or_local_planner.Obstacles.costmap_converter_plugin");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        9, this->costmap_converter_plugin(), target);
-  }
-
-  // optional bool costmap_converter_spin_thread = 10;
-  if (cached_has_bits & 0x00000080u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(10, this->costmap_converter_spin_thread(), target);
-  }
-
-  // optional float costmap_converter_rate = 11;
-  if (cached_has_bits & 0x00000400u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(11, this->costmap_converter_rate(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->obstacle_association_force_inclusion_factor(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4788,63 +4452,24 @@ size_t Obstacles::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (_has_bits_[0 / 32] & 255u) {
-    // optional string costmap_converter_plugin = 9;
-    if (has_costmap_converter_plugin()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->costmap_converter_plugin());
-    }
-
+  if (_has_bits_[0 / 32] & 15u) {
     // optional float min_obstacle_dist = 1;
     if (has_min_obstacle_dist()) {
       total_size += 1 + 4;
     }
 
-    // optional float inflation_dist = 2;
-    if (has_inflation_dist()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float costmap_obstacles_behind_robot_dist = 4;
+    // optional float costmap_obstacles_behind_robot_dist = 2;
     if (has_costmap_obstacles_behind_robot_dist()) {
       total_size += 1 + 4;
     }
 
-    // optional float obstacle_poses_affected = 5;
-    if (has_obstacle_poses_affected()) {
-      total_size += 1 + 4;
-    }
-
-    // optional bool include_costmap_obstacles = 3;
-    if (has_include_costmap_obstacles()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool legacy_obstacle_association = 6;
-    if (has_legacy_obstacle_association()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool costmap_converter_spin_thread = 10;
-    if (has_costmap_converter_spin_thread()) {
-      total_size += 1 + 1;
-    }
-
-  }
-  if (_has_bits_[8 / 32] & 1792u) {
-    // optional float obstacle_association_cutoff_factor = 7;
+    // optional float obstacle_association_cutoff_factor = 3;
     if (has_obstacle_association_cutoff_factor()) {
       total_size += 1 + 4;
     }
 
-    // optional float obstacle_association_force_inclusion_factor = 8;
+    // optional float obstacle_association_force_inclusion_factor = 4;
     if (has_obstacle_association_force_inclusion_factor()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float costmap_converter_rate = 11;
-    if (has_costmap_converter_rate()) {
       total_size += 1 + 4;
     }
 
@@ -4879,43 +4504,18 @@ void Obstacles::MergeFrom(const Obstacles& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 255u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
-      set_has_costmap_converter_plugin();
-      costmap_converter_plugin_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.costmap_converter_plugin_);
-    }
-    if (cached_has_bits & 0x00000002u) {
       min_obstacle_dist_ = from.min_obstacle_dist_;
     }
-    if (cached_has_bits & 0x00000004u) {
-      inflation_dist_ = from.inflation_dist_;
-    }
-    if (cached_has_bits & 0x00000008u) {
+    if (cached_has_bits & 0x00000002u) {
       costmap_obstacles_behind_robot_dist_ = from.costmap_obstacles_behind_robot_dist_;
     }
-    if (cached_has_bits & 0x00000010u) {
-      obstacle_poses_affected_ = from.obstacle_poses_affected_;
-    }
-    if (cached_has_bits & 0x00000020u) {
-      include_costmap_obstacles_ = from.include_costmap_obstacles_;
-    }
-    if (cached_has_bits & 0x00000040u) {
-      legacy_obstacle_association_ = from.legacy_obstacle_association_;
-    }
-    if (cached_has_bits & 0x00000080u) {
-      costmap_converter_spin_thread_ = from.costmap_converter_spin_thread_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  if (cached_has_bits & 1792u) {
-    if (cached_has_bits & 0x00000100u) {
+    if (cached_has_bits & 0x00000004u) {
       obstacle_association_cutoff_factor_ = from.obstacle_association_cutoff_factor_;
     }
-    if (cached_has_bits & 0x00000200u) {
+    if (cached_has_bits & 0x00000008u) {
       obstacle_association_force_inclusion_factor_ = from.obstacle_association_force_inclusion_factor_;
-    }
-    if (cached_has_bits & 0x00000400u) {
-      costmap_converter_rate_ = from.costmap_converter_rate_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -4945,17 +4545,10 @@ void Obstacles::Swap(Obstacles* other) {
 }
 void Obstacles::InternalSwap(Obstacles* other) {
   using std::swap;
-  costmap_converter_plugin_.Swap(&other->costmap_converter_plugin_);
   swap(min_obstacle_dist_, other->min_obstacle_dist_);
-  swap(inflation_dist_, other->inflation_dist_);
   swap(costmap_obstacles_behind_robot_dist_, other->costmap_obstacles_behind_robot_dist_);
-  swap(obstacle_poses_affected_, other->obstacle_poses_affected_);
-  swap(include_costmap_obstacles_, other->include_costmap_obstacles_);
-  swap(legacy_obstacle_association_, other->legacy_obstacle_association_);
-  swap(costmap_converter_spin_thread_, other->costmap_converter_spin_thread_);
   swap(obstacle_association_cutoff_factor_, other->obstacle_association_cutoff_factor_);
   swap(obstacle_association_force_inclusion_factor_, other->obstacle_association_force_inclusion_factor_);
-  swap(costmap_converter_rate_, other->costmap_converter_rate_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -4971,13 +4564,13 @@ void Obstacles::InternalSwap(Obstacles* other) {
 
 // optional float min_obstacle_dist = 1;
 bool Obstacles::has_min_obstacle_dist() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
 void Obstacles::set_has_min_obstacle_dist() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000001u;
 }
 void Obstacles::clear_has_min_obstacle_dist() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 void Obstacles::clear_min_obstacle_dist() {
   min_obstacle_dist_ = 0;
@@ -4993,63 +4586,15 @@ void Obstacles::set_min_obstacle_dist(float value) {
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.min_obstacle_dist)
 }
 
-// optional float inflation_dist = 2;
-bool Obstacles::has_inflation_dist() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-void Obstacles::set_has_inflation_dist() {
-  _has_bits_[0] |= 0x00000004u;
-}
-void Obstacles::clear_has_inflation_dist() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-void Obstacles::clear_inflation_dist() {
-  inflation_dist_ = 0;
-  clear_has_inflation_dist();
-}
-float Obstacles::inflation_dist() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.inflation_dist)
-  return inflation_dist_;
-}
-void Obstacles::set_inflation_dist(float value) {
-  set_has_inflation_dist();
-  inflation_dist_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.inflation_dist)
-}
-
-// optional bool include_costmap_obstacles = 3;
-bool Obstacles::has_include_costmap_obstacles() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-void Obstacles::set_has_include_costmap_obstacles() {
-  _has_bits_[0] |= 0x00000020u;
-}
-void Obstacles::clear_has_include_costmap_obstacles() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-void Obstacles::clear_include_costmap_obstacles() {
-  include_costmap_obstacles_ = false;
-  clear_has_include_costmap_obstacles();
-}
-bool Obstacles::include_costmap_obstacles() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.include_costmap_obstacles)
-  return include_costmap_obstacles_;
-}
-void Obstacles::set_include_costmap_obstacles(bool value) {
-  set_has_include_costmap_obstacles();
-  include_costmap_obstacles_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.include_costmap_obstacles)
-}
-
-// optional float costmap_obstacles_behind_robot_dist = 4;
+// optional float costmap_obstacles_behind_robot_dist = 2;
 bool Obstacles::has_costmap_obstacles_behind_robot_dist() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 void Obstacles::set_has_costmap_obstacles_behind_robot_dist() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000002u;
 }
 void Obstacles::clear_has_costmap_obstacles_behind_robot_dist() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 void Obstacles::clear_costmap_obstacles_behind_robot_dist() {
   costmap_obstacles_behind_robot_dist_ = 0;
@@ -5065,63 +4610,15 @@ void Obstacles::set_costmap_obstacles_behind_robot_dist(float value) {
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_obstacles_behind_robot_dist)
 }
 
-// optional float obstacle_poses_affected = 5;
-bool Obstacles::has_obstacle_poses_affected() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-void Obstacles::set_has_obstacle_poses_affected() {
-  _has_bits_[0] |= 0x00000010u;
-}
-void Obstacles::clear_has_obstacle_poses_affected() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-void Obstacles::clear_obstacle_poses_affected() {
-  obstacle_poses_affected_ = 0;
-  clear_has_obstacle_poses_affected();
-}
-float Obstacles::obstacle_poses_affected() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.obstacle_poses_affected)
-  return obstacle_poses_affected_;
-}
-void Obstacles::set_obstacle_poses_affected(float value) {
-  set_has_obstacle_poses_affected();
-  obstacle_poses_affected_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.obstacle_poses_affected)
-}
-
-// optional bool legacy_obstacle_association = 6;
-bool Obstacles::has_legacy_obstacle_association() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-void Obstacles::set_has_legacy_obstacle_association() {
-  _has_bits_[0] |= 0x00000040u;
-}
-void Obstacles::clear_has_legacy_obstacle_association() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-void Obstacles::clear_legacy_obstacle_association() {
-  legacy_obstacle_association_ = false;
-  clear_has_legacy_obstacle_association();
-}
-bool Obstacles::legacy_obstacle_association() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.legacy_obstacle_association)
-  return legacy_obstacle_association_;
-}
-void Obstacles::set_legacy_obstacle_association(bool value) {
-  set_has_legacy_obstacle_association();
-  legacy_obstacle_association_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.legacy_obstacle_association)
-}
-
-// optional float obstacle_association_cutoff_factor = 7;
+// optional float obstacle_association_cutoff_factor = 3;
 bool Obstacles::has_obstacle_association_cutoff_factor() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 void Obstacles::set_has_obstacle_association_cutoff_factor() {
-  _has_bits_[0] |= 0x00000100u;
+  _has_bits_[0] |= 0x00000004u;
 }
 void Obstacles::clear_has_obstacle_association_cutoff_factor() {
-  _has_bits_[0] &= ~0x00000100u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 void Obstacles::clear_obstacle_association_cutoff_factor() {
   obstacle_association_cutoff_factor_ = 0;
@@ -5137,15 +4634,15 @@ void Obstacles::set_obstacle_association_cutoff_factor(float value) {
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.obstacle_association_cutoff_factor)
 }
 
-// optional float obstacle_association_force_inclusion_factor = 8;
+// optional float obstacle_association_force_inclusion_factor = 4;
 bool Obstacles::has_obstacle_association_force_inclusion_factor() const {
-  return (_has_bits_[0] & 0x00000200u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 void Obstacles::set_has_obstacle_association_force_inclusion_factor() {
-  _has_bits_[0] |= 0x00000200u;
+  _has_bits_[0] |= 0x00000008u;
 }
 void Obstacles::clear_has_obstacle_association_force_inclusion_factor() {
-  _has_bits_[0] &= ~0x00000200u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 void Obstacles::clear_obstacle_association_force_inclusion_factor() {
   obstacle_association_force_inclusion_factor_ = 0;
@@ -5159,117 +4656,6 @@ void Obstacles::set_obstacle_association_force_inclusion_factor(float value) {
   set_has_obstacle_association_force_inclusion_factor();
   obstacle_association_force_inclusion_factor_ = value;
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.obstacle_association_force_inclusion_factor)
-}
-
-// optional string costmap_converter_plugin = 9;
-bool Obstacles::has_costmap_converter_plugin() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-void Obstacles::set_has_costmap_converter_plugin() {
-  _has_bits_[0] |= 0x00000001u;
-}
-void Obstacles::clear_has_costmap_converter_plugin() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-void Obstacles::clear_costmap_converter_plugin() {
-  costmap_converter_plugin_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  clear_has_costmap_converter_plugin();
-}
-const ::std::string& Obstacles::costmap_converter_plugin() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.costmap_converter_plugin)
-  return costmap_converter_plugin_.GetNoArena();
-}
-void Obstacles::set_costmap_converter_plugin(const ::std::string& value) {
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-#if LANG_CXX11
-void Obstacles::set_costmap_converter_plugin(::std::string&& value) {
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-#endif
-void Obstacles::set_costmap_converter_plugin(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-void Obstacles::set_costmap_converter_plugin(const char* value, size_t size) {
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-::std::string* Obstacles::mutable_costmap_converter_plugin() {
-  set_has_costmap_converter_plugin();
-  // @@protoc_insertion_point(field_mutable:or_local_planner.Obstacles.costmap_converter_plugin)
-  return costmap_converter_plugin_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-::std::string* Obstacles::release_costmap_converter_plugin() {
-  // @@protoc_insertion_point(field_release:or_local_planner.Obstacles.costmap_converter_plugin)
-  clear_has_costmap_converter_plugin();
-  return costmap_converter_plugin_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void Obstacles::set_allocated_costmap_converter_plugin(::std::string* costmap_converter_plugin) {
-  if (costmap_converter_plugin != NULL) {
-    set_has_costmap_converter_plugin();
-  } else {
-    clear_has_costmap_converter_plugin();
-  }
-  costmap_converter_plugin_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), costmap_converter_plugin);
-  // @@protoc_insertion_point(field_set_allocated:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-
-// optional bool costmap_converter_spin_thread = 10;
-bool Obstacles::has_costmap_converter_spin_thread() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-void Obstacles::set_has_costmap_converter_spin_thread() {
-  _has_bits_[0] |= 0x00000080u;
-}
-void Obstacles::clear_has_costmap_converter_spin_thread() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-void Obstacles::clear_costmap_converter_spin_thread() {
-  costmap_converter_spin_thread_ = false;
-  clear_has_costmap_converter_spin_thread();
-}
-bool Obstacles::costmap_converter_spin_thread() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.costmap_converter_spin_thread)
-  return costmap_converter_spin_thread_;
-}
-void Obstacles::set_costmap_converter_spin_thread(bool value) {
-  set_has_costmap_converter_spin_thread();
-  costmap_converter_spin_thread_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_converter_spin_thread)
-}
-
-// optional float costmap_converter_rate = 11;
-bool Obstacles::has_costmap_converter_rate() const {
-  return (_has_bits_[0] & 0x00000400u) != 0;
-}
-void Obstacles::set_has_costmap_converter_rate() {
-  _has_bits_[0] |= 0x00000400u;
-}
-void Obstacles::clear_has_costmap_converter_rate() {
-  _has_bits_[0] &= ~0x00000400u;
-}
-void Obstacles::clear_costmap_converter_rate() {
-  costmap_converter_rate_ = 0;
-  clear_has_costmap_converter_rate();
-}
-float Obstacles::costmap_converter_rate() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.costmap_converter_rate)
-  return costmap_converter_rate_;
-}
-void Obstacles::set_costmap_converter_rate(float value) {
-  set_has_costmap_converter_rate();
-  costmap_converter_rate_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_converter_rate)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -6801,1939 +6187,13 @@ void Optimization::set_weight_acc_lim_theta(float value) {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int HomotopyClassPlanner::kEnableHomotopyClassPlanningFieldNumber;
-const int HomotopyClassPlanner::kEnableMultithreadingFieldNumber;
-const int HomotopyClassPlanner::kSimpleExplorationFieldNumber;
-const int HomotopyClassPlanner::kMaxNumberClassesFieldNumber;
-const int HomotopyClassPlanner::kSelectionObstCostScaleFieldNumber;
-const int HomotopyClassPlanner::kSelectionPreferInitialPlanFieldNumber;
-const int HomotopyClassPlanner::kSelectionViapointCostScaleFieldNumber;
-const int HomotopyClassPlanner::kSelectionCostHysteresisFieldNumber;
-const int HomotopyClassPlanner::kSelectionAlternativeTimeCostFieldNumber;
-const int HomotopyClassPlanner::kRoadmapGraphNoSamplesFieldNumber;
-const int HomotopyClassPlanner::kRoadmapGraphAreaWidthFieldNumber;
-const int HomotopyClassPlanner::kRoadmapGraphAreaLengthScaleFieldNumber;
-const int HomotopyClassPlanner::kHSignaturePrescalerFieldNumber;
-const int HomotopyClassPlanner::kHSignatureThresholdFieldNumber;
-const int HomotopyClassPlanner::kObstacleKeypointOffsetFieldNumber;
-const int HomotopyClassPlanner::kObstacleHeadingThresholdFieldNumber;
-const int HomotopyClassPlanner::kViapointsAllCandidatesFieldNumber;
-const int HomotopyClassPlanner::kVisualizeHcGraphFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-HomotopyClassPlanner::HomotopyClassPlanner()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    protobuf_timed_5felastic_5fband_2eproto::InitDefaults();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:or_local_planner.HomotopyClassPlanner)
-}
-HomotopyClassPlanner::HomotopyClassPlanner(const HomotopyClassPlanner& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&enable_homotopy_class_planning_, &from.enable_homotopy_class_planning_,
-    static_cast<size_t>(reinterpret_cast<char*>(&visualize_hc_graph_) -
-    reinterpret_cast<char*>(&enable_homotopy_class_planning_)) + sizeof(visualize_hc_graph_));
-  // @@protoc_insertion_point(copy_constructor:or_local_planner.HomotopyClassPlanner)
-}
-
-void HomotopyClassPlanner::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(&enable_homotopy_class_planning_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&visualize_hc_graph_) -
-      reinterpret_cast<char*>(&enable_homotopy_class_planning_)) + sizeof(visualize_hc_graph_));
-}
-
-HomotopyClassPlanner::~HomotopyClassPlanner() {
-  // @@protoc_insertion_point(destructor:or_local_planner.HomotopyClassPlanner)
-  SharedDtor();
-}
-
-void HomotopyClassPlanner::SharedDtor() {
-}
-
-void HomotopyClassPlanner::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* HomotopyClassPlanner::descriptor() {
-  protobuf_timed_5felastic_5fband_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_timed_5felastic_5fband_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const HomotopyClassPlanner& HomotopyClassPlanner::default_instance() {
-  protobuf_timed_5felastic_5fband_2eproto::InitDefaults();
-  return *internal_default_instance();
-}
-
-HomotopyClassPlanner* HomotopyClassPlanner::New(::google::protobuf::Arena* arena) const {
-  HomotopyClassPlanner* n = new HomotopyClassPlanner;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void HomotopyClassPlanner::Clear() {
-// @@protoc_insertion_point(message_clear_start:or_local_planner.HomotopyClassPlanner)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 255u) {
-    ::memset(&enable_homotopy_class_planning_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&selection_viapoint_cost_scale_) -
-        reinterpret_cast<char*>(&enable_homotopy_class_planning_)) + sizeof(selection_viapoint_cost_scale_));
-  }
-  if (cached_has_bits & 65280u) {
-    ::memset(&selection_cost_hysteresis_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&obstacle_heading_threshold_) -
-        reinterpret_cast<char*>(&selection_cost_hysteresis_)) + sizeof(obstacle_heading_threshold_));
-  }
-  if (cached_has_bits & 196608u) {
-    ::memset(&viapoints_all_candidates_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&visualize_hc_graph_) -
-        reinterpret_cast<char*>(&viapoints_all_candidates_)) + sizeof(visualize_hc_graph_));
-  }
-  _has_bits_.Clear();
-  _internal_metadata_.Clear();
-}
-
-bool HomotopyClassPlanner::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:or_local_planner.HomotopyClassPlanner)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional bool enable_homotopy_class_planning = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          set_has_enable_homotopy_class_planning();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &enable_homotopy_class_planning_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool enable_multithreading = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-          set_has_enable_multithreading();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &enable_multithreading_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool simple_exploration = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          set_has_simple_exploration();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &simple_exploration_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional int32 max_number_classes = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
-          set_has_max_number_classes();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &max_number_classes_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float selection_obst_cost_scale = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
-          set_has_selection_obst_cost_scale();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &selection_obst_cost_scale_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float selection_prefer_initial_plan = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(53u /* 53 & 0xFF */)) {
-          set_has_selection_prefer_initial_plan();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &selection_prefer_initial_plan_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float selection_viapoint_cost_scale = 7;
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(61u /* 61 & 0xFF */)) {
-          set_has_selection_viapoint_cost_scale();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &selection_viapoint_cost_scale_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float selection_cost_hysteresis = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(69u /* 69 & 0xFF */)) {
-          set_has_selection_cost_hysteresis();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &selection_cost_hysteresis_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool selection_alternative_time_cost = 9;
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
-          set_has_selection_alternative_time_cost();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &selection_alternative_time_cost_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional int32 roadmap_graph_no_samples = 10;
-      case 10: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
-          set_has_roadmap_graph_no_samples();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &roadmap_graph_no_samples_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional int32 roadmap_graph_area_width = 11;
-      case 11: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
-          set_has_roadmap_graph_area_width();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &roadmap_graph_area_width_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float roadmap_graph_area_length_scale = 12;
-      case 12: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(101u /* 101 & 0xFF */)) {
-          set_has_roadmap_graph_area_length_scale();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &roadmap_graph_area_length_scale_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float h_signature_prescaler = 13;
-      case 13: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(109u /* 109 & 0xFF */)) {
-          set_has_h_signature_prescaler();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &h_signature_prescaler_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float h_signature_threshold = 14;
-      case 14: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(117u /* 117 & 0xFF */)) {
-          set_has_h_signature_threshold();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &h_signature_threshold_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float obstacle_keypoint_offset = 15;
-      case 15: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(125u /* 125 & 0xFF */)) {
-          set_has_obstacle_keypoint_offset();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &obstacle_keypoint_offset_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional float obstacle_heading_threshold = 16;
-      case 16: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(133u /* 133 & 0xFF */)) {
-          set_has_obstacle_heading_threshold();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &obstacle_heading_threshold_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool viapoints_all_candidates = 17;
-      case 17: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(136u /* 136 & 0xFF */)) {
-          set_has_viapoints_all_candidates();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &viapoints_all_candidates_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool visualize_hc_graph = 18;
-      case 18: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(144u /* 144 & 0xFF */)) {
-          set_has_visualize_hc_graph();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &visualize_hc_graph_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:or_local_planner.HomotopyClassPlanner)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:or_local_planner.HomotopyClassPlanner)
-  return false;
-#undef DO_
-}
-
-void HomotopyClassPlanner::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:or_local_planner.HomotopyClassPlanner)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // optional bool enable_homotopy_class_planning = 1;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->enable_homotopy_class_planning(), output);
-  }
-
-  // optional bool enable_multithreading = 2;
-  if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(2, this->enable_multithreading(), output);
-  }
-
-  // optional bool simple_exploration = 3;
-  if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->simple_exploration(), output);
-  }
-
-  // optional int32 max_number_classes = 4;
-  if (cached_has_bits & 0x00000010u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->max_number_classes(), output);
-  }
-
-  // optional float selection_obst_cost_scale = 5;
-  if (cached_has_bits & 0x00000020u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->selection_obst_cost_scale(), output);
-  }
-
-  // optional float selection_prefer_initial_plan = 6;
-  if (cached_has_bits & 0x00000040u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->selection_prefer_initial_plan(), output);
-  }
-
-  // optional float selection_viapoint_cost_scale = 7;
-  if (cached_has_bits & 0x00000080u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->selection_viapoint_cost_scale(), output);
-  }
-
-  // optional float selection_cost_hysteresis = 8;
-  if (cached_has_bits & 0x00000100u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(8, this->selection_cost_hysteresis(), output);
-  }
-
-  // optional bool selection_alternative_time_cost = 9;
-  if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(9, this->selection_alternative_time_cost(), output);
-  }
-
-  // optional int32 roadmap_graph_no_samples = 10;
-  if (cached_has_bits & 0x00000200u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(10, this->roadmap_graph_no_samples(), output);
-  }
-
-  // optional int32 roadmap_graph_area_width = 11;
-  if (cached_has_bits & 0x00000400u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->roadmap_graph_area_width(), output);
-  }
-
-  // optional float roadmap_graph_area_length_scale = 12;
-  if (cached_has_bits & 0x00000800u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(12, this->roadmap_graph_area_length_scale(), output);
-  }
-
-  // optional float h_signature_prescaler = 13;
-  if (cached_has_bits & 0x00001000u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(13, this->h_signature_prescaler(), output);
-  }
-
-  // optional float h_signature_threshold = 14;
-  if (cached_has_bits & 0x00002000u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(14, this->h_signature_threshold(), output);
-  }
-
-  // optional float obstacle_keypoint_offset = 15;
-  if (cached_has_bits & 0x00004000u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(15, this->obstacle_keypoint_offset(), output);
-  }
-
-  // optional float obstacle_heading_threshold = 16;
-  if (cached_has_bits & 0x00008000u) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(16, this->obstacle_heading_threshold(), output);
-  }
-
-  // optional bool viapoints_all_candidates = 17;
-  if (cached_has_bits & 0x00010000u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(17, this->viapoints_all_candidates(), output);
-  }
-
-  // optional bool visualize_hc_graph = 18;
-  if (cached_has_bits & 0x00020000u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(18, this->visualize_hc_graph(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:or_local_planner.HomotopyClassPlanner)
-}
-
-::google::protobuf::uint8* HomotopyClassPlanner::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:or_local_planner.HomotopyClassPlanner)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // optional bool enable_homotopy_class_planning = 1;
-  if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->enable_homotopy_class_planning(), target);
-  }
-
-  // optional bool enable_multithreading = 2;
-  if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(2, this->enable_multithreading(), target);
-  }
-
-  // optional bool simple_exploration = 3;
-  if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->simple_exploration(), target);
-  }
-
-  // optional int32 max_number_classes = 4;
-  if (cached_has_bits & 0x00000010u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->max_number_classes(), target);
-  }
-
-  // optional float selection_obst_cost_scale = 5;
-  if (cached_has_bits & 0x00000020u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->selection_obst_cost_scale(), target);
-  }
-
-  // optional float selection_prefer_initial_plan = 6;
-  if (cached_has_bits & 0x00000040u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->selection_prefer_initial_plan(), target);
-  }
-
-  // optional float selection_viapoint_cost_scale = 7;
-  if (cached_has_bits & 0x00000080u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->selection_viapoint_cost_scale(), target);
-  }
-
-  // optional float selection_cost_hysteresis = 8;
-  if (cached_has_bits & 0x00000100u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(8, this->selection_cost_hysteresis(), target);
-  }
-
-  // optional bool selection_alternative_time_cost = 9;
-  if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(9, this->selection_alternative_time_cost(), target);
-  }
-
-  // optional int32 roadmap_graph_no_samples = 10;
-  if (cached_has_bits & 0x00000200u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(10, this->roadmap_graph_no_samples(), target);
-  }
-
-  // optional int32 roadmap_graph_area_width = 11;
-  if (cached_has_bits & 0x00000400u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->roadmap_graph_area_width(), target);
-  }
-
-  // optional float roadmap_graph_area_length_scale = 12;
-  if (cached_has_bits & 0x00000800u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(12, this->roadmap_graph_area_length_scale(), target);
-  }
-
-  // optional float h_signature_prescaler = 13;
-  if (cached_has_bits & 0x00001000u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(13, this->h_signature_prescaler(), target);
-  }
-
-  // optional float h_signature_threshold = 14;
-  if (cached_has_bits & 0x00002000u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(14, this->h_signature_threshold(), target);
-  }
-
-  // optional float obstacle_keypoint_offset = 15;
-  if (cached_has_bits & 0x00004000u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(15, this->obstacle_keypoint_offset(), target);
-  }
-
-  // optional float obstacle_heading_threshold = 16;
-  if (cached_has_bits & 0x00008000u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(16, this->obstacle_heading_threshold(), target);
-  }
-
-  // optional bool viapoints_all_candidates = 17;
-  if (cached_has_bits & 0x00010000u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(17, this->viapoints_all_candidates(), target);
-  }
-
-  // optional bool visualize_hc_graph = 18;
-  if (cached_has_bits & 0x00020000u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(18, this->visualize_hc_graph(), target);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:or_local_planner.HomotopyClassPlanner)
-  return target;
-}
-
-size_t HomotopyClassPlanner::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:or_local_planner.HomotopyClassPlanner)
-  size_t total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  if (_has_bits_[0 / 32] & 255u) {
-    // optional bool enable_homotopy_class_planning = 1;
-    if (has_enable_homotopy_class_planning()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool enable_multithreading = 2;
-    if (has_enable_multithreading()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool simple_exploration = 3;
-    if (has_simple_exploration()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool selection_alternative_time_cost = 9;
-    if (has_selection_alternative_time_cost()) {
-      total_size += 1 + 1;
-    }
-
-    // optional int32 max_number_classes = 4;
-    if (has_max_number_classes()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->max_number_classes());
-    }
-
-    // optional float selection_obst_cost_scale = 5;
-    if (has_selection_obst_cost_scale()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float selection_prefer_initial_plan = 6;
-    if (has_selection_prefer_initial_plan()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float selection_viapoint_cost_scale = 7;
-    if (has_selection_viapoint_cost_scale()) {
-      total_size += 1 + 4;
-    }
-
-  }
-  if (_has_bits_[8 / 32] & 65280u) {
-    // optional float selection_cost_hysteresis = 8;
-    if (has_selection_cost_hysteresis()) {
-      total_size += 1 + 4;
-    }
-
-    // optional int32 roadmap_graph_no_samples = 10;
-    if (has_roadmap_graph_no_samples()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->roadmap_graph_no_samples());
-    }
-
-    // optional int32 roadmap_graph_area_width = 11;
-    if (has_roadmap_graph_area_width()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->roadmap_graph_area_width());
-    }
-
-    // optional float roadmap_graph_area_length_scale = 12;
-    if (has_roadmap_graph_area_length_scale()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float h_signature_prescaler = 13;
-    if (has_h_signature_prescaler()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float h_signature_threshold = 14;
-    if (has_h_signature_threshold()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float obstacle_keypoint_offset = 15;
-    if (has_obstacle_keypoint_offset()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float obstacle_heading_threshold = 16;
-    if (has_obstacle_heading_threshold()) {
-      total_size += 2 + 4;
-    }
-
-  }
-  if (_has_bits_[16 / 32] & 196608u) {
-    // optional bool viapoints_all_candidates = 17;
-    if (has_viapoints_all_candidates()) {
-      total_size += 2 + 1;
-    }
-
-    // optional bool visualize_hc_graph = 18;
-    if (has_visualize_hc_graph()) {
-      total_size += 2 + 1;
-    }
-
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void HomotopyClassPlanner::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:or_local_planner.HomotopyClassPlanner)
-  GOOGLE_DCHECK_NE(&from, this);
-  const HomotopyClassPlanner* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const HomotopyClassPlanner>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:or_local_planner.HomotopyClassPlanner)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:or_local_planner.HomotopyClassPlanner)
-    MergeFrom(*source);
-  }
-}
-
-void HomotopyClassPlanner::MergeFrom(const HomotopyClassPlanner& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:or_local_planner.HomotopyClassPlanner)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 255u) {
-    if (cached_has_bits & 0x00000001u) {
-      enable_homotopy_class_planning_ = from.enable_homotopy_class_planning_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      enable_multithreading_ = from.enable_multithreading_;
-    }
-    if (cached_has_bits & 0x00000004u) {
-      simple_exploration_ = from.simple_exploration_;
-    }
-    if (cached_has_bits & 0x00000008u) {
-      selection_alternative_time_cost_ = from.selection_alternative_time_cost_;
-    }
-    if (cached_has_bits & 0x00000010u) {
-      max_number_classes_ = from.max_number_classes_;
-    }
-    if (cached_has_bits & 0x00000020u) {
-      selection_obst_cost_scale_ = from.selection_obst_cost_scale_;
-    }
-    if (cached_has_bits & 0x00000040u) {
-      selection_prefer_initial_plan_ = from.selection_prefer_initial_plan_;
-    }
-    if (cached_has_bits & 0x00000080u) {
-      selection_viapoint_cost_scale_ = from.selection_viapoint_cost_scale_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  if (cached_has_bits & 65280u) {
-    if (cached_has_bits & 0x00000100u) {
-      selection_cost_hysteresis_ = from.selection_cost_hysteresis_;
-    }
-    if (cached_has_bits & 0x00000200u) {
-      roadmap_graph_no_samples_ = from.roadmap_graph_no_samples_;
-    }
-    if (cached_has_bits & 0x00000400u) {
-      roadmap_graph_area_width_ = from.roadmap_graph_area_width_;
-    }
-    if (cached_has_bits & 0x00000800u) {
-      roadmap_graph_area_length_scale_ = from.roadmap_graph_area_length_scale_;
-    }
-    if (cached_has_bits & 0x00001000u) {
-      h_signature_prescaler_ = from.h_signature_prescaler_;
-    }
-    if (cached_has_bits & 0x00002000u) {
-      h_signature_threshold_ = from.h_signature_threshold_;
-    }
-    if (cached_has_bits & 0x00004000u) {
-      obstacle_keypoint_offset_ = from.obstacle_keypoint_offset_;
-    }
-    if (cached_has_bits & 0x00008000u) {
-      obstacle_heading_threshold_ = from.obstacle_heading_threshold_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  if (cached_has_bits & 196608u) {
-    if (cached_has_bits & 0x00010000u) {
-      viapoints_all_candidates_ = from.viapoints_all_candidates_;
-    }
-    if (cached_has_bits & 0x00020000u) {
-      visualize_hc_graph_ = from.visualize_hc_graph_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-}
-
-void HomotopyClassPlanner::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:or_local_planner.HomotopyClassPlanner)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void HomotopyClassPlanner::CopyFrom(const HomotopyClassPlanner& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:or_local_planner.HomotopyClassPlanner)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool HomotopyClassPlanner::IsInitialized() const {
-  return true;
-}
-
-void HomotopyClassPlanner::Swap(HomotopyClassPlanner* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void HomotopyClassPlanner::InternalSwap(HomotopyClassPlanner* other) {
-  using std::swap;
-  swap(enable_homotopy_class_planning_, other->enable_homotopy_class_planning_);
-  swap(enable_multithreading_, other->enable_multithreading_);
-  swap(simple_exploration_, other->simple_exploration_);
-  swap(selection_alternative_time_cost_, other->selection_alternative_time_cost_);
-  swap(max_number_classes_, other->max_number_classes_);
-  swap(selection_obst_cost_scale_, other->selection_obst_cost_scale_);
-  swap(selection_prefer_initial_plan_, other->selection_prefer_initial_plan_);
-  swap(selection_viapoint_cost_scale_, other->selection_viapoint_cost_scale_);
-  swap(selection_cost_hysteresis_, other->selection_cost_hysteresis_);
-  swap(roadmap_graph_no_samples_, other->roadmap_graph_no_samples_);
-  swap(roadmap_graph_area_width_, other->roadmap_graph_area_width_);
-  swap(roadmap_graph_area_length_scale_, other->roadmap_graph_area_length_scale_);
-  swap(h_signature_prescaler_, other->h_signature_prescaler_);
-  swap(h_signature_threshold_, other->h_signature_threshold_);
-  swap(obstacle_keypoint_offset_, other->obstacle_keypoint_offset_);
-  swap(obstacle_heading_threshold_, other->obstacle_heading_threshold_);
-  swap(viapoints_all_candidates_, other->viapoints_all_candidates_);
-  swap(visualize_hc_graph_, other->visualize_hc_graph_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata HomotopyClassPlanner::GetMetadata() const {
-  protobuf_timed_5felastic_5fband_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_timed_5felastic_5fband_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// HomotopyClassPlanner
-
-// optional bool enable_homotopy_class_planning = 1;
-bool HomotopyClassPlanner::has_enable_homotopy_class_planning() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-void HomotopyClassPlanner::set_has_enable_homotopy_class_planning() {
-  _has_bits_[0] |= 0x00000001u;
-}
-void HomotopyClassPlanner::clear_has_enable_homotopy_class_planning() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-void HomotopyClassPlanner::clear_enable_homotopy_class_planning() {
-  enable_homotopy_class_planning_ = false;
-  clear_has_enable_homotopy_class_planning();
-}
-bool HomotopyClassPlanner::enable_homotopy_class_planning() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.enable_homotopy_class_planning)
-  return enable_homotopy_class_planning_;
-}
-void HomotopyClassPlanner::set_enable_homotopy_class_planning(bool value) {
-  set_has_enable_homotopy_class_planning();
-  enable_homotopy_class_planning_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.enable_homotopy_class_planning)
-}
-
-// optional bool enable_multithreading = 2;
-bool HomotopyClassPlanner::has_enable_multithreading() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-void HomotopyClassPlanner::set_has_enable_multithreading() {
-  _has_bits_[0] |= 0x00000002u;
-}
-void HomotopyClassPlanner::clear_has_enable_multithreading() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-void HomotopyClassPlanner::clear_enable_multithreading() {
-  enable_multithreading_ = false;
-  clear_has_enable_multithreading();
-}
-bool HomotopyClassPlanner::enable_multithreading() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.enable_multithreading)
-  return enable_multithreading_;
-}
-void HomotopyClassPlanner::set_enable_multithreading(bool value) {
-  set_has_enable_multithreading();
-  enable_multithreading_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.enable_multithreading)
-}
-
-// optional bool simple_exploration = 3;
-bool HomotopyClassPlanner::has_simple_exploration() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-void HomotopyClassPlanner::set_has_simple_exploration() {
-  _has_bits_[0] |= 0x00000004u;
-}
-void HomotopyClassPlanner::clear_has_simple_exploration() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-void HomotopyClassPlanner::clear_simple_exploration() {
-  simple_exploration_ = false;
-  clear_has_simple_exploration();
-}
-bool HomotopyClassPlanner::simple_exploration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.simple_exploration)
-  return simple_exploration_;
-}
-void HomotopyClassPlanner::set_simple_exploration(bool value) {
-  set_has_simple_exploration();
-  simple_exploration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.simple_exploration)
-}
-
-// optional int32 max_number_classes = 4;
-bool HomotopyClassPlanner::has_max_number_classes() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-void HomotopyClassPlanner::set_has_max_number_classes() {
-  _has_bits_[0] |= 0x00000010u;
-}
-void HomotopyClassPlanner::clear_has_max_number_classes() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-void HomotopyClassPlanner::clear_max_number_classes() {
-  max_number_classes_ = 0;
-  clear_has_max_number_classes();
-}
-::google::protobuf::int32 HomotopyClassPlanner::max_number_classes() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.max_number_classes)
-  return max_number_classes_;
-}
-void HomotopyClassPlanner::set_max_number_classes(::google::protobuf::int32 value) {
-  set_has_max_number_classes();
-  max_number_classes_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.max_number_classes)
-}
-
-// optional float selection_obst_cost_scale = 5;
-bool HomotopyClassPlanner::has_selection_obst_cost_scale() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-void HomotopyClassPlanner::set_has_selection_obst_cost_scale() {
-  _has_bits_[0] |= 0x00000020u;
-}
-void HomotopyClassPlanner::clear_has_selection_obst_cost_scale() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-void HomotopyClassPlanner::clear_selection_obst_cost_scale() {
-  selection_obst_cost_scale_ = 0;
-  clear_has_selection_obst_cost_scale();
-}
-float HomotopyClassPlanner::selection_obst_cost_scale() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_obst_cost_scale)
-  return selection_obst_cost_scale_;
-}
-void HomotopyClassPlanner::set_selection_obst_cost_scale(float value) {
-  set_has_selection_obst_cost_scale();
-  selection_obst_cost_scale_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_obst_cost_scale)
-}
-
-// optional float selection_prefer_initial_plan = 6;
-bool HomotopyClassPlanner::has_selection_prefer_initial_plan() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-void HomotopyClassPlanner::set_has_selection_prefer_initial_plan() {
-  _has_bits_[0] |= 0x00000040u;
-}
-void HomotopyClassPlanner::clear_has_selection_prefer_initial_plan() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-void HomotopyClassPlanner::clear_selection_prefer_initial_plan() {
-  selection_prefer_initial_plan_ = 0;
-  clear_has_selection_prefer_initial_plan();
-}
-float HomotopyClassPlanner::selection_prefer_initial_plan() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_prefer_initial_plan)
-  return selection_prefer_initial_plan_;
-}
-void HomotopyClassPlanner::set_selection_prefer_initial_plan(float value) {
-  set_has_selection_prefer_initial_plan();
-  selection_prefer_initial_plan_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_prefer_initial_plan)
-}
-
-// optional float selection_viapoint_cost_scale = 7;
-bool HomotopyClassPlanner::has_selection_viapoint_cost_scale() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-void HomotopyClassPlanner::set_has_selection_viapoint_cost_scale() {
-  _has_bits_[0] |= 0x00000080u;
-}
-void HomotopyClassPlanner::clear_has_selection_viapoint_cost_scale() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-void HomotopyClassPlanner::clear_selection_viapoint_cost_scale() {
-  selection_viapoint_cost_scale_ = 0;
-  clear_has_selection_viapoint_cost_scale();
-}
-float HomotopyClassPlanner::selection_viapoint_cost_scale() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_viapoint_cost_scale)
-  return selection_viapoint_cost_scale_;
-}
-void HomotopyClassPlanner::set_selection_viapoint_cost_scale(float value) {
-  set_has_selection_viapoint_cost_scale();
-  selection_viapoint_cost_scale_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_viapoint_cost_scale)
-}
-
-// optional float selection_cost_hysteresis = 8;
-bool HomotopyClassPlanner::has_selection_cost_hysteresis() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
-}
-void HomotopyClassPlanner::set_has_selection_cost_hysteresis() {
-  _has_bits_[0] |= 0x00000100u;
-}
-void HomotopyClassPlanner::clear_has_selection_cost_hysteresis() {
-  _has_bits_[0] &= ~0x00000100u;
-}
-void HomotopyClassPlanner::clear_selection_cost_hysteresis() {
-  selection_cost_hysteresis_ = 0;
-  clear_has_selection_cost_hysteresis();
-}
-float HomotopyClassPlanner::selection_cost_hysteresis() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_cost_hysteresis)
-  return selection_cost_hysteresis_;
-}
-void HomotopyClassPlanner::set_selection_cost_hysteresis(float value) {
-  set_has_selection_cost_hysteresis();
-  selection_cost_hysteresis_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_cost_hysteresis)
-}
-
-// optional bool selection_alternative_time_cost = 9;
-bool HomotopyClassPlanner::has_selection_alternative_time_cost() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-void HomotopyClassPlanner::set_has_selection_alternative_time_cost() {
-  _has_bits_[0] |= 0x00000008u;
-}
-void HomotopyClassPlanner::clear_has_selection_alternative_time_cost() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-void HomotopyClassPlanner::clear_selection_alternative_time_cost() {
-  selection_alternative_time_cost_ = false;
-  clear_has_selection_alternative_time_cost();
-}
-bool HomotopyClassPlanner::selection_alternative_time_cost() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_alternative_time_cost)
-  return selection_alternative_time_cost_;
-}
-void HomotopyClassPlanner::set_selection_alternative_time_cost(bool value) {
-  set_has_selection_alternative_time_cost();
-  selection_alternative_time_cost_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_alternative_time_cost)
-}
-
-// optional int32 roadmap_graph_no_samples = 10;
-bool HomotopyClassPlanner::has_roadmap_graph_no_samples() const {
-  return (_has_bits_[0] & 0x00000200u) != 0;
-}
-void HomotopyClassPlanner::set_has_roadmap_graph_no_samples() {
-  _has_bits_[0] |= 0x00000200u;
-}
-void HomotopyClassPlanner::clear_has_roadmap_graph_no_samples() {
-  _has_bits_[0] &= ~0x00000200u;
-}
-void HomotopyClassPlanner::clear_roadmap_graph_no_samples() {
-  roadmap_graph_no_samples_ = 0;
-  clear_has_roadmap_graph_no_samples();
-}
-::google::protobuf::int32 HomotopyClassPlanner::roadmap_graph_no_samples() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.roadmap_graph_no_samples)
-  return roadmap_graph_no_samples_;
-}
-void HomotopyClassPlanner::set_roadmap_graph_no_samples(::google::protobuf::int32 value) {
-  set_has_roadmap_graph_no_samples();
-  roadmap_graph_no_samples_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.roadmap_graph_no_samples)
-}
-
-// optional int32 roadmap_graph_area_width = 11;
-bool HomotopyClassPlanner::has_roadmap_graph_area_width() const {
-  return (_has_bits_[0] & 0x00000400u) != 0;
-}
-void HomotopyClassPlanner::set_has_roadmap_graph_area_width() {
-  _has_bits_[0] |= 0x00000400u;
-}
-void HomotopyClassPlanner::clear_has_roadmap_graph_area_width() {
-  _has_bits_[0] &= ~0x00000400u;
-}
-void HomotopyClassPlanner::clear_roadmap_graph_area_width() {
-  roadmap_graph_area_width_ = 0;
-  clear_has_roadmap_graph_area_width();
-}
-::google::protobuf::int32 HomotopyClassPlanner::roadmap_graph_area_width() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_width)
-  return roadmap_graph_area_width_;
-}
-void HomotopyClassPlanner::set_roadmap_graph_area_width(::google::protobuf::int32 value) {
-  set_has_roadmap_graph_area_width();
-  roadmap_graph_area_width_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_width)
-}
-
-// optional float roadmap_graph_area_length_scale = 12;
-bool HomotopyClassPlanner::has_roadmap_graph_area_length_scale() const {
-  return (_has_bits_[0] & 0x00000800u) != 0;
-}
-void HomotopyClassPlanner::set_has_roadmap_graph_area_length_scale() {
-  _has_bits_[0] |= 0x00000800u;
-}
-void HomotopyClassPlanner::clear_has_roadmap_graph_area_length_scale() {
-  _has_bits_[0] &= ~0x00000800u;
-}
-void HomotopyClassPlanner::clear_roadmap_graph_area_length_scale() {
-  roadmap_graph_area_length_scale_ = 0;
-  clear_has_roadmap_graph_area_length_scale();
-}
-float HomotopyClassPlanner::roadmap_graph_area_length_scale() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_length_scale)
-  return roadmap_graph_area_length_scale_;
-}
-void HomotopyClassPlanner::set_roadmap_graph_area_length_scale(float value) {
-  set_has_roadmap_graph_area_length_scale();
-  roadmap_graph_area_length_scale_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_length_scale)
-}
-
-// optional float h_signature_prescaler = 13;
-bool HomotopyClassPlanner::has_h_signature_prescaler() const {
-  return (_has_bits_[0] & 0x00001000u) != 0;
-}
-void HomotopyClassPlanner::set_has_h_signature_prescaler() {
-  _has_bits_[0] |= 0x00001000u;
-}
-void HomotopyClassPlanner::clear_has_h_signature_prescaler() {
-  _has_bits_[0] &= ~0x00001000u;
-}
-void HomotopyClassPlanner::clear_h_signature_prescaler() {
-  h_signature_prescaler_ = 0;
-  clear_has_h_signature_prescaler();
-}
-float HomotopyClassPlanner::h_signature_prescaler() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.h_signature_prescaler)
-  return h_signature_prescaler_;
-}
-void HomotopyClassPlanner::set_h_signature_prescaler(float value) {
-  set_has_h_signature_prescaler();
-  h_signature_prescaler_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.h_signature_prescaler)
-}
-
-// optional float h_signature_threshold = 14;
-bool HomotopyClassPlanner::has_h_signature_threshold() const {
-  return (_has_bits_[0] & 0x00002000u) != 0;
-}
-void HomotopyClassPlanner::set_has_h_signature_threshold() {
-  _has_bits_[0] |= 0x00002000u;
-}
-void HomotopyClassPlanner::clear_has_h_signature_threshold() {
-  _has_bits_[0] &= ~0x00002000u;
-}
-void HomotopyClassPlanner::clear_h_signature_threshold() {
-  h_signature_threshold_ = 0;
-  clear_has_h_signature_threshold();
-}
-float HomotopyClassPlanner::h_signature_threshold() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.h_signature_threshold)
-  return h_signature_threshold_;
-}
-void HomotopyClassPlanner::set_h_signature_threshold(float value) {
-  set_has_h_signature_threshold();
-  h_signature_threshold_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.h_signature_threshold)
-}
-
-// optional float obstacle_keypoint_offset = 15;
-bool HomotopyClassPlanner::has_obstacle_keypoint_offset() const {
-  return (_has_bits_[0] & 0x00004000u) != 0;
-}
-void HomotopyClassPlanner::set_has_obstacle_keypoint_offset() {
-  _has_bits_[0] |= 0x00004000u;
-}
-void HomotopyClassPlanner::clear_has_obstacle_keypoint_offset() {
-  _has_bits_[0] &= ~0x00004000u;
-}
-void HomotopyClassPlanner::clear_obstacle_keypoint_offset() {
-  obstacle_keypoint_offset_ = 0;
-  clear_has_obstacle_keypoint_offset();
-}
-float HomotopyClassPlanner::obstacle_keypoint_offset() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.obstacle_keypoint_offset)
-  return obstacle_keypoint_offset_;
-}
-void HomotopyClassPlanner::set_obstacle_keypoint_offset(float value) {
-  set_has_obstacle_keypoint_offset();
-  obstacle_keypoint_offset_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.obstacle_keypoint_offset)
-}
-
-// optional float obstacle_heading_threshold = 16;
-bool HomotopyClassPlanner::has_obstacle_heading_threshold() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
-}
-void HomotopyClassPlanner::set_has_obstacle_heading_threshold() {
-  _has_bits_[0] |= 0x00008000u;
-}
-void HomotopyClassPlanner::clear_has_obstacle_heading_threshold() {
-  _has_bits_[0] &= ~0x00008000u;
-}
-void HomotopyClassPlanner::clear_obstacle_heading_threshold() {
-  obstacle_heading_threshold_ = 0;
-  clear_has_obstacle_heading_threshold();
-}
-float HomotopyClassPlanner::obstacle_heading_threshold() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.obstacle_heading_threshold)
-  return obstacle_heading_threshold_;
-}
-void HomotopyClassPlanner::set_obstacle_heading_threshold(float value) {
-  set_has_obstacle_heading_threshold();
-  obstacle_heading_threshold_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.obstacle_heading_threshold)
-}
-
-// optional bool viapoints_all_candidates = 17;
-bool HomotopyClassPlanner::has_viapoints_all_candidates() const {
-  return (_has_bits_[0] & 0x00010000u) != 0;
-}
-void HomotopyClassPlanner::set_has_viapoints_all_candidates() {
-  _has_bits_[0] |= 0x00010000u;
-}
-void HomotopyClassPlanner::clear_has_viapoints_all_candidates() {
-  _has_bits_[0] &= ~0x00010000u;
-}
-void HomotopyClassPlanner::clear_viapoints_all_candidates() {
-  viapoints_all_candidates_ = false;
-  clear_has_viapoints_all_candidates();
-}
-bool HomotopyClassPlanner::viapoints_all_candidates() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.viapoints_all_candidates)
-  return viapoints_all_candidates_;
-}
-void HomotopyClassPlanner::set_viapoints_all_candidates(bool value) {
-  set_has_viapoints_all_candidates();
-  viapoints_all_candidates_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.viapoints_all_candidates)
-}
-
-// optional bool visualize_hc_graph = 18;
-bool HomotopyClassPlanner::has_visualize_hc_graph() const {
-  return (_has_bits_[0] & 0x00020000u) != 0;
-}
-void HomotopyClassPlanner::set_has_visualize_hc_graph() {
-  _has_bits_[0] |= 0x00020000u;
-}
-void HomotopyClassPlanner::clear_has_visualize_hc_graph() {
-  _has_bits_[0] &= ~0x00020000u;
-}
-void HomotopyClassPlanner::clear_visualize_hc_graph() {
-  visualize_hc_graph_ = false;
-  clear_has_visualize_hc_graph();
-}
-bool HomotopyClassPlanner::visualize_hc_graph() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.visualize_hc_graph)
-  return visualize_hc_graph_;
-}
-void HomotopyClassPlanner::set_visualize_hc_graph(bool value) {
-  set_has_visualize_hc_graph();
-  visualize_hc_graph_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.visualize_hc_graph)
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Recovery::kShrinkHorizonMinDurationFieldNumber;
-const int Recovery::kOscillationRecoveryFieldNumber;
-const int Recovery::kShrinkHorizonBackupFieldNumber;
-const int Recovery::kOscillationVEpsFieldNumber;
-const int Recovery::kOscillationOmegaEpsFieldNumber;
-const int Recovery::kOscillationRecoveryMinDurationFieldNumber;
-const int Recovery::kOscillationFilterDurationFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Recovery::Recovery()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    protobuf_timed_5felastic_5fband_2eproto::InitDefaults();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:or_local_planner.Recovery)
-}
-Recovery::Recovery(const Recovery& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&oscillation_v_eps_, &from.oscillation_v_eps_,
-    static_cast<size_t>(reinterpret_cast<char*>(&shrink_horizon_backup_) -
-    reinterpret_cast<char*>(&oscillation_v_eps_)) + sizeof(shrink_horizon_backup_));
-  // @@protoc_insertion_point(copy_constructor:or_local_planner.Recovery)
-}
-
-void Recovery::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(&oscillation_v_eps_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&shrink_horizon_backup_) -
-      reinterpret_cast<char*>(&oscillation_v_eps_)) + sizeof(shrink_horizon_backup_));
-}
-
-Recovery::~Recovery() {
-  // @@protoc_insertion_point(destructor:or_local_planner.Recovery)
-  SharedDtor();
-}
-
-void Recovery::SharedDtor() {
-}
-
-void Recovery::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Recovery::descriptor() {
-  protobuf_timed_5felastic_5fband_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_timed_5felastic_5fband_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const Recovery& Recovery::default_instance() {
-  protobuf_timed_5felastic_5fband_2eproto::InitDefaults();
-  return *internal_default_instance();
-}
-
-Recovery* Recovery::New(::google::protobuf::Arena* arena) const {
-  Recovery* n = new Recovery;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Recovery::Clear() {
-// @@protoc_insertion_point(message_clear_start:or_local_planner.Recovery)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 127u) {
-    ::memset(&oscillation_v_eps_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&shrink_horizon_backup_) -
-        reinterpret_cast<char*>(&oscillation_v_eps_)) + sizeof(shrink_horizon_backup_));
-  }
-  _has_bits_.Clear();
-  _internal_metadata_.Clear();
-}
-
-bool Recovery::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:or_local_planner.Recovery)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional bool shrink_horizon_min_duration = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          set_has_shrink_horizon_min_duration();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &shrink_horizon_min_duration_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool oscillation_recovery = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-          set_has_oscillation_recovery();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &oscillation_recovery_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional bool shrink_horizon_backup = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          set_has_shrink_horizon_backup();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &shrink_horizon_backup_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional double oscillation_v_eps = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(33u /* 33 & 0xFF */)) {
-          set_has_oscillation_v_eps();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &oscillation_v_eps_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional double oscillation_omega_eps = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(41u /* 41 & 0xFF */)) {
-          set_has_oscillation_omega_eps();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &oscillation_omega_eps_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional double oscillation_recovery_min_duration = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(49u /* 49 & 0xFF */)) {
-          set_has_oscillation_recovery_min_duration();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &oscillation_recovery_min_duration_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional double oscillation_filter_duration = 7;
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(57u /* 57 & 0xFF */)) {
-          set_has_oscillation_filter_duration();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, &oscillation_filter_duration_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:or_local_planner.Recovery)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:or_local_planner.Recovery)
-  return false;
-#undef DO_
-}
-
-void Recovery::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:or_local_planner.Recovery)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // optional bool shrink_horizon_min_duration = 1;
-  if (cached_has_bits & 0x00000010u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->shrink_horizon_min_duration(), output);
-  }
-
-  // optional bool oscillation_recovery = 2;
-  if (cached_has_bits & 0x00000020u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(2, this->oscillation_recovery(), output);
-  }
-
-  // optional bool shrink_horizon_backup = 3;
-  if (cached_has_bits & 0x00000040u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->shrink_horizon_backup(), output);
-  }
-
-  // optional double oscillation_v_eps = 4;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(4, this->oscillation_v_eps(), output);
-  }
-
-  // optional double oscillation_omega_eps = 5;
-  if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(5, this->oscillation_omega_eps(), output);
-  }
-
-  // optional double oscillation_recovery_min_duration = 6;
-  if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(6, this->oscillation_recovery_min_duration(), output);
-  }
-
-  // optional double oscillation_filter_duration = 7;
-  if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(7, this->oscillation_filter_duration(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:or_local_planner.Recovery)
-}
-
-::google::protobuf::uint8* Recovery::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:or_local_planner.Recovery)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // optional bool shrink_horizon_min_duration = 1;
-  if (cached_has_bits & 0x00000010u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->shrink_horizon_min_duration(), target);
-  }
-
-  // optional bool oscillation_recovery = 2;
-  if (cached_has_bits & 0x00000020u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(2, this->oscillation_recovery(), target);
-  }
-
-  // optional bool shrink_horizon_backup = 3;
-  if (cached_has_bits & 0x00000040u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->shrink_horizon_backup(), target);
-  }
-
-  // optional double oscillation_v_eps = 4;
-  if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(4, this->oscillation_v_eps(), target);
-  }
-
-  // optional double oscillation_omega_eps = 5;
-  if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(5, this->oscillation_omega_eps(), target);
-  }
-
-  // optional double oscillation_recovery_min_duration = 6;
-  if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(6, this->oscillation_recovery_min_duration(), target);
-  }
-
-  // optional double oscillation_filter_duration = 7;
-  if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(7, this->oscillation_filter_duration(), target);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:or_local_planner.Recovery)
-  return target;
-}
-
-size_t Recovery::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:or_local_planner.Recovery)
-  size_t total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  if (_has_bits_[0 / 32] & 127u) {
-    // optional double oscillation_v_eps = 4;
-    if (has_oscillation_v_eps()) {
-      total_size += 1 + 8;
-    }
-
-    // optional double oscillation_omega_eps = 5;
-    if (has_oscillation_omega_eps()) {
-      total_size += 1 + 8;
-    }
-
-    // optional double oscillation_recovery_min_duration = 6;
-    if (has_oscillation_recovery_min_duration()) {
-      total_size += 1 + 8;
-    }
-
-    // optional double oscillation_filter_duration = 7;
-    if (has_oscillation_filter_duration()) {
-      total_size += 1 + 8;
-    }
-
-    // optional bool shrink_horizon_min_duration = 1;
-    if (has_shrink_horizon_min_duration()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool oscillation_recovery = 2;
-    if (has_oscillation_recovery()) {
-      total_size += 1 + 1;
-    }
-
-    // optional bool shrink_horizon_backup = 3;
-    if (has_shrink_horizon_backup()) {
-      total_size += 1 + 1;
-    }
-
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Recovery::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:or_local_planner.Recovery)
-  GOOGLE_DCHECK_NE(&from, this);
-  const Recovery* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Recovery>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:or_local_planner.Recovery)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:or_local_planner.Recovery)
-    MergeFrom(*source);
-  }
-}
-
-void Recovery::MergeFrom(const Recovery& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:or_local_planner.Recovery)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 127u) {
-    if (cached_has_bits & 0x00000001u) {
-      oscillation_v_eps_ = from.oscillation_v_eps_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      oscillation_omega_eps_ = from.oscillation_omega_eps_;
-    }
-    if (cached_has_bits & 0x00000004u) {
-      oscillation_recovery_min_duration_ = from.oscillation_recovery_min_duration_;
-    }
-    if (cached_has_bits & 0x00000008u) {
-      oscillation_filter_duration_ = from.oscillation_filter_duration_;
-    }
-    if (cached_has_bits & 0x00000010u) {
-      shrink_horizon_min_duration_ = from.shrink_horizon_min_duration_;
-    }
-    if (cached_has_bits & 0x00000020u) {
-      oscillation_recovery_ = from.oscillation_recovery_;
-    }
-    if (cached_has_bits & 0x00000040u) {
-      shrink_horizon_backup_ = from.shrink_horizon_backup_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-}
-
-void Recovery::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:or_local_planner.Recovery)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Recovery::CopyFrom(const Recovery& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:or_local_planner.Recovery)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Recovery::IsInitialized() const {
-  return true;
-}
-
-void Recovery::Swap(Recovery* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Recovery::InternalSwap(Recovery* other) {
-  using std::swap;
-  swap(oscillation_v_eps_, other->oscillation_v_eps_);
-  swap(oscillation_omega_eps_, other->oscillation_omega_eps_);
-  swap(oscillation_recovery_min_duration_, other->oscillation_recovery_min_duration_);
-  swap(oscillation_filter_duration_, other->oscillation_filter_duration_);
-  swap(shrink_horizon_min_duration_, other->shrink_horizon_min_duration_);
-  swap(oscillation_recovery_, other->oscillation_recovery_);
-  swap(shrink_horizon_backup_, other->shrink_horizon_backup_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Recovery::GetMetadata() const {
-  protobuf_timed_5felastic_5fband_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_timed_5felastic_5fband_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// Recovery
-
-// optional bool shrink_horizon_min_duration = 1;
-bool Recovery::has_shrink_horizon_min_duration() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-void Recovery::set_has_shrink_horizon_min_duration() {
-  _has_bits_[0] |= 0x00000010u;
-}
-void Recovery::clear_has_shrink_horizon_min_duration() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-void Recovery::clear_shrink_horizon_min_duration() {
-  shrink_horizon_min_duration_ = false;
-  clear_has_shrink_horizon_min_duration();
-}
-bool Recovery::shrink_horizon_min_duration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.shrink_horizon_min_duration)
-  return shrink_horizon_min_duration_;
-}
-void Recovery::set_shrink_horizon_min_duration(bool value) {
-  set_has_shrink_horizon_min_duration();
-  shrink_horizon_min_duration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.shrink_horizon_min_duration)
-}
-
-// optional bool oscillation_recovery = 2;
-bool Recovery::has_oscillation_recovery() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-void Recovery::set_has_oscillation_recovery() {
-  _has_bits_[0] |= 0x00000020u;
-}
-void Recovery::clear_has_oscillation_recovery() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-void Recovery::clear_oscillation_recovery() {
-  oscillation_recovery_ = false;
-  clear_has_oscillation_recovery();
-}
-bool Recovery::oscillation_recovery() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_recovery)
-  return oscillation_recovery_;
-}
-void Recovery::set_oscillation_recovery(bool value) {
-  set_has_oscillation_recovery();
-  oscillation_recovery_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_recovery)
-}
-
-// optional bool shrink_horizon_backup = 3;
-bool Recovery::has_shrink_horizon_backup() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-void Recovery::set_has_shrink_horizon_backup() {
-  _has_bits_[0] |= 0x00000040u;
-}
-void Recovery::clear_has_shrink_horizon_backup() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-void Recovery::clear_shrink_horizon_backup() {
-  shrink_horizon_backup_ = false;
-  clear_has_shrink_horizon_backup();
-}
-bool Recovery::shrink_horizon_backup() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.shrink_horizon_backup)
-  return shrink_horizon_backup_;
-}
-void Recovery::set_shrink_horizon_backup(bool value) {
-  set_has_shrink_horizon_backup();
-  shrink_horizon_backup_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.shrink_horizon_backup)
-}
-
-// optional double oscillation_v_eps = 4;
-bool Recovery::has_oscillation_v_eps() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-void Recovery::set_has_oscillation_v_eps() {
-  _has_bits_[0] |= 0x00000001u;
-}
-void Recovery::clear_has_oscillation_v_eps() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-void Recovery::clear_oscillation_v_eps() {
-  oscillation_v_eps_ = 0;
-  clear_has_oscillation_v_eps();
-}
-double Recovery::oscillation_v_eps() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_v_eps)
-  return oscillation_v_eps_;
-}
-void Recovery::set_oscillation_v_eps(double value) {
-  set_has_oscillation_v_eps();
-  oscillation_v_eps_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_v_eps)
-}
-
-// optional double oscillation_omega_eps = 5;
-bool Recovery::has_oscillation_omega_eps() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-void Recovery::set_has_oscillation_omega_eps() {
-  _has_bits_[0] |= 0x00000002u;
-}
-void Recovery::clear_has_oscillation_omega_eps() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-void Recovery::clear_oscillation_omega_eps() {
-  oscillation_omega_eps_ = 0;
-  clear_has_oscillation_omega_eps();
-}
-double Recovery::oscillation_omega_eps() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_omega_eps)
-  return oscillation_omega_eps_;
-}
-void Recovery::set_oscillation_omega_eps(double value) {
-  set_has_oscillation_omega_eps();
-  oscillation_omega_eps_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_omega_eps)
-}
-
-// optional double oscillation_recovery_min_duration = 6;
-bool Recovery::has_oscillation_recovery_min_duration() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-void Recovery::set_has_oscillation_recovery_min_duration() {
-  _has_bits_[0] |= 0x00000004u;
-}
-void Recovery::clear_has_oscillation_recovery_min_duration() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-void Recovery::clear_oscillation_recovery_min_duration() {
-  oscillation_recovery_min_duration_ = 0;
-  clear_has_oscillation_recovery_min_duration();
-}
-double Recovery::oscillation_recovery_min_duration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_recovery_min_duration)
-  return oscillation_recovery_min_duration_;
-}
-void Recovery::set_oscillation_recovery_min_duration(double value) {
-  set_has_oscillation_recovery_min_duration();
-  oscillation_recovery_min_duration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_recovery_min_duration)
-}
-
-// optional double oscillation_filter_duration = 7;
-bool Recovery::has_oscillation_filter_duration() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-void Recovery::set_has_oscillation_filter_duration() {
-  _has_bits_[0] |= 0x00000008u;
-}
-void Recovery::clear_has_oscillation_filter_duration() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-void Recovery::clear_oscillation_filter_duration() {
-  oscillation_filter_duration_ = 0;
-  clear_has_oscillation_filter_duration();
-}
-double Recovery::oscillation_filter_duration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_filter_duration)
-  return oscillation_filter_duration_;
-}
-void Recovery::set_oscillation_filter_duration(double value) {
-  set_has_oscillation_filter_duration();
-  oscillation_filter_duration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_filter_duration)
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Config::kOptFrameFieldNumber;
 const int Config::kTrajectoryOptFieldNumber;
 const int Config::kKinematicsOptFieldNumber;
 const int Config::kToleranceOptFieldNumber;
 const int Config::kObstaclesOptFieldNumber;
 const int Config::kOptimizeInfoFieldNumber;
-const int Config::kHcpOptFieldNumber;
 const int Config::kRobotTypeFieldNumber;
-const int Config::kRecoveryInfoFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Config::Config()
@@ -8781,24 +6241,14 @@ Config::Config(const Config& from)
   } else {
     optimize_info_ = NULL;
   }
-  if (from.has_hcp_opt()) {
-    hcp_opt_ = new ::or_local_planner::HomotopyClassPlanner(*from.hcp_opt_);
-  } else {
-    hcp_opt_ = NULL;
-  }
-  if (from.has_recovery_info()) {
-    recovery_info_ = new ::or_local_planner::Recovery(*from.recovery_info_);
-  } else {
-    recovery_info_ = NULL;
-  }
   // @@protoc_insertion_point(copy_constructor:or_local_planner.Config)
 }
 
 void Config::SharedCtor() {
   _cached_size_ = 0;
   ::memset(&opt_frame_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&recovery_info_) -
-      reinterpret_cast<char*>(&opt_frame_)) + sizeof(recovery_info_));
+      reinterpret_cast<char*>(&optimize_info_) -
+      reinterpret_cast<char*>(&opt_frame_)) + sizeof(optimize_info_));
 }
 
 Config::~Config() {
@@ -8813,8 +6263,6 @@ void Config::SharedDtor() {
   if (this != internal_default_instance()) delete tolerance_opt_;
   if (this != internal_default_instance()) delete obstacles_opt_;
   if (this != internal_default_instance()) delete optimize_info_;
-  if (this != internal_default_instance()) delete hcp_opt_;
-  if (this != internal_default_instance()) delete recovery_info_;
 }
 
 void Config::SetCachedSize(int size) const {
@@ -8848,7 +6296,7 @@ void Config::Clear() {
 
   robot_type_.Clear();
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 255u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(opt_frame_ != NULL);
       opt_frame_->::or_local_planner::FrameID::Clear();
@@ -8872,14 +6320,6 @@ void Config::Clear() {
     if (cached_has_bits & 0x00000020u) {
       GOOGLE_DCHECK(optimize_info_ != NULL);
       optimize_info_->::or_local_planner::Optimization::Clear();
-    }
-    if (cached_has_bits & 0x00000040u) {
-      GOOGLE_DCHECK(hcp_opt_ != NULL);
-      hcp_opt_->::or_local_planner::HomotopyClassPlanner::Clear();
-    }
-    if (cached_has_bits & 0x00000080u) {
-      GOOGLE_DCHECK(recovery_info_ != NULL);
-      recovery_info_->::or_local_planner::Recovery::Clear();
     }
   }
   _has_bits_.Clear();
@@ -8968,36 +6408,12 @@ bool Config::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
+      // repeated .or_local_planner.FootprintModel robot_type = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_hcp_opt()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated .or_local_planner.FootprintModel robot_type = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_robot_type()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional .or_local_planner.Recovery recovery_info = 9;
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_recovery_info()));
         } else {
           goto handle_unusual;
         }
@@ -9067,23 +6483,11 @@ void Config::SerializeWithCachedSizes(
       6, *this->optimize_info_, output);
   }
 
-  // optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
-  if (cached_has_bits & 0x00000040u) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, *this->hcp_opt_, output);
-  }
-
-  // repeated .or_local_planner.FootprintModel robot_type = 8;
+  // repeated .or_local_planner.FootprintModel robot_type = 7;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->robot_type_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->robot_type(static_cast<int>(i)), output);
-  }
-
-  // optional .or_local_planner.Recovery recovery_info = 9;
-  if (cached_has_bits & 0x00000080u) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      9, *this->recovery_info_, output);
+      7, this->robot_type(static_cast<int>(i)), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -9143,26 +6547,12 @@ void Config::SerializeWithCachedSizes(
         6, *this->optimize_info_, deterministic, target);
   }
 
-  // optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
-  if (cached_has_bits & 0x00000040u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        7, *this->hcp_opt_, deterministic, target);
-  }
-
-  // repeated .or_local_planner.FootprintModel robot_type = 8;
+  // repeated .or_local_planner.FootprintModel robot_type = 7;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->robot_type_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        8, this->robot_type(static_cast<int>(i)), deterministic, target);
-  }
-
-  // optional .or_local_planner.Recovery recovery_info = 9;
-  if (cached_has_bits & 0x00000080u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageNoVirtualToArray(
-        9, *this->recovery_info_, deterministic, target);
+        7, this->robot_type(static_cast<int>(i)), deterministic, target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -9182,7 +6572,7 @@ size_t Config::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  // repeated .or_local_planner.FootprintModel robot_type = 8;
+  // repeated .or_local_planner.FootprintModel robot_type = 7;
   {
     unsigned int count = static_cast<unsigned int>(this->robot_type_size());
     total_size += 1UL * count;
@@ -9193,7 +6583,7 @@ size_t Config::ByteSizeLong() const {
     }
   }
 
-  if (_has_bits_[0 / 32] & 255u) {
+  if (_has_bits_[0 / 32] & 63u) {
     // optional .or_local_planner.FrameID opt_frame = 1;
     if (has_opt_frame()) {
       total_size += 1 +
@@ -9236,20 +6626,6 @@ size_t Config::ByteSizeLong() const {
           *this->optimize_info_);
     }
 
-    // optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
-    if (has_hcp_opt()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *this->hcp_opt_);
-    }
-
-    // optional .or_local_planner.Recovery recovery_info = 9;
-    if (has_recovery_info()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *this->recovery_info_);
-    }
-
   }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -9282,7 +6658,7 @@ void Config::MergeFrom(const Config& from) {
 
   robot_type_.MergeFrom(from.robot_type_);
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 255u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       mutable_opt_frame()->::or_local_planner::FrameID::MergeFrom(from.opt_frame());
     }
@@ -9300,12 +6676,6 @@ void Config::MergeFrom(const Config& from) {
     }
     if (cached_has_bits & 0x00000020u) {
       mutable_optimize_info()->::or_local_planner::Optimization::MergeFrom(from.optimize_info());
-    }
-    if (cached_has_bits & 0x00000040u) {
-      mutable_hcp_opt()->::or_local_planner::HomotopyClassPlanner::MergeFrom(from.hcp_opt());
-    }
-    if (cached_has_bits & 0x00000080u) {
-      mutable_recovery_info()->::or_local_planner::Recovery::MergeFrom(from.recovery_info());
     }
   }
 }
@@ -9341,8 +6711,6 @@ void Config::InternalSwap(Config* other) {
   swap(tolerance_opt_, other->tolerance_opt_);
   swap(obstacles_opt_, other->obstacles_opt_);
   swap(optimize_info_, other->optimize_info_);
-  swap(hcp_opt_, other->hcp_opt_);
-  swap(recovery_info_, other->recovery_info_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -9632,53 +7000,7 @@ void Config::set_allocated_optimize_info(::or_local_planner::Optimization* optim
   // @@protoc_insertion_point(field_set_allocated:or_local_planner.Config.optimize_info)
 }
 
-// optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
-bool Config::has_hcp_opt() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-void Config::set_has_hcp_opt() {
-  _has_bits_[0] |= 0x00000040u;
-}
-void Config::clear_has_hcp_opt() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-void Config::clear_hcp_opt() {
-  if (hcp_opt_ != NULL) hcp_opt_->::or_local_planner::HomotopyClassPlanner::Clear();
-  clear_has_hcp_opt();
-}
-const ::or_local_planner::HomotopyClassPlanner& Config::hcp_opt() const {
-  const ::or_local_planner::HomotopyClassPlanner* p = hcp_opt_;
-  // @@protoc_insertion_point(field_get:or_local_planner.Config.hcp_opt)
-  return p != NULL ? *p : *reinterpret_cast<const ::or_local_planner::HomotopyClassPlanner*>(
-      &::or_local_planner::_HomotopyClassPlanner_default_instance_);
-}
-::or_local_planner::HomotopyClassPlanner* Config::mutable_hcp_opt() {
-  set_has_hcp_opt();
-  if (hcp_opt_ == NULL) {
-    hcp_opt_ = new ::or_local_planner::HomotopyClassPlanner;
-  }
-  // @@protoc_insertion_point(field_mutable:or_local_planner.Config.hcp_opt)
-  return hcp_opt_;
-}
-::or_local_planner::HomotopyClassPlanner* Config::release_hcp_opt() {
-  // @@protoc_insertion_point(field_release:or_local_planner.Config.hcp_opt)
-  clear_has_hcp_opt();
-  ::or_local_planner::HomotopyClassPlanner* temp = hcp_opt_;
-  hcp_opt_ = NULL;
-  return temp;
-}
-void Config::set_allocated_hcp_opt(::or_local_planner::HomotopyClassPlanner* hcp_opt) {
-  delete hcp_opt_;
-  hcp_opt_ = hcp_opt;
-  if (hcp_opt) {
-    set_has_hcp_opt();
-  } else {
-    clear_has_hcp_opt();
-  }
-  // @@protoc_insertion_point(field_set_allocated:or_local_planner.Config.hcp_opt)
-}
-
-// repeated .or_local_planner.FootprintModel robot_type = 8;
+// repeated .or_local_planner.FootprintModel robot_type = 7;
 int Config::robot_type_size() const {
   return robot_type_.size();
 }
@@ -9706,52 +7028,6 @@ const ::google::protobuf::RepeatedPtrField< ::or_local_planner::FootprintModel >
 Config::robot_type() const {
   // @@protoc_insertion_point(field_list:or_local_planner.Config.robot_type)
   return robot_type_;
-}
-
-// optional .or_local_planner.Recovery recovery_info = 9;
-bool Config::has_recovery_info() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-void Config::set_has_recovery_info() {
-  _has_bits_[0] |= 0x00000080u;
-}
-void Config::clear_has_recovery_info() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-void Config::clear_recovery_info() {
-  if (recovery_info_ != NULL) recovery_info_->::or_local_planner::Recovery::Clear();
-  clear_has_recovery_info();
-}
-const ::or_local_planner::Recovery& Config::recovery_info() const {
-  const ::or_local_planner::Recovery* p = recovery_info_;
-  // @@protoc_insertion_point(field_get:or_local_planner.Config.recovery_info)
-  return p != NULL ? *p : *reinterpret_cast<const ::or_local_planner::Recovery*>(
-      &::or_local_planner::_Recovery_default_instance_);
-}
-::or_local_planner::Recovery* Config::mutable_recovery_info() {
-  set_has_recovery_info();
-  if (recovery_info_ == NULL) {
-    recovery_info_ = new ::or_local_planner::Recovery;
-  }
-  // @@protoc_insertion_point(field_mutable:or_local_planner.Config.recovery_info)
-  return recovery_info_;
-}
-::or_local_planner::Recovery* Config::release_recovery_info() {
-  // @@protoc_insertion_point(field_release:or_local_planner.Config.recovery_info)
-  clear_has_recovery_info();
-  ::or_local_planner::Recovery* temp = recovery_info_;
-  recovery_info_ = NULL;
-  return temp;
-}
-void Config::set_allocated_recovery_info(::or_local_planner::Recovery* recovery_info) {
-  delete recovery_info_;
-  recovery_info_ = recovery_info;
-  if (recovery_info) {
-    set_has_recovery_info();
-  } else {
-    clear_has_recovery_info();
-  }
-  // @@protoc_insertion_point(field_set_allocated:or_local_planner.Config.recovery_info)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

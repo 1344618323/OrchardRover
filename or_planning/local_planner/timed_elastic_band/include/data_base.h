@@ -14,7 +14,6 @@
 namespace or_local_planner {
 /**
  * @brief Class of SE(2) data base which is used by teb_optimal
- * SE(2)的数据类
  */
 class DataBase {
  public:
@@ -218,7 +217,6 @@ class DataBase {
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
 }; // class TebDataBase
-
 
 } // namespace or_local_planner
 #endif //OR_PLANNING_DATA_BASE_H

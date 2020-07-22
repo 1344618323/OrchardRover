@@ -1,10 +1,11 @@
 project(or_costmap)
 cmake_minimum_required(VERSION 3.1)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Release)
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_module)
-find_package(Eigen3 REQUIRED)
-find_package(ProtoBuf REQUIRED)
+
 find_package(catkin REQUIRED COMPONENTS
         roscpp
         tf
@@ -16,6 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
         or_common
         )
 
+find_package(Eigen3 REQUIRED)
+find_package(ProtoBuf REQUIRED)
 find_package(PCL 1.7 REQUIRED)
 find_package(Boost REQUIRED)
 
@@ -24,7 +27,6 @@ catkin_package(
   ${CMAKE_CURRENT_SOURCE_DIR}/proto
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-
 
 #proto file
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/proto/*.proto")
@@ -43,7 +45,6 @@ add_library(or_costmap
         SHARED
         ${SRC_LIST}
         ${CostmapProtoSrcs}
-        ${CostmapProtoHeaders}
         )
 
 target_include_directories(or_costmap
@@ -61,7 +62,9 @@ target_link_libraries(or_costmap
         )
 
 #test project
-add_executable(test_costmap src/test_costmap.cpp)
+add_executable(test_costmap
+        src/test_costmap.cpp
+        )
 
 target_link_libraries(test_costmap
         or_costmap

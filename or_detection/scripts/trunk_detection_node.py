@@ -184,7 +184,7 @@ class CameraLaser:
 
         for i in range(239, 480):
             r = scan_in.ranges[i]
-            if r <= scan_in.range_min or r > float(15.0):
+            if r <= scan_in.range_min or r > float(35.0):
                 continue
             p = np.zeros(3).reshape(3, 1)
             p[0] = math.cos(scan_in.angle_min + i * scan_in.angle_increment)*r

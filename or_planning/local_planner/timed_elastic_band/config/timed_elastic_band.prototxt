@@ -23,12 +23,12 @@ trajectory_opt {
 kinematics_opt {
     max_vel_x: 2.5
     max_vel_x_backwards: 0.2
-    max_vel_y: 2.5
+    max_vel_y: 0.0
     max_vel_theta: 2.5
-    acc_lim_x: 2.6
-    acc_lim_y: 2.6
-    acc_lim_theta: 2.6
-    min_turning_radius: 0
+    acc_lim_x: 2.5
+    acc_lim_y: 2.5
+    acc_lim_theta: 2.5
+    min_turning_radius: 0.0
     wheelbase: 0
     cmd_angle_instead_rotvel: false
 }
@@ -40,12 +40,8 @@ tolerance_opt {
 }
 
 obstacles_opt {
-    min_obstacle_dist: 0.32 #0.8
-    inflation_dist: 0
-    include_costmap_obstacles: True
+    min_obstacle_dist: 0.32
     costmap_obstacles_behind_robot_dist: 0.1
-    obstacle_poses_affected: 30
-    legacy_obstacle_association: False
     obstacle_association_cutoff_factor: 5.0
     obstacle_association_force_inclusion_factor: 1.5
 }
@@ -78,12 +74,12 @@ optimize_info {
     penalty_epsilon: 0.1
     weight_max_vel_x: 1
     weight_max_vel_y: 1
-    weight_max_vel_theta: 3
+    weight_max_vel_theta: 1
     weight_acc_lim_x: 1
     weight_acc_lim_y: 1
-    weight_acc_lim_theta: 3
-    weight_kinematics_nh: 1
-    weight_kinematics_forward_drive: 1
+    weight_acc_lim_theta: 1
+    weight_kinematics_nh: 1000
+    weight_kinematics_forward_drive: 1000
     weight_kinematics_turning_radius: 0.0
     weight_optimaltime: 1
     weight_obstacle: 50
@@ -93,4 +89,3 @@ optimize_info {
     weight_adapt_factor: 2.0
     weight_prefer_rotdir: 0
 }
-

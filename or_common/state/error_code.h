@@ -1,5 +1,5 @@
-#ifndef ROBORTS_COMMON_ERROR_CODE_H
-#define ROBORTS_COMMON_ERROR_CODE_H
+#ifndef OR_COMMON_ERROR_CODE_H
+#define OR_COMMON_ERROR_CODE_H
 
 #include <string>
 
@@ -71,6 +71,6 @@ class ErrorInfo {
 
 };
 
-} //namespace roborts_common
+} //namespace or_common
 
-#endif //ROBORTS_COMMON_ERROR_CODE_H
+#endif //OR_COMMON_ERROR_CODE_H

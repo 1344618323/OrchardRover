@@ -2,17 +2,15 @@
     <name>or_common</name>
     <version>1.0.0</version>
     <description>
-        The roborts common package provides all the common functions for RoboMaster AI Robot
+        The package provides all the common functions
     </description>
-    <author>RoboMaster</author>
-    <maintainer email="robomaster@dji.com">RoboMaster</maintainer>
+    <author>Leonard Chen</author>
+    <maintainer email="1344618323@qq.com">Leonard Chen</maintainer>
     <license>GPL 3.0 </license>
-    <url>https://github.com/RoboMaster/RoboRTS</url>
+    <url>https://github.com/1344618323/OrchardRover</url>
 
     <buildtool_depend>catkin</buildtool_depend>
-
-    <build_depend>roscpp</build_depend>
-    
+    <build_depend>roscpp</build_depend>    
     <run_depend>roscpp</run_depend>
     
     <export>

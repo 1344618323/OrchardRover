@@ -13,8 +13,8 @@
   </node>
 
   <!-- Run the slam node -->
-  <rosparam command="load" file="$(find or_slam)/config/or_slam.yaml" />
-  <rosparam command="load" file="$(find or_slam)/optimized_slam_algs/config/optimizedslam.yaml" />
+  <rosparam command="load" file="$(find or_slam)/config/or_slam_sim.yaml" />
+  <rosparam command="load" file="$(find or_slam)/optimized_slam_algs/config/optimizedslam_sim.yaml" />
   <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
 
   <!-- Run the rviz -->

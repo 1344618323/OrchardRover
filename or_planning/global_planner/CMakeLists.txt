@@ -17,19 +17,17 @@ rrts_protobuf_generate_cpp(
 set(EXTERNAL_INCLUDE_DIRS
         ${catkin_INCLUDE_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/proto
         )
 
 set(EXTERNAL_LIBS
-        planning::global_planner::a_star_planner
-        or_costmap
         ${catkin_LIBRARIES}
+        or_costmap
+        planning::global_planner::a_star_planner
         )
 
 # 全局规划节点
 add_executable(${PROJECT_NAME}_node
         ${GlobalPlannerProtoSrc}
-        ${GlobalPlannerProtoHds}
         global_planner_node.cpp
         )
 

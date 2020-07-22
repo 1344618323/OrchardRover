@@ -45,9 +45,9 @@ namespace icp_function {
 
         double e = 0;
         for (int i = 0; i < q_src.size(); i++) {
-            e += (src[i] - R * dst[i] - t).norm();
+            e += (src[i] - R * dst[i] - t).squaredNorm();
         }
-        double error = e / double(src.size());
+        double error = std::sqrt(e / double(src.size()));
         cout << error << endl;
         return error;
     }

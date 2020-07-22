@@ -9,8 +9,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseArray.h>
 #include <nav_msgs/Path.h>
-
-// #include "timed_elastic_band/teb_vertex_console.h"
+#include "teb_vertex_console.h"
 
 
 namespace or_local_planner {
@@ -38,11 +37,12 @@ namespace or_local_planner {
          * @param visualize_frame Visualize frame
          */
         void Initialization(ros::NodeHandle &nh, const std::string &visualize_frame);
+
         /**
          * @brief publish trajectory
          * @param vertex_console Robot trajectory from local planner algorithm
          */
-        // void PublishLocalPlan(const TebVertexConsole &vertex_console) const;
+        void PublishLocalPlan(const TebVertexConsole &vertex_console) const;
 
     protected:
 

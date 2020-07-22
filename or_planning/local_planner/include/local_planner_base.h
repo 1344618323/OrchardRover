@@ -17,8 +17,7 @@
  * @brief parent class of all local planner algorithms
  */
 namespace or_local_planner {
-
-//! Error info callback function
+    //! Error info callback function
     typedef std::function<void(const or_common::ErrorInfo &)> ErrorInfoCallback;
 
     class LocalPlannerBase {
@@ -46,7 +45,6 @@ namespace or_local_planner {
         virtual or_common::ErrorInfo Initialize(std::shared_ptr<or_costmap::CostmapInterface> local_cost,
                                                 std::shared_ptr<tf::TransformListener> tf,
                                                 LocalVisualizationPtr visual) = 0;
-
 
         /**
          * @brief Virtual function Set global plan's result to local planner or set a goal to local planner

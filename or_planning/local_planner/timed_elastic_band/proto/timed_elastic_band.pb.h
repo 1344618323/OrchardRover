@@ -44,9 +44,6 @@ extern FrameIDDefaultTypeInternal _FrameID_default_instance_;
 class GoalTolerance;
 class GoalToleranceDefaultTypeInternal;
 extern GoalToleranceDefaultTypeInternal _GoalTolerance_default_instance_;
-class HomotopyClassPlanner;
-class HomotopyClassPlannerDefaultTypeInternal;
-extern HomotopyClassPlannerDefaultTypeInternal _HomotopyClassPlanner_default_instance_;
 class Obstacles;
 class ObstaclesDefaultTypeInternal;
 extern ObstaclesDefaultTypeInternal _Obstacles_default_instance_;
@@ -56,9 +53,6 @@ extern OptimizationDefaultTypeInternal _Optimization_default_instance_;
 class Point2D;
 class Point2DDefaultTypeInternal;
 extern Point2DDefaultTypeInternal _Point2D_default_instance_;
-class Recovery;
-class RecoveryDefaultTypeInternal;
-extern RecoveryDefaultTypeInternal _Recovery_default_instance_;
 class Robot;
 class RobotDefaultTypeInternal;
 extern RobotDefaultTypeInternal _Robot_default_instance_;
@@ -1215,21 +1209,6 @@ class Obstacles : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // optional string costmap_converter_plugin = 9;
-  bool has_costmap_converter_plugin() const;
-  void clear_costmap_converter_plugin();
-  static const int kCostmapConverterPluginFieldNumber = 9;
-  const ::std::string& costmap_converter_plugin() const;
-  void set_costmap_converter_plugin(const ::std::string& value);
-  #if LANG_CXX11
-  void set_costmap_converter_plugin(::std::string&& value);
-  #endif
-  void set_costmap_converter_plugin(const char* value);
-  void set_costmap_converter_plugin(const char* value, size_t size);
-  ::std::string* mutable_costmap_converter_plugin();
-  ::std::string* release_costmap_converter_plugin();
-  void set_allocated_costmap_converter_plugin(::std::string* costmap_converter_plugin);
-
   // optional float min_obstacle_dist = 1;
   bool has_min_obstacle_dist() const;
   void clear_min_obstacle_dist();
@@ -1237,108 +1216,45 @@ class Obstacles : public ::google::protobuf::Message /* @@protoc_insertion_point
   float min_obstacle_dist() const;
   void set_min_obstacle_dist(float value);
 
-  // optional float inflation_dist = 2;
-  bool has_inflation_dist() const;
-  void clear_inflation_dist();
-  static const int kInflationDistFieldNumber = 2;
-  float inflation_dist() const;
-  void set_inflation_dist(float value);
-
-  // optional float costmap_obstacles_behind_robot_dist = 4;
+  // optional float costmap_obstacles_behind_robot_dist = 2;
   bool has_costmap_obstacles_behind_robot_dist() const;
   void clear_costmap_obstacles_behind_robot_dist();
-  static const int kCostmapObstaclesBehindRobotDistFieldNumber = 4;
+  static const int kCostmapObstaclesBehindRobotDistFieldNumber = 2;
   float costmap_obstacles_behind_robot_dist() const;
   void set_costmap_obstacles_behind_robot_dist(float value);
 
-  // optional float obstacle_poses_affected = 5;
-  bool has_obstacle_poses_affected() const;
-  void clear_obstacle_poses_affected();
-  static const int kObstaclePosesAffectedFieldNumber = 5;
-  float obstacle_poses_affected() const;
-  void set_obstacle_poses_affected(float value);
-
-  // optional bool include_costmap_obstacles = 3;
-  bool has_include_costmap_obstacles() const;
-  void clear_include_costmap_obstacles();
-  static const int kIncludeCostmapObstaclesFieldNumber = 3;
-  bool include_costmap_obstacles() const;
-  void set_include_costmap_obstacles(bool value);
-
-  // optional bool legacy_obstacle_association = 6;
-  bool has_legacy_obstacle_association() const;
-  void clear_legacy_obstacle_association();
-  static const int kLegacyObstacleAssociationFieldNumber = 6;
-  bool legacy_obstacle_association() const;
-  void set_legacy_obstacle_association(bool value);
-
-  // optional bool costmap_converter_spin_thread = 10;
-  bool has_costmap_converter_spin_thread() const;
-  void clear_costmap_converter_spin_thread();
-  static const int kCostmapConverterSpinThreadFieldNumber = 10;
-  bool costmap_converter_spin_thread() const;
-  void set_costmap_converter_spin_thread(bool value);
-
-  // optional float obstacle_association_cutoff_factor = 7;
+  // optional float obstacle_association_cutoff_factor = 3;
   bool has_obstacle_association_cutoff_factor() const;
   void clear_obstacle_association_cutoff_factor();
-  static const int kObstacleAssociationCutoffFactorFieldNumber = 7;
+  static const int kObstacleAssociationCutoffFactorFieldNumber = 3;
   float obstacle_association_cutoff_factor() const;
   void set_obstacle_association_cutoff_factor(float value);
 
-  // optional float obstacle_association_force_inclusion_factor = 8;
+  // optional float obstacle_association_force_inclusion_factor = 4;
   bool has_obstacle_association_force_inclusion_factor() const;
   void clear_obstacle_association_force_inclusion_factor();
-  static const int kObstacleAssociationForceInclusionFactorFieldNumber = 8;
+  static const int kObstacleAssociationForceInclusionFactorFieldNumber = 4;
   float obstacle_association_force_inclusion_factor() const;
   void set_obstacle_association_force_inclusion_factor(float value);
-
-  // optional float costmap_converter_rate = 11;
-  bool has_costmap_converter_rate() const;
-  void clear_costmap_converter_rate();
-  static const int kCostmapConverterRateFieldNumber = 11;
-  float costmap_converter_rate() const;
-  void set_costmap_converter_rate(float value);
 
   // @@protoc_insertion_point(class_scope:or_local_planner.Obstacles)
  private:
   void set_has_min_obstacle_dist();
   void clear_has_min_obstacle_dist();
-  void set_has_inflation_dist();
-  void clear_has_inflation_dist();
-  void set_has_include_costmap_obstacles();
-  void clear_has_include_costmap_obstacles();
   void set_has_costmap_obstacles_behind_robot_dist();
   void clear_has_costmap_obstacles_behind_robot_dist();
-  void set_has_obstacle_poses_affected();
-  void clear_has_obstacle_poses_affected();
-  void set_has_legacy_obstacle_association();
-  void clear_has_legacy_obstacle_association();
   void set_has_obstacle_association_cutoff_factor();
   void clear_has_obstacle_association_cutoff_factor();
   void set_has_obstacle_association_force_inclusion_factor();
   void clear_has_obstacle_association_force_inclusion_factor();
-  void set_has_costmap_converter_plugin();
-  void clear_has_costmap_converter_plugin();
-  void set_has_costmap_converter_spin_thread();
-  void clear_has_costmap_converter_spin_thread();
-  void set_has_costmap_converter_rate();
-  void clear_has_costmap_converter_rate();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
-  ::google::protobuf::internal::ArenaStringPtr costmap_converter_plugin_;
   float min_obstacle_dist_;
-  float inflation_dist_;
   float costmap_obstacles_behind_robot_dist_;
-  float obstacle_poses_affected_;
-  bool include_costmap_obstacles_;
-  bool legacy_obstacle_association_;
-  bool costmap_converter_spin_thread_;
   float obstacle_association_cutoff_factor_;
   float obstacle_association_force_inclusion_factor_;
-  float costmap_converter_rate_;
   friend struct protobuf_timed_5felastic_5fband_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
@@ -1661,452 +1577,6 @@ class Optimization : public ::google::protobuf::Message /* @@protoc_insertion_po
 };
 // -------------------------------------------------------------------
 
-class HomotopyClassPlanner : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:or_local_planner.HomotopyClassPlanner) */ {
- public:
-  HomotopyClassPlanner();
-  virtual ~HomotopyClassPlanner();
-
-  HomotopyClassPlanner(const HomotopyClassPlanner& from);
-
-  inline HomotopyClassPlanner& operator=(const HomotopyClassPlanner& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  HomotopyClassPlanner(HomotopyClassPlanner&& from) noexcept
-    : HomotopyClassPlanner() {
-    *this = ::std::move(from);
-  }
-
-  inline HomotopyClassPlanner& operator=(HomotopyClassPlanner&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const HomotopyClassPlanner& default_instance();
-
-  static inline const HomotopyClassPlanner* internal_default_instance() {
-    return reinterpret_cast<const HomotopyClassPlanner*>(
-               &_HomotopyClassPlanner_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
-
-  void Swap(HomotopyClassPlanner* other);
-  friend void swap(HomotopyClassPlanner& a, HomotopyClassPlanner& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline HomotopyClassPlanner* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  HomotopyClassPlanner* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const HomotopyClassPlanner& from);
-  void MergeFrom(const HomotopyClassPlanner& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(HomotopyClassPlanner* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional bool enable_homotopy_class_planning = 1;
-  bool has_enable_homotopy_class_planning() const;
-  void clear_enable_homotopy_class_planning();
-  static const int kEnableHomotopyClassPlanningFieldNumber = 1;
-  bool enable_homotopy_class_planning() const;
-  void set_enable_homotopy_class_planning(bool value);
-
-  // optional bool enable_multithreading = 2;
-  bool has_enable_multithreading() const;
-  void clear_enable_multithreading();
-  static const int kEnableMultithreadingFieldNumber = 2;
-  bool enable_multithreading() const;
-  void set_enable_multithreading(bool value);
-
-  // optional bool simple_exploration = 3;
-  bool has_simple_exploration() const;
-  void clear_simple_exploration();
-  static const int kSimpleExplorationFieldNumber = 3;
-  bool simple_exploration() const;
-  void set_simple_exploration(bool value);
-
-  // optional bool selection_alternative_time_cost = 9;
-  bool has_selection_alternative_time_cost() const;
-  void clear_selection_alternative_time_cost();
-  static const int kSelectionAlternativeTimeCostFieldNumber = 9;
-  bool selection_alternative_time_cost() const;
-  void set_selection_alternative_time_cost(bool value);
-
-  // optional int32 max_number_classes = 4;
-  bool has_max_number_classes() const;
-  void clear_max_number_classes();
-  static const int kMaxNumberClassesFieldNumber = 4;
-  ::google::protobuf::int32 max_number_classes() const;
-  void set_max_number_classes(::google::protobuf::int32 value);
-
-  // optional float selection_obst_cost_scale = 5;
-  bool has_selection_obst_cost_scale() const;
-  void clear_selection_obst_cost_scale();
-  static const int kSelectionObstCostScaleFieldNumber = 5;
-  float selection_obst_cost_scale() const;
-  void set_selection_obst_cost_scale(float value);
-
-  // optional float selection_prefer_initial_plan = 6;
-  bool has_selection_prefer_initial_plan() const;
-  void clear_selection_prefer_initial_plan();
-  static const int kSelectionPreferInitialPlanFieldNumber = 6;
-  float selection_prefer_initial_plan() const;
-  void set_selection_prefer_initial_plan(float value);
-
-  // optional float selection_viapoint_cost_scale = 7;
-  bool has_selection_viapoint_cost_scale() const;
-  void clear_selection_viapoint_cost_scale();
-  static const int kSelectionViapointCostScaleFieldNumber = 7;
-  float selection_viapoint_cost_scale() const;
-  void set_selection_viapoint_cost_scale(float value);
-
-  // optional float selection_cost_hysteresis = 8;
-  bool has_selection_cost_hysteresis() const;
-  void clear_selection_cost_hysteresis();
-  static const int kSelectionCostHysteresisFieldNumber = 8;
-  float selection_cost_hysteresis() const;
-  void set_selection_cost_hysteresis(float value);
-
-  // optional int32 roadmap_graph_no_samples = 10;
-  bool has_roadmap_graph_no_samples() const;
-  void clear_roadmap_graph_no_samples();
-  static const int kRoadmapGraphNoSamplesFieldNumber = 10;
-  ::google::protobuf::int32 roadmap_graph_no_samples() const;
-  void set_roadmap_graph_no_samples(::google::protobuf::int32 value);
-
-  // optional int32 roadmap_graph_area_width = 11;
-  bool has_roadmap_graph_area_width() const;
-  void clear_roadmap_graph_area_width();
-  static const int kRoadmapGraphAreaWidthFieldNumber = 11;
-  ::google::protobuf::int32 roadmap_graph_area_width() const;
-  void set_roadmap_graph_area_width(::google::protobuf::int32 value);
-
-  // optional float roadmap_graph_area_length_scale = 12;
-  bool has_roadmap_graph_area_length_scale() const;
-  void clear_roadmap_graph_area_length_scale();
-  static const int kRoadmapGraphAreaLengthScaleFieldNumber = 12;
-  float roadmap_graph_area_length_scale() const;
-  void set_roadmap_graph_area_length_scale(float value);
-
-  // optional float h_signature_prescaler = 13;
-  bool has_h_signature_prescaler() const;
-  void clear_h_signature_prescaler();
-  static const int kHSignaturePrescalerFieldNumber = 13;
-  float h_signature_prescaler() const;
-  void set_h_signature_prescaler(float value);
-
-  // optional float h_signature_threshold = 14;
-  bool has_h_signature_threshold() const;
-  void clear_h_signature_threshold();
-  static const int kHSignatureThresholdFieldNumber = 14;
-  float h_signature_threshold() const;
-  void set_h_signature_threshold(float value);
-
-  // optional float obstacle_keypoint_offset = 15;
-  bool has_obstacle_keypoint_offset() const;
-  void clear_obstacle_keypoint_offset();
-  static const int kObstacleKeypointOffsetFieldNumber = 15;
-  float obstacle_keypoint_offset() const;
-  void set_obstacle_keypoint_offset(float value);
-
-  // optional float obstacle_heading_threshold = 16;
-  bool has_obstacle_heading_threshold() const;
-  void clear_obstacle_heading_threshold();
-  static const int kObstacleHeadingThresholdFieldNumber = 16;
-  float obstacle_heading_threshold() const;
-  void set_obstacle_heading_threshold(float value);
-
-  // optional bool viapoints_all_candidates = 17;
-  bool has_viapoints_all_candidates() const;
-  void clear_viapoints_all_candidates();
-  static const int kViapointsAllCandidatesFieldNumber = 17;
-  bool viapoints_all_candidates() const;
-  void set_viapoints_all_candidates(bool value);
-
-  // optional bool visualize_hc_graph = 18;
-  bool has_visualize_hc_graph() const;
-  void clear_visualize_hc_graph();
-  static const int kVisualizeHcGraphFieldNumber = 18;
-  bool visualize_hc_graph() const;
-  void set_visualize_hc_graph(bool value);
-
-  // @@protoc_insertion_point(class_scope:or_local_planner.HomotopyClassPlanner)
- private:
-  void set_has_enable_homotopy_class_planning();
-  void clear_has_enable_homotopy_class_planning();
-  void set_has_enable_multithreading();
-  void clear_has_enable_multithreading();
-  void set_has_simple_exploration();
-  void clear_has_simple_exploration();
-  void set_has_max_number_classes();
-  void clear_has_max_number_classes();
-  void set_has_selection_obst_cost_scale();
-  void clear_has_selection_obst_cost_scale();
-  void set_has_selection_prefer_initial_plan();
-  void clear_has_selection_prefer_initial_plan();
-  void set_has_selection_viapoint_cost_scale();
-  void clear_has_selection_viapoint_cost_scale();
-  void set_has_selection_cost_hysteresis();
-  void clear_has_selection_cost_hysteresis();
-  void set_has_selection_alternative_time_cost();
-  void clear_has_selection_alternative_time_cost();
-  void set_has_roadmap_graph_no_samples();
-  void clear_has_roadmap_graph_no_samples();
-  void set_has_roadmap_graph_area_width();
-  void clear_has_roadmap_graph_area_width();
-  void set_has_roadmap_graph_area_length_scale();
-  void clear_has_roadmap_graph_area_length_scale();
-  void set_has_h_signature_prescaler();
-  void clear_has_h_signature_prescaler();
-  void set_has_h_signature_threshold();
-  void clear_has_h_signature_threshold();
-  void set_has_obstacle_keypoint_offset();
-  void clear_has_obstacle_keypoint_offset();
-  void set_has_obstacle_heading_threshold();
-  void clear_has_obstacle_heading_threshold();
-  void set_has_viapoints_all_candidates();
-  void clear_has_viapoints_all_candidates();
-  void set_has_visualize_hc_graph();
-  void clear_has_visualize_hc_graph();
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  bool enable_homotopy_class_planning_;
-  bool enable_multithreading_;
-  bool simple_exploration_;
-  bool selection_alternative_time_cost_;
-  ::google::protobuf::int32 max_number_classes_;
-  float selection_obst_cost_scale_;
-  float selection_prefer_initial_plan_;
-  float selection_viapoint_cost_scale_;
-  float selection_cost_hysteresis_;
-  ::google::protobuf::int32 roadmap_graph_no_samples_;
-  ::google::protobuf::int32 roadmap_graph_area_width_;
-  float roadmap_graph_area_length_scale_;
-  float h_signature_prescaler_;
-  float h_signature_threshold_;
-  float obstacle_keypoint_offset_;
-  float obstacle_heading_threshold_;
-  bool viapoints_all_candidates_;
-  bool visualize_hc_graph_;
-  friend struct protobuf_timed_5felastic_5fband_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class Recovery : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:or_local_planner.Recovery) */ {
- public:
-  Recovery();
-  virtual ~Recovery();
-
-  Recovery(const Recovery& from);
-
-  inline Recovery& operator=(const Recovery& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  Recovery(Recovery&& from) noexcept
-    : Recovery() {
-    *this = ::std::move(from);
-  }
-
-  inline Recovery& operator=(Recovery&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Recovery& default_instance();
-
-  static inline const Recovery* internal_default_instance() {
-    return reinterpret_cast<const Recovery*>(
-               &_Recovery_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
-
-  void Swap(Recovery* other);
-  friend void swap(Recovery& a, Recovery& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Recovery* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  Recovery* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const Recovery& from);
-  void MergeFrom(const Recovery& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(Recovery* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional double oscillation_v_eps = 4;
-  bool has_oscillation_v_eps() const;
-  void clear_oscillation_v_eps();
-  static const int kOscillationVEpsFieldNumber = 4;
-  double oscillation_v_eps() const;
-  void set_oscillation_v_eps(double value);
-
-  // optional double oscillation_omega_eps = 5;
-  bool has_oscillation_omega_eps() const;
-  void clear_oscillation_omega_eps();
-  static const int kOscillationOmegaEpsFieldNumber = 5;
-  double oscillation_omega_eps() const;
-  void set_oscillation_omega_eps(double value);
-
-  // optional double oscillation_recovery_min_duration = 6;
-  bool has_oscillation_recovery_min_duration() const;
-  void clear_oscillation_recovery_min_duration();
-  static const int kOscillationRecoveryMinDurationFieldNumber = 6;
-  double oscillation_recovery_min_duration() const;
-  void set_oscillation_recovery_min_duration(double value);
-
-  // optional double oscillation_filter_duration = 7;
-  bool has_oscillation_filter_duration() const;
-  void clear_oscillation_filter_duration();
-  static const int kOscillationFilterDurationFieldNumber = 7;
-  double oscillation_filter_duration() const;
-  void set_oscillation_filter_duration(double value);
-
-  // optional bool shrink_horizon_min_duration = 1;
-  bool has_shrink_horizon_min_duration() const;
-  void clear_shrink_horizon_min_duration();
-  static const int kShrinkHorizonMinDurationFieldNumber = 1;
-  bool shrink_horizon_min_duration() const;
-  void set_shrink_horizon_min_duration(bool value);
-
-  // optional bool oscillation_recovery = 2;
-  bool has_oscillation_recovery() const;
-  void clear_oscillation_recovery();
-  static const int kOscillationRecoveryFieldNumber = 2;
-  bool oscillation_recovery() const;
-  void set_oscillation_recovery(bool value);
-
-  // optional bool shrink_horizon_backup = 3;
-  bool has_shrink_horizon_backup() const;
-  void clear_shrink_horizon_backup();
-  static const int kShrinkHorizonBackupFieldNumber = 3;
-  bool shrink_horizon_backup() const;
-  void set_shrink_horizon_backup(bool value);
-
-  // @@protoc_insertion_point(class_scope:or_local_planner.Recovery)
- private:
-  void set_has_shrink_horizon_min_duration();
-  void clear_has_shrink_horizon_min_duration();
-  void set_has_oscillation_recovery();
-  void clear_has_oscillation_recovery();
-  void set_has_shrink_horizon_backup();
-  void clear_has_shrink_horizon_backup();
-  void set_has_oscillation_v_eps();
-  void clear_has_oscillation_v_eps();
-  void set_has_oscillation_omega_eps();
-  void clear_has_oscillation_omega_eps();
-  void set_has_oscillation_recovery_min_duration();
-  void clear_has_oscillation_recovery_min_duration();
-  void set_has_oscillation_filter_duration();
-  void clear_has_oscillation_filter_duration();
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  double oscillation_v_eps_;
-  double oscillation_omega_eps_;
-  double oscillation_recovery_min_duration_;
-  double oscillation_filter_duration_;
-  bool shrink_horizon_min_duration_;
-  bool oscillation_recovery_;
-  bool shrink_horizon_backup_;
-  friend struct protobuf_timed_5felastic_5fband_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:or_local_planner.Config) */ {
  public:
   Config();
@@ -2148,7 +1618,7 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Config_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    8;
 
   void Swap(Config* other);
   friend void swap(Config& a, Config& b) {
@@ -2195,10 +1665,10 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 
   // accessors -------------------------------------------------------
 
-  // repeated .or_local_planner.FootprintModel robot_type = 8;
+  // repeated .or_local_planner.FootprintModel robot_type = 7;
   int robot_type_size() const;
   void clear_robot_type();
-  static const int kRobotTypeFieldNumber = 8;
+  static const int kRobotTypeFieldNumber = 7;
   const ::or_local_planner::FootprintModel& robot_type(int index) const;
   ::or_local_planner::FootprintModel* mutable_robot_type(int index);
   ::or_local_planner::FootprintModel* add_robot_type();
@@ -2261,24 +1731,6 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::or_local_planner::Optimization* release_optimize_info();
   void set_allocated_optimize_info(::or_local_planner::Optimization* optimize_info);
 
-  // optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
-  bool has_hcp_opt() const;
-  void clear_hcp_opt();
-  static const int kHcpOptFieldNumber = 7;
-  const ::or_local_planner::HomotopyClassPlanner& hcp_opt() const;
-  ::or_local_planner::HomotopyClassPlanner* mutable_hcp_opt();
-  ::or_local_planner::HomotopyClassPlanner* release_hcp_opt();
-  void set_allocated_hcp_opt(::or_local_planner::HomotopyClassPlanner* hcp_opt);
-
-  // optional .or_local_planner.Recovery recovery_info = 9;
-  bool has_recovery_info() const;
-  void clear_recovery_info();
-  static const int kRecoveryInfoFieldNumber = 9;
-  const ::or_local_planner::Recovery& recovery_info() const;
-  ::or_local_planner::Recovery* mutable_recovery_info();
-  ::or_local_planner::Recovery* release_recovery_info();
-  void set_allocated_recovery_info(::or_local_planner::Recovery* recovery_info);
-
   // @@protoc_insertion_point(class_scope:or_local_planner.Config)
  private:
   void set_has_opt_frame();
@@ -2293,10 +1745,6 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   void clear_has_obstacles_opt();
   void set_has_optimize_info();
   void clear_has_optimize_info();
-  void set_has_hcp_opt();
-  void clear_has_hcp_opt();
-  void set_has_recovery_info();
-  void clear_has_recovery_info();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -2308,8 +1756,6 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::or_local_planner::GoalTolerance* tolerance_opt_;
   ::or_local_planner::Obstacles* obstacles_opt_;
   ::or_local_planner::Optimization* optimize_info_;
-  ::or_local_planner::HomotopyClassPlanner* hcp_opt_;
-  ::or_local_planner::Recovery* recovery_info_;
   friend struct protobuf_timed_5felastic_5fband_2eproto::TableStruct;
 };
 // ===================================================================
@@ -3347,13 +2793,13 @@ inline void GoalTolerance::set_free_goal_vel(bool value) {
 
 // optional float min_obstacle_dist = 1;
 inline bool Obstacles::has_min_obstacle_dist() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
 inline void Obstacles::set_has_min_obstacle_dist() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000001u;
 }
 inline void Obstacles::clear_has_min_obstacle_dist() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void Obstacles::clear_min_obstacle_dist() {
   min_obstacle_dist_ = 0;
@@ -3369,63 +2815,15 @@ inline void Obstacles::set_min_obstacle_dist(float value) {
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.min_obstacle_dist)
 }
 
-// optional float inflation_dist = 2;
-inline bool Obstacles::has_inflation_dist() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void Obstacles::set_has_inflation_dist() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void Obstacles::clear_has_inflation_dist() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void Obstacles::clear_inflation_dist() {
-  inflation_dist_ = 0;
-  clear_has_inflation_dist();
-}
-inline float Obstacles::inflation_dist() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.inflation_dist)
-  return inflation_dist_;
-}
-inline void Obstacles::set_inflation_dist(float value) {
-  set_has_inflation_dist();
-  inflation_dist_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.inflation_dist)
-}
-
-// optional bool include_costmap_obstacles = 3;
-inline bool Obstacles::has_include_costmap_obstacles() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void Obstacles::set_has_include_costmap_obstacles() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void Obstacles::clear_has_include_costmap_obstacles() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void Obstacles::clear_include_costmap_obstacles() {
-  include_costmap_obstacles_ = false;
-  clear_has_include_costmap_obstacles();
-}
-inline bool Obstacles::include_costmap_obstacles() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.include_costmap_obstacles)
-  return include_costmap_obstacles_;
-}
-inline void Obstacles::set_include_costmap_obstacles(bool value) {
-  set_has_include_costmap_obstacles();
-  include_costmap_obstacles_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.include_costmap_obstacles)
-}
-
-// optional float costmap_obstacles_behind_robot_dist = 4;
+// optional float costmap_obstacles_behind_robot_dist = 2;
 inline bool Obstacles::has_costmap_obstacles_behind_robot_dist() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void Obstacles::set_has_costmap_obstacles_behind_robot_dist() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void Obstacles::clear_has_costmap_obstacles_behind_robot_dist() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void Obstacles::clear_costmap_obstacles_behind_robot_dist() {
   costmap_obstacles_behind_robot_dist_ = 0;
@@ -3441,63 +2839,15 @@ inline void Obstacles::set_costmap_obstacles_behind_robot_dist(float value) {
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_obstacles_behind_robot_dist)
 }
 
-// optional float obstacle_poses_affected = 5;
-inline bool Obstacles::has_obstacle_poses_affected() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void Obstacles::set_has_obstacle_poses_affected() {
-  _has_bits_[0] |= 0x00000010u;
-}
-inline void Obstacles::clear_has_obstacle_poses_affected() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void Obstacles::clear_obstacle_poses_affected() {
-  obstacle_poses_affected_ = 0;
-  clear_has_obstacle_poses_affected();
-}
-inline float Obstacles::obstacle_poses_affected() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.obstacle_poses_affected)
-  return obstacle_poses_affected_;
-}
-inline void Obstacles::set_obstacle_poses_affected(float value) {
-  set_has_obstacle_poses_affected();
-  obstacle_poses_affected_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.obstacle_poses_affected)
-}
-
-// optional bool legacy_obstacle_association = 6;
-inline bool Obstacles::has_legacy_obstacle_association() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void Obstacles::set_has_legacy_obstacle_association() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void Obstacles::clear_has_legacy_obstacle_association() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void Obstacles::clear_legacy_obstacle_association() {
-  legacy_obstacle_association_ = false;
-  clear_has_legacy_obstacle_association();
-}
-inline bool Obstacles::legacy_obstacle_association() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.legacy_obstacle_association)
-  return legacy_obstacle_association_;
-}
-inline void Obstacles::set_legacy_obstacle_association(bool value) {
-  set_has_legacy_obstacle_association();
-  legacy_obstacle_association_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.legacy_obstacle_association)
-}
-
-// optional float obstacle_association_cutoff_factor = 7;
+// optional float obstacle_association_cutoff_factor = 3;
 inline bool Obstacles::has_obstacle_association_cutoff_factor() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void Obstacles::set_has_obstacle_association_cutoff_factor() {
-  _has_bits_[0] |= 0x00000100u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void Obstacles::clear_has_obstacle_association_cutoff_factor() {
-  _has_bits_[0] &= ~0x00000100u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void Obstacles::clear_obstacle_association_cutoff_factor() {
   obstacle_association_cutoff_factor_ = 0;
@@ -3513,15 +2863,15 @@ inline void Obstacles::set_obstacle_association_cutoff_factor(float value) {
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.obstacle_association_cutoff_factor)
 }
 
-// optional float obstacle_association_force_inclusion_factor = 8;
+// optional float obstacle_association_force_inclusion_factor = 4;
 inline bool Obstacles::has_obstacle_association_force_inclusion_factor() const {
-  return (_has_bits_[0] & 0x00000200u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void Obstacles::set_has_obstacle_association_force_inclusion_factor() {
-  _has_bits_[0] |= 0x00000200u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void Obstacles::clear_has_obstacle_association_force_inclusion_factor() {
-  _has_bits_[0] &= ~0x00000200u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void Obstacles::clear_obstacle_association_force_inclusion_factor() {
   obstacle_association_force_inclusion_factor_ = 0;
@@ -3535,117 +2885,6 @@ inline void Obstacles::set_obstacle_association_force_inclusion_factor(float val
   set_has_obstacle_association_force_inclusion_factor();
   obstacle_association_force_inclusion_factor_ = value;
   // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.obstacle_association_force_inclusion_factor)
-}
-
-// optional string costmap_converter_plugin = 9;
-inline bool Obstacles::has_costmap_converter_plugin() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void Obstacles::set_has_costmap_converter_plugin() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void Obstacles::clear_has_costmap_converter_plugin() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void Obstacles::clear_costmap_converter_plugin() {
-  costmap_converter_plugin_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  clear_has_costmap_converter_plugin();
-}
-inline const ::std::string& Obstacles::costmap_converter_plugin() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.costmap_converter_plugin)
-  return costmap_converter_plugin_.GetNoArena();
-}
-inline void Obstacles::set_costmap_converter_plugin(const ::std::string& value) {
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-#if LANG_CXX11
-inline void Obstacles::set_costmap_converter_plugin(::std::string&& value) {
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-#endif
-inline void Obstacles::set_costmap_converter_plugin(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-inline void Obstacles::set_costmap_converter_plugin(const char* value, size_t size) {
-  set_has_costmap_converter_plugin();
-  costmap_converter_plugin_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-inline ::std::string* Obstacles::mutable_costmap_converter_plugin() {
-  set_has_costmap_converter_plugin();
-  // @@protoc_insertion_point(field_mutable:or_local_planner.Obstacles.costmap_converter_plugin)
-  return costmap_converter_plugin_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* Obstacles::release_costmap_converter_plugin() {
-  // @@protoc_insertion_point(field_release:or_local_planner.Obstacles.costmap_converter_plugin)
-  clear_has_costmap_converter_plugin();
-  return costmap_converter_plugin_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void Obstacles::set_allocated_costmap_converter_plugin(::std::string* costmap_converter_plugin) {
-  if (costmap_converter_plugin != NULL) {
-    set_has_costmap_converter_plugin();
-  } else {
-    clear_has_costmap_converter_plugin();
-  }
-  costmap_converter_plugin_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), costmap_converter_plugin);
-  // @@protoc_insertion_point(field_set_allocated:or_local_planner.Obstacles.costmap_converter_plugin)
-}
-
-// optional bool costmap_converter_spin_thread = 10;
-inline bool Obstacles::has_costmap_converter_spin_thread() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-inline void Obstacles::set_has_costmap_converter_spin_thread() {
-  _has_bits_[0] |= 0x00000080u;
-}
-inline void Obstacles::clear_has_costmap_converter_spin_thread() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-inline void Obstacles::clear_costmap_converter_spin_thread() {
-  costmap_converter_spin_thread_ = false;
-  clear_has_costmap_converter_spin_thread();
-}
-inline bool Obstacles::costmap_converter_spin_thread() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.costmap_converter_spin_thread)
-  return costmap_converter_spin_thread_;
-}
-inline void Obstacles::set_costmap_converter_spin_thread(bool value) {
-  set_has_costmap_converter_spin_thread();
-  costmap_converter_spin_thread_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_converter_spin_thread)
-}
-
-// optional float costmap_converter_rate = 11;
-inline bool Obstacles::has_costmap_converter_rate() const {
-  return (_has_bits_[0] & 0x00000400u) != 0;
-}
-inline void Obstacles::set_has_costmap_converter_rate() {
-  _has_bits_[0] |= 0x00000400u;
-}
-inline void Obstacles::clear_has_costmap_converter_rate() {
-  _has_bits_[0] &= ~0x00000400u;
-}
-inline void Obstacles::clear_costmap_converter_rate() {
-  costmap_converter_rate_ = 0;
-  clear_has_costmap_converter_rate();
-}
-inline float Obstacles::costmap_converter_rate() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Obstacles.costmap_converter_rate)
-  return costmap_converter_rate_;
-}
-inline void Obstacles::set_costmap_converter_rate(float value) {
-  set_has_costmap_converter_rate();
-  costmap_converter_rate_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Obstacles.costmap_converter_rate)
 }
 
 // -------------------------------------------------------------------
@@ -4182,614 +3421,6 @@ inline void Optimization::set_weight_acc_lim_theta(float value) {
 
 // -------------------------------------------------------------------
 
-// HomotopyClassPlanner
-
-// optional bool enable_homotopy_class_planning = 1;
-inline bool HomotopyClassPlanner::has_enable_homotopy_class_planning() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_enable_homotopy_class_planning() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void HomotopyClassPlanner::clear_has_enable_homotopy_class_planning() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void HomotopyClassPlanner::clear_enable_homotopy_class_planning() {
-  enable_homotopy_class_planning_ = false;
-  clear_has_enable_homotopy_class_planning();
-}
-inline bool HomotopyClassPlanner::enable_homotopy_class_planning() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.enable_homotopy_class_planning)
-  return enable_homotopy_class_planning_;
-}
-inline void HomotopyClassPlanner::set_enable_homotopy_class_planning(bool value) {
-  set_has_enable_homotopy_class_planning();
-  enable_homotopy_class_planning_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.enable_homotopy_class_planning)
-}
-
-// optional bool enable_multithreading = 2;
-inline bool HomotopyClassPlanner::has_enable_multithreading() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_enable_multithreading() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void HomotopyClassPlanner::clear_has_enable_multithreading() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void HomotopyClassPlanner::clear_enable_multithreading() {
-  enable_multithreading_ = false;
-  clear_has_enable_multithreading();
-}
-inline bool HomotopyClassPlanner::enable_multithreading() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.enable_multithreading)
-  return enable_multithreading_;
-}
-inline void HomotopyClassPlanner::set_enable_multithreading(bool value) {
-  set_has_enable_multithreading();
-  enable_multithreading_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.enable_multithreading)
-}
-
-// optional bool simple_exploration = 3;
-inline bool HomotopyClassPlanner::has_simple_exploration() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_simple_exploration() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void HomotopyClassPlanner::clear_has_simple_exploration() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void HomotopyClassPlanner::clear_simple_exploration() {
-  simple_exploration_ = false;
-  clear_has_simple_exploration();
-}
-inline bool HomotopyClassPlanner::simple_exploration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.simple_exploration)
-  return simple_exploration_;
-}
-inline void HomotopyClassPlanner::set_simple_exploration(bool value) {
-  set_has_simple_exploration();
-  simple_exploration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.simple_exploration)
-}
-
-// optional int32 max_number_classes = 4;
-inline bool HomotopyClassPlanner::has_max_number_classes() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_max_number_classes() {
-  _has_bits_[0] |= 0x00000010u;
-}
-inline void HomotopyClassPlanner::clear_has_max_number_classes() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void HomotopyClassPlanner::clear_max_number_classes() {
-  max_number_classes_ = 0;
-  clear_has_max_number_classes();
-}
-inline ::google::protobuf::int32 HomotopyClassPlanner::max_number_classes() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.max_number_classes)
-  return max_number_classes_;
-}
-inline void HomotopyClassPlanner::set_max_number_classes(::google::protobuf::int32 value) {
-  set_has_max_number_classes();
-  max_number_classes_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.max_number_classes)
-}
-
-// optional float selection_obst_cost_scale = 5;
-inline bool HomotopyClassPlanner::has_selection_obst_cost_scale() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_selection_obst_cost_scale() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void HomotopyClassPlanner::clear_has_selection_obst_cost_scale() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void HomotopyClassPlanner::clear_selection_obst_cost_scale() {
-  selection_obst_cost_scale_ = 0;
-  clear_has_selection_obst_cost_scale();
-}
-inline float HomotopyClassPlanner::selection_obst_cost_scale() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_obst_cost_scale)
-  return selection_obst_cost_scale_;
-}
-inline void HomotopyClassPlanner::set_selection_obst_cost_scale(float value) {
-  set_has_selection_obst_cost_scale();
-  selection_obst_cost_scale_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_obst_cost_scale)
-}
-
-// optional float selection_prefer_initial_plan = 6;
-inline bool HomotopyClassPlanner::has_selection_prefer_initial_plan() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_selection_prefer_initial_plan() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void HomotopyClassPlanner::clear_has_selection_prefer_initial_plan() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void HomotopyClassPlanner::clear_selection_prefer_initial_plan() {
-  selection_prefer_initial_plan_ = 0;
-  clear_has_selection_prefer_initial_plan();
-}
-inline float HomotopyClassPlanner::selection_prefer_initial_plan() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_prefer_initial_plan)
-  return selection_prefer_initial_plan_;
-}
-inline void HomotopyClassPlanner::set_selection_prefer_initial_plan(float value) {
-  set_has_selection_prefer_initial_plan();
-  selection_prefer_initial_plan_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_prefer_initial_plan)
-}
-
-// optional float selection_viapoint_cost_scale = 7;
-inline bool HomotopyClassPlanner::has_selection_viapoint_cost_scale() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_selection_viapoint_cost_scale() {
-  _has_bits_[0] |= 0x00000080u;
-}
-inline void HomotopyClassPlanner::clear_has_selection_viapoint_cost_scale() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-inline void HomotopyClassPlanner::clear_selection_viapoint_cost_scale() {
-  selection_viapoint_cost_scale_ = 0;
-  clear_has_selection_viapoint_cost_scale();
-}
-inline float HomotopyClassPlanner::selection_viapoint_cost_scale() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_viapoint_cost_scale)
-  return selection_viapoint_cost_scale_;
-}
-inline void HomotopyClassPlanner::set_selection_viapoint_cost_scale(float value) {
-  set_has_selection_viapoint_cost_scale();
-  selection_viapoint_cost_scale_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_viapoint_cost_scale)
-}
-
-// optional float selection_cost_hysteresis = 8;
-inline bool HomotopyClassPlanner::has_selection_cost_hysteresis() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_selection_cost_hysteresis() {
-  _has_bits_[0] |= 0x00000100u;
-}
-inline void HomotopyClassPlanner::clear_has_selection_cost_hysteresis() {
-  _has_bits_[0] &= ~0x00000100u;
-}
-inline void HomotopyClassPlanner::clear_selection_cost_hysteresis() {
-  selection_cost_hysteresis_ = 0;
-  clear_has_selection_cost_hysteresis();
-}
-inline float HomotopyClassPlanner::selection_cost_hysteresis() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_cost_hysteresis)
-  return selection_cost_hysteresis_;
-}
-inline void HomotopyClassPlanner::set_selection_cost_hysteresis(float value) {
-  set_has_selection_cost_hysteresis();
-  selection_cost_hysteresis_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_cost_hysteresis)
-}
-
-// optional bool selection_alternative_time_cost = 9;
-inline bool HomotopyClassPlanner::has_selection_alternative_time_cost() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_selection_alternative_time_cost() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void HomotopyClassPlanner::clear_has_selection_alternative_time_cost() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void HomotopyClassPlanner::clear_selection_alternative_time_cost() {
-  selection_alternative_time_cost_ = false;
-  clear_has_selection_alternative_time_cost();
-}
-inline bool HomotopyClassPlanner::selection_alternative_time_cost() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.selection_alternative_time_cost)
-  return selection_alternative_time_cost_;
-}
-inline void HomotopyClassPlanner::set_selection_alternative_time_cost(bool value) {
-  set_has_selection_alternative_time_cost();
-  selection_alternative_time_cost_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.selection_alternative_time_cost)
-}
-
-// optional int32 roadmap_graph_no_samples = 10;
-inline bool HomotopyClassPlanner::has_roadmap_graph_no_samples() const {
-  return (_has_bits_[0] & 0x00000200u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_roadmap_graph_no_samples() {
-  _has_bits_[0] |= 0x00000200u;
-}
-inline void HomotopyClassPlanner::clear_has_roadmap_graph_no_samples() {
-  _has_bits_[0] &= ~0x00000200u;
-}
-inline void HomotopyClassPlanner::clear_roadmap_graph_no_samples() {
-  roadmap_graph_no_samples_ = 0;
-  clear_has_roadmap_graph_no_samples();
-}
-inline ::google::protobuf::int32 HomotopyClassPlanner::roadmap_graph_no_samples() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.roadmap_graph_no_samples)
-  return roadmap_graph_no_samples_;
-}
-inline void HomotopyClassPlanner::set_roadmap_graph_no_samples(::google::protobuf::int32 value) {
-  set_has_roadmap_graph_no_samples();
-  roadmap_graph_no_samples_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.roadmap_graph_no_samples)
-}
-
-// optional int32 roadmap_graph_area_width = 11;
-inline bool HomotopyClassPlanner::has_roadmap_graph_area_width() const {
-  return (_has_bits_[0] & 0x00000400u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_roadmap_graph_area_width() {
-  _has_bits_[0] |= 0x00000400u;
-}
-inline void HomotopyClassPlanner::clear_has_roadmap_graph_area_width() {
-  _has_bits_[0] &= ~0x00000400u;
-}
-inline void HomotopyClassPlanner::clear_roadmap_graph_area_width() {
-  roadmap_graph_area_width_ = 0;
-  clear_has_roadmap_graph_area_width();
-}
-inline ::google::protobuf::int32 HomotopyClassPlanner::roadmap_graph_area_width() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_width)
-  return roadmap_graph_area_width_;
-}
-inline void HomotopyClassPlanner::set_roadmap_graph_area_width(::google::protobuf::int32 value) {
-  set_has_roadmap_graph_area_width();
-  roadmap_graph_area_width_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_width)
-}
-
-// optional float roadmap_graph_area_length_scale = 12;
-inline bool HomotopyClassPlanner::has_roadmap_graph_area_length_scale() const {
-  return (_has_bits_[0] & 0x00000800u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_roadmap_graph_area_length_scale() {
-  _has_bits_[0] |= 0x00000800u;
-}
-inline void HomotopyClassPlanner::clear_has_roadmap_graph_area_length_scale() {
-  _has_bits_[0] &= ~0x00000800u;
-}
-inline void HomotopyClassPlanner::clear_roadmap_graph_area_length_scale() {
-  roadmap_graph_area_length_scale_ = 0;
-  clear_has_roadmap_graph_area_length_scale();
-}
-inline float HomotopyClassPlanner::roadmap_graph_area_length_scale() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_length_scale)
-  return roadmap_graph_area_length_scale_;
-}
-inline void HomotopyClassPlanner::set_roadmap_graph_area_length_scale(float value) {
-  set_has_roadmap_graph_area_length_scale();
-  roadmap_graph_area_length_scale_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.roadmap_graph_area_length_scale)
-}
-
-// optional float h_signature_prescaler = 13;
-inline bool HomotopyClassPlanner::has_h_signature_prescaler() const {
-  return (_has_bits_[0] & 0x00001000u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_h_signature_prescaler() {
-  _has_bits_[0] |= 0x00001000u;
-}
-inline void HomotopyClassPlanner::clear_has_h_signature_prescaler() {
-  _has_bits_[0] &= ~0x00001000u;
-}
-inline void HomotopyClassPlanner::clear_h_signature_prescaler() {
-  h_signature_prescaler_ = 0;
-  clear_has_h_signature_prescaler();
-}
-inline float HomotopyClassPlanner::h_signature_prescaler() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.h_signature_prescaler)
-  return h_signature_prescaler_;
-}
-inline void HomotopyClassPlanner::set_h_signature_prescaler(float value) {
-  set_has_h_signature_prescaler();
-  h_signature_prescaler_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.h_signature_prescaler)
-}
-
-// optional float h_signature_threshold = 14;
-inline bool HomotopyClassPlanner::has_h_signature_threshold() const {
-  return (_has_bits_[0] & 0x00002000u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_h_signature_threshold() {
-  _has_bits_[0] |= 0x00002000u;
-}
-inline void HomotopyClassPlanner::clear_has_h_signature_threshold() {
-  _has_bits_[0] &= ~0x00002000u;
-}
-inline void HomotopyClassPlanner::clear_h_signature_threshold() {
-  h_signature_threshold_ = 0;
-  clear_has_h_signature_threshold();
-}
-inline float HomotopyClassPlanner::h_signature_threshold() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.h_signature_threshold)
-  return h_signature_threshold_;
-}
-inline void HomotopyClassPlanner::set_h_signature_threshold(float value) {
-  set_has_h_signature_threshold();
-  h_signature_threshold_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.h_signature_threshold)
-}
-
-// optional float obstacle_keypoint_offset = 15;
-inline bool HomotopyClassPlanner::has_obstacle_keypoint_offset() const {
-  return (_has_bits_[0] & 0x00004000u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_obstacle_keypoint_offset() {
-  _has_bits_[0] |= 0x00004000u;
-}
-inline void HomotopyClassPlanner::clear_has_obstacle_keypoint_offset() {
-  _has_bits_[0] &= ~0x00004000u;
-}
-inline void HomotopyClassPlanner::clear_obstacle_keypoint_offset() {
-  obstacle_keypoint_offset_ = 0;
-  clear_has_obstacle_keypoint_offset();
-}
-inline float HomotopyClassPlanner::obstacle_keypoint_offset() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.obstacle_keypoint_offset)
-  return obstacle_keypoint_offset_;
-}
-inline void HomotopyClassPlanner::set_obstacle_keypoint_offset(float value) {
-  set_has_obstacle_keypoint_offset();
-  obstacle_keypoint_offset_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.obstacle_keypoint_offset)
-}
-
-// optional float obstacle_heading_threshold = 16;
-inline bool HomotopyClassPlanner::has_obstacle_heading_threshold() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_obstacle_heading_threshold() {
-  _has_bits_[0] |= 0x00008000u;
-}
-inline void HomotopyClassPlanner::clear_has_obstacle_heading_threshold() {
-  _has_bits_[0] &= ~0x00008000u;
-}
-inline void HomotopyClassPlanner::clear_obstacle_heading_threshold() {
-  obstacle_heading_threshold_ = 0;
-  clear_has_obstacle_heading_threshold();
-}
-inline float HomotopyClassPlanner::obstacle_heading_threshold() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.obstacle_heading_threshold)
-  return obstacle_heading_threshold_;
-}
-inline void HomotopyClassPlanner::set_obstacle_heading_threshold(float value) {
-  set_has_obstacle_heading_threshold();
-  obstacle_heading_threshold_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.obstacle_heading_threshold)
-}
-
-// optional bool viapoints_all_candidates = 17;
-inline bool HomotopyClassPlanner::has_viapoints_all_candidates() const {
-  return (_has_bits_[0] & 0x00010000u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_viapoints_all_candidates() {
-  _has_bits_[0] |= 0x00010000u;
-}
-inline void HomotopyClassPlanner::clear_has_viapoints_all_candidates() {
-  _has_bits_[0] &= ~0x00010000u;
-}
-inline void HomotopyClassPlanner::clear_viapoints_all_candidates() {
-  viapoints_all_candidates_ = false;
-  clear_has_viapoints_all_candidates();
-}
-inline bool HomotopyClassPlanner::viapoints_all_candidates() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.viapoints_all_candidates)
-  return viapoints_all_candidates_;
-}
-inline void HomotopyClassPlanner::set_viapoints_all_candidates(bool value) {
-  set_has_viapoints_all_candidates();
-  viapoints_all_candidates_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.viapoints_all_candidates)
-}
-
-// optional bool visualize_hc_graph = 18;
-inline bool HomotopyClassPlanner::has_visualize_hc_graph() const {
-  return (_has_bits_[0] & 0x00020000u) != 0;
-}
-inline void HomotopyClassPlanner::set_has_visualize_hc_graph() {
-  _has_bits_[0] |= 0x00020000u;
-}
-inline void HomotopyClassPlanner::clear_has_visualize_hc_graph() {
-  _has_bits_[0] &= ~0x00020000u;
-}
-inline void HomotopyClassPlanner::clear_visualize_hc_graph() {
-  visualize_hc_graph_ = false;
-  clear_has_visualize_hc_graph();
-}
-inline bool HomotopyClassPlanner::visualize_hc_graph() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.HomotopyClassPlanner.visualize_hc_graph)
-  return visualize_hc_graph_;
-}
-inline void HomotopyClassPlanner::set_visualize_hc_graph(bool value) {
-  set_has_visualize_hc_graph();
-  visualize_hc_graph_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.HomotopyClassPlanner.visualize_hc_graph)
-}
-
-// -------------------------------------------------------------------
-
-// Recovery
-
-// optional bool shrink_horizon_min_duration = 1;
-inline bool Recovery::has_shrink_horizon_min_duration() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void Recovery::set_has_shrink_horizon_min_duration() {
-  _has_bits_[0] |= 0x00000010u;
-}
-inline void Recovery::clear_has_shrink_horizon_min_duration() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void Recovery::clear_shrink_horizon_min_duration() {
-  shrink_horizon_min_duration_ = false;
-  clear_has_shrink_horizon_min_duration();
-}
-inline bool Recovery::shrink_horizon_min_duration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.shrink_horizon_min_duration)
-  return shrink_horizon_min_duration_;
-}
-inline void Recovery::set_shrink_horizon_min_duration(bool value) {
-  set_has_shrink_horizon_min_duration();
-  shrink_horizon_min_duration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.shrink_horizon_min_duration)
-}
-
-// optional bool oscillation_recovery = 2;
-inline bool Recovery::has_oscillation_recovery() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void Recovery::set_has_oscillation_recovery() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void Recovery::clear_has_oscillation_recovery() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void Recovery::clear_oscillation_recovery() {
-  oscillation_recovery_ = false;
-  clear_has_oscillation_recovery();
-}
-inline bool Recovery::oscillation_recovery() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_recovery)
-  return oscillation_recovery_;
-}
-inline void Recovery::set_oscillation_recovery(bool value) {
-  set_has_oscillation_recovery();
-  oscillation_recovery_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_recovery)
-}
-
-// optional bool shrink_horizon_backup = 3;
-inline bool Recovery::has_shrink_horizon_backup() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void Recovery::set_has_shrink_horizon_backup() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void Recovery::clear_has_shrink_horizon_backup() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void Recovery::clear_shrink_horizon_backup() {
-  shrink_horizon_backup_ = false;
-  clear_has_shrink_horizon_backup();
-}
-inline bool Recovery::shrink_horizon_backup() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.shrink_horizon_backup)
-  return shrink_horizon_backup_;
-}
-inline void Recovery::set_shrink_horizon_backup(bool value) {
-  set_has_shrink_horizon_backup();
-  shrink_horizon_backup_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.shrink_horizon_backup)
-}
-
-// optional double oscillation_v_eps = 4;
-inline bool Recovery::has_oscillation_v_eps() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void Recovery::set_has_oscillation_v_eps() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void Recovery::clear_has_oscillation_v_eps() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void Recovery::clear_oscillation_v_eps() {
-  oscillation_v_eps_ = 0;
-  clear_has_oscillation_v_eps();
-}
-inline double Recovery::oscillation_v_eps() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_v_eps)
-  return oscillation_v_eps_;
-}
-inline void Recovery::set_oscillation_v_eps(double value) {
-  set_has_oscillation_v_eps();
-  oscillation_v_eps_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_v_eps)
-}
-
-// optional double oscillation_omega_eps = 5;
-inline bool Recovery::has_oscillation_omega_eps() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void Recovery::set_has_oscillation_omega_eps() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void Recovery::clear_has_oscillation_omega_eps() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void Recovery::clear_oscillation_omega_eps() {
-  oscillation_omega_eps_ = 0;
-  clear_has_oscillation_omega_eps();
-}
-inline double Recovery::oscillation_omega_eps() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_omega_eps)
-  return oscillation_omega_eps_;
-}
-inline void Recovery::set_oscillation_omega_eps(double value) {
-  set_has_oscillation_omega_eps();
-  oscillation_omega_eps_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_omega_eps)
-}
-
-// optional double oscillation_recovery_min_duration = 6;
-inline bool Recovery::has_oscillation_recovery_min_duration() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void Recovery::set_has_oscillation_recovery_min_duration() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void Recovery::clear_has_oscillation_recovery_min_duration() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void Recovery::clear_oscillation_recovery_min_duration() {
-  oscillation_recovery_min_duration_ = 0;
-  clear_has_oscillation_recovery_min_duration();
-}
-inline double Recovery::oscillation_recovery_min_duration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_recovery_min_duration)
-  return oscillation_recovery_min_duration_;
-}
-inline void Recovery::set_oscillation_recovery_min_duration(double value) {
-  set_has_oscillation_recovery_min_duration();
-  oscillation_recovery_min_duration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_recovery_min_duration)
-}
-
-// optional double oscillation_filter_duration = 7;
-inline bool Recovery::has_oscillation_filter_duration() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void Recovery::set_has_oscillation_filter_duration() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void Recovery::clear_has_oscillation_filter_duration() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void Recovery::clear_oscillation_filter_duration() {
-  oscillation_filter_duration_ = 0;
-  clear_has_oscillation_filter_duration();
-}
-inline double Recovery::oscillation_filter_duration() const {
-  // @@protoc_insertion_point(field_get:or_local_planner.Recovery.oscillation_filter_duration)
-  return oscillation_filter_duration_;
-}
-inline void Recovery::set_oscillation_filter_duration(double value) {
-  set_has_oscillation_filter_duration();
-  oscillation_filter_duration_ = value;
-  // @@protoc_insertion_point(field_set:or_local_planner.Recovery.oscillation_filter_duration)
-}
-
-// -------------------------------------------------------------------
-
 // Config
 
 // optional .or_local_planner.FrameID opt_frame = 1;
@@ -5068,53 +3699,7 @@ inline void Config::set_allocated_optimize_info(::or_local_planner::Optimization
   // @@protoc_insertion_point(field_set_allocated:or_local_planner.Config.optimize_info)
 }
 
-// optional .or_local_planner.HomotopyClassPlanner hcp_opt = 7;
-inline bool Config::has_hcp_opt() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void Config::set_has_hcp_opt() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void Config::clear_has_hcp_opt() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void Config::clear_hcp_opt() {
-  if (hcp_opt_ != NULL) hcp_opt_->::or_local_planner::HomotopyClassPlanner::Clear();
-  clear_has_hcp_opt();
-}
-inline const ::or_local_planner::HomotopyClassPlanner& Config::hcp_opt() const {
-  const ::or_local_planner::HomotopyClassPlanner* p = hcp_opt_;
-  // @@protoc_insertion_point(field_get:or_local_planner.Config.hcp_opt)
-  return p != NULL ? *p : *reinterpret_cast<const ::or_local_planner::HomotopyClassPlanner*>(
-      &::or_local_planner::_HomotopyClassPlanner_default_instance_);
-}
-inline ::or_local_planner::HomotopyClassPlanner* Config::mutable_hcp_opt() {
-  set_has_hcp_opt();
-  if (hcp_opt_ == NULL) {
-    hcp_opt_ = new ::or_local_planner::HomotopyClassPlanner;
-  }
-  // @@protoc_insertion_point(field_mutable:or_local_planner.Config.hcp_opt)
-  return hcp_opt_;
-}
-inline ::or_local_planner::HomotopyClassPlanner* Config::release_hcp_opt() {
-  // @@protoc_insertion_point(field_release:or_local_planner.Config.hcp_opt)
-  clear_has_hcp_opt();
-  ::or_local_planner::HomotopyClassPlanner* temp = hcp_opt_;
-  hcp_opt_ = NULL;
-  return temp;
-}
-inline void Config::set_allocated_hcp_opt(::or_local_planner::HomotopyClassPlanner* hcp_opt) {
-  delete hcp_opt_;
-  hcp_opt_ = hcp_opt;
-  if (hcp_opt) {
-    set_has_hcp_opt();
-  } else {
-    clear_has_hcp_opt();
-  }
-  // @@protoc_insertion_point(field_set_allocated:or_local_planner.Config.hcp_opt)
-}
-
-// repeated .or_local_planner.FootprintModel robot_type = 8;
+// repeated .or_local_planner.FootprintModel robot_type = 7;
 inline int Config::robot_type_size() const {
   return robot_type_.size();
 }
@@ -5144,60 +3729,10 @@ Config::robot_type() const {
   return robot_type_;
 }
 
-// optional .or_local_planner.Recovery recovery_info = 9;
-inline bool Config::has_recovery_info() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-inline void Config::set_has_recovery_info() {
-  _has_bits_[0] |= 0x00000080u;
-}
-inline void Config::clear_has_recovery_info() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-inline void Config::clear_recovery_info() {
-  if (recovery_info_ != NULL) recovery_info_->::or_local_planner::Recovery::Clear();
-  clear_has_recovery_info();
-}
-inline const ::or_local_planner::Recovery& Config::recovery_info() const {
-  const ::or_local_planner::Recovery* p = recovery_info_;
-  // @@protoc_insertion_point(field_get:or_local_planner.Config.recovery_info)
-  return p != NULL ? *p : *reinterpret_cast<const ::or_local_planner::Recovery*>(
-      &::or_local_planner::_Recovery_default_instance_);
-}
-inline ::or_local_planner::Recovery* Config::mutable_recovery_info() {
-  set_has_recovery_info();
-  if (recovery_info_ == NULL) {
-    recovery_info_ = new ::or_local_planner::Recovery;
-  }
-  // @@protoc_insertion_point(field_mutable:or_local_planner.Config.recovery_info)
-  return recovery_info_;
-}
-inline ::or_local_planner::Recovery* Config::release_recovery_info() {
-  // @@protoc_insertion_point(field_release:or_local_planner.Config.recovery_info)
-  clear_has_recovery_info();
-  ::or_local_planner::Recovery* temp = recovery_info_;
-  recovery_info_ = NULL;
-  return temp;
-}
-inline void Config::set_allocated_recovery_info(::or_local_planner::Recovery* recovery_info) {
-  delete recovery_info_;
-  recovery_info_ = recovery_info;
-  if (recovery_info) {
-    set_has_recovery_info();
-  } else {
-    clear_has_recovery_info();
-  }
-  // @@protoc_insertion_point(field_set_allocated:or_local_planner.Config.recovery_info)
-}
-
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

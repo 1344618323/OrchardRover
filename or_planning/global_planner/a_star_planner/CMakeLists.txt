@@ -14,7 +14,6 @@ rrts_protobuf_generate_cpp(
 add_library(${PROJECT_NAME}
         SHARED
         ${AStarPlannerConfigProtoSrc}
-        ${AStarPlannerConfigProtoHds}
         a_star_planner.cpp
         )
 

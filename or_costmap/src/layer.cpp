@@ -19,4 +19,4 @@ namespace or_costmap {
         return layered_costmap_->GetFootprint();
     }
 
-} //namespace roborts_costmap
+} //namespace or_costmap

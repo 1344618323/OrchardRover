@@ -375,25 +375,21 @@ void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
                                         base_frame_);
             //求source_frame中的原点位姿在target_frame中的位姿
             tf::Stamped<tf::Pose> pose_stamp;
+            tf::Stamped<tf::Pose> odom_to_map;
             try {
                 this->tf_listener_ptr_->transformPose(odom_frame_,
                                                       ident,
                                                       pose_stamp);
-            }
-            catch (tf::TransformException &e) {
-                return;
-            }
 
-            pose_in_odom[0] = pose_stamp.getOrigin().x();
-            pose_in_odom[1] = pose_stamp.getOrigin().y();
-            double yaw, pitch, roll;
-            pose_stamp.getBasis().getEulerYPR(yaw, pitch, roll);
-            pose_in_odom[2] = yaw;
+                pose_in_odom[0] = pose_stamp.getOrigin().x();
+                pose_in_odom[1] = pose_stamp.getOrigin().y();
+                double yaw, pitch, roll;
+                pose_stamp.getBasis().getEulerYPR(yaw, pitch, roll);
+                pose_in_odom[2] = yaw;
 
-            tf::Stamped<tf::Pose> odom_to_map;
-            Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom);
 
-            try {
+                Eigen::Vector3d global_pose = slam_ptr_->GetPose(pose_in_odom);
+
                 //得到了Tglobal_base
                 tf::Transform tmp_tf(tf::createQuaternionFromYaw(global_pose[2]),
                                      tf::Vector3(global_pose[0],
@@ -409,7 +405,6 @@ void SlamNode::TimerCallbackForVisualize(const ros::TimerEvent &e) {
                                                       odom_to_map);
             }
             catch (tf::TransformException &e) {
-                //LOG(ERROR) << "Failed to subtract base to odom transform" << e.what();
                 return;
             }
 
