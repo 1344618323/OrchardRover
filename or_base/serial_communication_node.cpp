@@ -237,6 +237,10 @@ namespace leonard_serial_communication {
     Eigen::Vector3d
     SerialComNode::LatLongAltToEcef(const double latitude, const double longitude, const double altitude) {
         // https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_geodetic_to_ECEF_coordinates
+        // 参考论文：Hofmannwellenhof B , Lichtenegger H , Collins J . Global Positioning System (GPS). Theory and practice[J]. Wien Springer, 1992.
+        // 将大地坐标系（坐标表示 经度、纬度、海拔） 转到 地心地固坐标系 （原点 O (0,0,0)为地球质心，
+        // z 轴与地轴平行指向北极点，x 轴指向本初子午线(也就是零度经线)与赤道的交点，y 轴垂直于xOz平面(即东经90度与赤道的交点)构成右手坐标系）
+        // 南纬是负,北纬是正,东经是正,西经是负
         constexpr double a = 6378137.;  // semi-major axis, equator to center.
         constexpr double f = 1. / 298.257223563;
         constexpr double b = a * (1. - f);  // semi-minor axis, pole to center.
