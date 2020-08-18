@@ -1,6 +1,0 @@
-<launch>
-  <master auto="start"/>
-  <rosparam command="load" file="$(find or_base)/config/or_base_parameter.yaml" />
-  <node pkg="or_base" type="or_base_node" name="or_base_node" output="screen" respawn="true" />
-
-</launch>

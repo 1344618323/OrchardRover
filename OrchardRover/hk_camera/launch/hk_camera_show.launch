@@ -1,4 +1,0 @@
-<launch>
-    <rosparam command="load" file="$(find hk_camera)/config/camera.yaml" ns="hk_camera" />
-    <node pkg="hk_camera" type="hk_camera_node" name="hk_camera_node" respawn="true" output="screen" />
-</launch>
