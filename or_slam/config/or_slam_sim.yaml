@@ -16,9 +16,9 @@ or_slam:
   initial_cov_yy: 0.1
 
   #地图输出位置
-  out_map_file_name: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
+  out_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
   #地图读取位置
-  read_map_file_name: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/out_map.txt
+  read_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/out_map.txt
 
   sim_sensor_odom:
     alpha1: 0.03  #yaw

@@ -6,5 +6,5 @@ CXX_FLAGS = -O3 -DNDEBUG   -std=gnu++14
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map -I/usr/include/eigen3 -isystem /usr/local/include/opencv 
+CXX_INCLUDES = -I/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map -I/usr/include/eigen3 -isystem /usr/local/include/opencv 
 

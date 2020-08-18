@@ -165,7 +165,7 @@ if __name__ == '__main__':
     # rospy.spin()
 
     ###########读yaml文件##########
-    # fs=cv2.FileStorage('/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_detection/camparams/LongFCamCalib.yaml',cv2.FileStorage_READ)
+    # fs=cv2.FileStorage('/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_detection/camparams/LongFCamCalib.yaml',cv2.FileStorage_READ)
     # intrinsicMatrix=fs.getNode('intrinsicMatrix').mat()
     # distCoeffs=fs.getNode('distCoeffs').mat()
     # fs.release()

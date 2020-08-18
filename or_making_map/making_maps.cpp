@@ -106,7 +106,7 @@ int main() {
 }
 
 void WriteSimConfigFile() {
-    FileStorage fs("/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/exe_config.yaml",
+    FileStorage fs("/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/exe_config.yaml",
                    FileStorage::WRITE);
     double solution = 0.05;
     int raduis = 4;//树木的半径，×0.05
@@ -121,7 +121,7 @@ void WriteSimConfigFile() {
 }
 
 void ReadExeConfigFile(ExeConfig &exe_config) {
-    FileStorage fs("/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/exe_config.yaml",
+    FileStorage fs("/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/exe_config.yaml",
                    FileStorage::READ);
     if (!fs.isOpened()) {
         std::cerr << "Open exe_config.yaml Failed!" << std::endl;

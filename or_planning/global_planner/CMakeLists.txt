@@ -28,6 +28,7 @@ set(EXTERNAL_LIBS
 # 全局规划节点
 add_executable(${PROJECT_NAME}_node
         ${GlobalPlannerProtoSrc}
+        ${GlobalPlannerProtoHds}
         global_planner_node.cpp
         )
 

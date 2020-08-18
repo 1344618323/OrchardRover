@@ -79,7 +79,7 @@ public:
 
         if (key == 13) {
             std::stringstream ss;
-            ss << "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_test/img/" << (i++) << ".jpg";
+            ss << "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_test/img/" << (i++) << ".jpg";
             imwrite(ss.str(), img);
         }
     }

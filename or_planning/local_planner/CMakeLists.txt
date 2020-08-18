@@ -34,6 +34,7 @@ aux_source_directory(src/. SRC_LIST)
 #local planner node
 add_executable(${PROJECT_NAME}_node
         ${LocalPlanProtoSrc}
+        ${LocalPlanProtoHds}
         ${SRC_LIST}
         local_planner_node.cpp
         )
@@ -54,6 +55,7 @@ add_dependencies(${PROJECT_NAME}_node
 #local palnner test
 add_executable(teb_test
         ${LocalPlanProtoSrc}
+        ${LocalPlanProtoHds}
         ${SRC_LIST}
         teb_test.cpp
         )

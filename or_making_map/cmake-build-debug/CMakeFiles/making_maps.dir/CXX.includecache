@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/icpfun.h
+/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/icpfun.h
 Eigen/Core
 -
 Eigen/Geometry
@@ -16,11 +16,11 @@ Eigen/SVD
 vector
 -
 
-/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp
+/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp
 making_maps.h
-/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.h
+/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.h
 
-/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.h
+/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.h
 opencv2/opencv.hpp
 -
 opencv2/highgui/highgui.hpp
@@ -32,7 +32,7 @@ Eigen/Core
 memory
 -
 icpfun.h
-/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/icpfun.h
+/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/icpfun.h
 
 /usr/include/eigen3/Eigen/Cholesky
 Core

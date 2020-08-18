@@ -7,6 +7,6 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel:$CMAKE_PREFIX_PATH"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH="/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam:$ROS_PACKAGE_PATH"
+export CMAKE_PREFIX_PATH="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel:$CMAKE_PREFIX_PATH"
+export ROSLISP_PACKAGE_DIRECTORIES="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
+export ROS_PACKAGE_PATH="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam:$ROS_PACKAGE_PATH"

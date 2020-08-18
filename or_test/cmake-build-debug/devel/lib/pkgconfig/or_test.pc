@@ -1,4 +1,4 @@
-prefix=/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_test/cmake-build-debug/devel
+prefix=/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_test/cmake-build-debug/devel
 
 Name: or_test
 Description: Description of or_test

@@ -107,7 +107,7 @@ class CameraLaser:
     def __init__(self):
         ###########读yaml文件：相机内参，相机雷达外参##########
         fs = cv2.FileStorage(
-            '/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_lasercamcal/config/calibra_config_pinhole.yaml', cv2.FileStorage_READ)
+            '/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_lasercamcal/config/calibra_config_pinhole.yaml', cv2.FileStorage_READ)
         self.fx = fs.getNode('projection_parameters').getNode('fx').real()
         self.fy = fs.getNode('projection_parameters').getNode('fy').real()
         self.cx = fs.getNode('projection_parameters').getNode('cx').real()
@@ -125,7 +125,7 @@ class CameraLaser:
             [[self.fx, 0, self.cx], [0, self.fy, self.cy], [0, 0, 1]])
 
         fs = cv2.FileStorage(
-            '/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_lasercamcal/log/result.yaml', cv2.FileStorage_READ)
+            '/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_lasercamcal/log/result.yaml', cv2.FileStorage_READ)
         self.extrinsic_Tlc_ = fs.getNode('extrinsicTlc').mat()
         fs.release()
         # 计算 Tcam_laser

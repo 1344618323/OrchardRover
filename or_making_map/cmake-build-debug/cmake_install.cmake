@@ -1,4 +1,4 @@
-# Install script for directory: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map
+# Install script for directory: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

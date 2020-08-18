@@ -67,8 +67,8 @@ set(or_slam_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(or_slam_SOURCE_PREFIX /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam)
-  set(or_slam_DEVEL_PREFIX /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel)
+  set(or_slam_SOURCE_PREFIX /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam)
+  set(or_slam_DEVEL_PREFIX /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/devel)
   set(or_slam_INSTALL_PREFIX "")
   set(or_slam_PREFIX ${or_slam_DEVEL_PREFIX})
 else()

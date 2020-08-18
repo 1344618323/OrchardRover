@@ -5,6 +5,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 find_package(catkin REQUIRED COMPONENTS
   or_test
+  or_costmap
   )
 
 catkin_package()

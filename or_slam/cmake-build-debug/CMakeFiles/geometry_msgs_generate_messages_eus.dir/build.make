@@ -43,10 +43,10 @@ RM = /home/cxn/software/clion-2019.2.4/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam
+CMAKE_SOURCE_DIR = /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug
+CMAKE_BINARY_DIR = /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug
 
 # Utility rule file for geometry_msgs_generate_messages_eus.
 
@@ -67,6 +67,6 @@ CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean:
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean
 
 CMakeFiles/geometry_msgs_generate_messages_eus.dir/depend:
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/geometry_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/geometry_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/geometry_msgs_generate_messages_eus.dir/depend
 

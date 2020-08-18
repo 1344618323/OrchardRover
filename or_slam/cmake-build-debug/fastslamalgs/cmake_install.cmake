@@ -1,4 +1,4 @@
-# Install script for directory: /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs
+# Install script for directory: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/fastslamalgs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

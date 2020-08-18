@@ -1,7 +1,7 @@
 %YAML:1.0
 
 #common parameters
-savePath: "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_lasercamcal/log/"
+savePath: "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_lasercamcal/log/"
 bag_path: "/home/cxn/myfile/orchardrover_ws/2020-07-07-12-49-23.bag"
 
 scan_topic_name: "/scan"

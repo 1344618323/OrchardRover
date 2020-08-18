@@ -45,29 +45,21 @@ costmap：全局分辨率0.5m+局部0.1m
 * or_lasercamcal： 相机雷达外参标定（[旷世开源的标定程序](https://github.com/MegviiRobot/CamLaserCalibraTool)）
 
 ## 仿真效果
-（老版本fastslam的效果！）
+### 图优化效果
+<img src="img/优化slam（终极版）.gif" style="zoom:80%;display: inline-block; float:middle"/>
+
+### 运动规划
+<video id="video" controls="" preload="none" poster="poster.png">
+      <source id="mp4" src="img/运动规划.mp4" type="video/mp4">
+      </video>
+
+
+### 老版本fastslam效果
 在 Stage 仿真中使用100个粒子建图，经过重采样后，粒子集的地图趋于收敛
 <img src="img/slam_simulation.gif" style="zoom:80%;display: inline-block; float:middle"/>
 * 红色粒子：机器人位姿粒子集
 * 黑色菱形：树干真实坐标
 * 蓝色方块：粒子集地图，所有粒子的地图都会绘制
 
-## 实机效果
-（老版本fastslam的效果！）
-<center>CNN 树干检测</center>
+## CNN 树干检测
 <img src="img/cnn.png" style="zoom:80%;display: inline-block; float:middle"/>
-
----
-
-<center>真实环境 SLAM 效果</center>
-
-<video id="video" controls="" preload="none"
-    poster="http://media.w3.org/2010/05/sintel/poster.png">
-    <source id="ogv" src="img/slam_true.ogv" 
-              type="video/ogg">
-    <p>Your user agent does not support the HTML5 Video element.</p>
-</video>
-
-<img src="img/orchard.jpg" style="zoom:80%;display: inline-block; float:middle"/>
-
-在这个真实环境中，共有8棵树干，分两行排列，树的间隔为2～2.5m。

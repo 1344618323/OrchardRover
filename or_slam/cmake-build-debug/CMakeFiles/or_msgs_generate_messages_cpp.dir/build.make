@@ -43,10 +43,10 @@ RM = /home/cxn/software/clion-2019.2.4/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam
+CMAKE_SOURCE_DIR = /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug
+CMAKE_BINARY_DIR = /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug
 
 # Utility rule file for or_msgs_generate_messages_cpp.
 
@@ -67,6 +67,6 @@ CMakeFiles/or_msgs_generate_messages_cpp.dir/clean:
 .PHONY : CMakeFiles/or_msgs_generate_messages_cpp.dir/clean
 
 CMakeFiles/or_msgs_generate_messages_cpp.dir/depend:
-	cd /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/or_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/or_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/or_msgs_generate_messages_cpp.dir/depend
 

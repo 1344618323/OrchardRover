@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/slam_node.cpp" "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/or_slam_node.dir/slam_node.cpp.o"
+  "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/slam_node.cpp" "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/CMakeFiles/or_slam_node.dir/slam_node.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -29,8 +29,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs/CMakeFiles/fastslamalgs.dir/DependInfo.cmake"
-  "/home/cxn/myfile/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/DependInfo.cmake"
+  "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/fastslamalgs/CMakeFiles/fastslamalgs.dir/DependInfo.cmake"
+  "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_slam/cmake-build-debug/optimized_slam_algs/CMakeFiles/optimized_slam_algs.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
