@@ -1,0 +1,10 @@
+optimized_slam:
+  odom_translation_weight       : 1.0
+  odom_rotation_weight          : 1.0
+  lm_translation_weight         : 10.0
+  lm_rotation_weight            : 0.0
+  update_min_d           : 0.2
+  update_min_a           : 0.1
+  lm_cov_x               : 0.3
+  lm_cov_y               : 0.3
+  reserve_node_num       : 400

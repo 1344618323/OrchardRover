@@ -1,0 +1,13 @@
+camera:
+  width: 1440           #图像宽度
+  height: 1080            #图像高度
+  FrameRateEnable: true
+  FrameRate: 100          #帧率
+  ExposureTime: 2000      #曝光时间,室外1000，室内10000
+  GammaEnable: true
+  Gamma: 0.45              #伽马因子
+  Gain: 5                 #亮度
+  SaturationEnable: true
+  Saturation: 128         #饱和度
+
+Visualize: true  #是否显示图片

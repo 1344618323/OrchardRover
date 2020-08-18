@@ -1,0 +1,28 @@
+<launch>
+  <master auto="start"/>
+
+  <!-- Publish static tf -->
+  <include file="$(find or_bringup)/launch/static_tf.launch" />
+
+  <!-- Run the detection node -->
+  <!-- <rosparam command="load" file="$(find or_detection)/config/or_detection_parameter.yaml" />
+  <node pkg="or_detection" name="trunk_detection_node" type="trunk_detection_node.py"/> -->
+
+  <!-- Run the lidar node -->
+  <!-- <include file="$(find rplidar_ros)/launch/rplidar_s1.launch" /> -->
+
+  <!-- Run the camera node -->
+  <!-- <include file="$(find hk_camera)/launch/hk_camera_show.launch" /> -->
+
+  <!-- Run the or_base interface -->
+  <!-- <include file="$(find or_bringup)/launch/or_base.launch" /> -->
+
+  <!-- Run the slam node -->
+  <rosparam command="load" file="$(find or_slam)/config/or_slam.yaml" />
+  <rosparam command="load" file="$(find or_slam)/optimized_slam_algs/config/optimizedslam.yaml" />
+  <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
+
+  <!-- Run the rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find or_bringup)/rviz/roborts.rviz" />
+
+</launch>

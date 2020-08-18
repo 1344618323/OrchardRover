@@ -1,0 +1,23 @@
+<launch>
+  <arg name="map" value="orchard2"/>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find or_bringup)/maps/$(arg map).yaml" respawn="false" />
+
+  <!-- Run the stage simulator -->
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find or_bringup)/worlds/$(arg map).world" respawn="false" >
+    <remap from="base_scan" to="scan" />
+    <param name="base_watchdog_timeout" value="0.01" />
+  </node>
+
+  <!-- Run the slam node -->
+  <rosparam command="load" file="$(find or_slam)/config/or_slam_sim.yaml" />
+  <rosparam command="load" file="$(find or_slam)/optimized_slam_algs/config/optimizedslam_sim.yaml" />
+  <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
+
+  <!-- Run the rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find or_bringup)/rviz/roborts.rviz" />
+
+</launch>

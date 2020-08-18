@@ -1,0 +1,10 @@
+<launch>
+  <arg name="config_path" default = "$(find or_lasercamcal)/config/calibra_config_pinhole.yaml" />
+  <node pkg="or_lasercamcal" type="kalibra_detect_node" name="kalibra_detect_node" output="screen">
+
+    <param name="config_file" type="string" value="$(arg config_path)" />
+    <param name="image_transport" type="str" value="compressed" />
+    <param name="tag_family" type="str" value="36h11" />
+
+  </node>
+</launch>

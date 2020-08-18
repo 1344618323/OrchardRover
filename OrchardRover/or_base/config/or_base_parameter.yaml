@@ -1,0 +1,3 @@
+or_base:
+  # serial_port : "/dev/or_ea60_serial"
+ serial_port : "/dev/or_7523_serial"

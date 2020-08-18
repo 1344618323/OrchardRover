@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>hk_camera</name>
+    <version>1.0.0</version>
+    <description>The hk_camera package</description>
+    <author>Leonard Chen</author>
+    <maintainer email="1344618323@qq.com">Leonard Chen</maintainer>
+    <license>GPL 3.0</license>
+
+    <url>https://github.com/1344618323/OrchardRover</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <build_depend>roscpp</build_depend>
+    <build_depend>std_msgs</build_depend>
+    <build_depend>cv_bridge</build_depend>
+    <build_depend>image_transport</build_depend>
+    <build_depend>camera_info_manager</build_depend>
+
+    <exec_depend>roscpp</exec_depend>
+    <exec_depend>std_msgs</exec_depend>
+    <exec_depend>cv_bridge</exec_depend>
+    <exec_depend>image_transport</exec_depend>
+    <exec_depend>camera_info_manager</exec_depend>
+
+    <!-- The export tag contains other, unspecified, tags -->
+    <export>
+        <!-- Other tools can request additional information be placed here -->
+
+    </export>
+</package>

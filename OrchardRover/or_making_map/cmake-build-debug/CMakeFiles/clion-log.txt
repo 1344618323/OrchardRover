@@ -1,0 +1,4 @@
+/home/cxn/software/clion-2019.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug
