@@ -48,18 +48,18 @@ costmap：全局分辨率0.5m+局部0.1m
 ### 图优化效果
 <img src="img/优化slam（终极版）.gif" style="zoom:80%;display: inline-block; float:middle"/>
 
-### 运动规划
-<video id="video" controls="" preload="none" poster="poster.png">
-      <source id="mp4" src="img/运动规划.mp4" type="video/mp4">
-      </video>
-
-
 ### 老版本fastslam效果
 在 Stage 仿真中使用100个粒子建图，经过重采样后，粒子集的地图趋于收敛
 <img src="img/slam_simulation.gif" style="zoom:80%;display: inline-block; float:middle"/>
 * 红色粒子：机器人位姿粒子集
 * 黑色菱形：树干真实坐标
 * 蓝色方块：粒子集地图，所有粒子的地图都会绘制
+
+### 运动规划
+mp4视频
+<video id="video" controls="" preload="none" poster="poster.png">
+      <source id="mp4" src="img/运动规划.mp4" type="video/mp4">
+      </video>
 
 ## CNN 树干检测
 <img src="img/cnn.png" style="zoom:80%;display: inline-block; float:middle"/>
