@@ -21,7 +21,7 @@
 using namespace std;
 using namespace cv;
 
-String g_window_name = "制图者";
+String g_window_name = "MakingMap";
 vector<VisualizeLandMarks> g_lms;
 vector<VisualizeLandMarks *> g_filter_lms;
 VisualizeLandMarks *g_last_selected_lm;
@@ -38,7 +38,7 @@ int main() {
     LoadMapFromTxt(exe_config.slam_map_file_name, g_lms, origin, exe_config);
 
     //根据地标坐标扩张地图尺寸
-    MapSize mapSize;
+    RoiSize mapSize;
     for (auto &item:g_lms) {
         mapSize.Expand(item.trueXY);
     }

@@ -50,7 +50,8 @@ public:
             e += (src[i] - R * dst[i] - t).squaredNorm();
         }
         double error = std::sqrt(e / double(src.size()));
-        cout << error << endl;
+        cout << "---ICP Result---" << endl << "R:" << R << endl << "t: " << t << endl
+             << "RMES: " << error << endl << "----------" << endl;
         return error;
     }
 };

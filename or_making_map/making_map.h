@@ -23,8 +23,8 @@ struct ExeConfig {
     string true_map_file_name;
 };
 
-struct MapSize {
-    MapSize(double solution = 0.05) {
+struct RoiSize {
+    RoiSize(double solution = 0.05) {
         this->solution = solution;
         min_val_x = numeric_limits<double>::max();
         max_val_x = numeric_limits<double>::min();
@@ -78,7 +78,7 @@ struct VisualizeLandMarks {
         driftXY = trueXY;
     }
 
-    void Drift(MapSize &mapSize) {
+    void Drift(RoiSize &mapSize) {
         driftXY.x() -= mapSize.min_val_x;
         driftXY.y() -= mapSize.min_val_y;
         imgXY.x() = driftXY.x() / mapSize.solution;

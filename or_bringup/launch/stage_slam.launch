@@ -1,5 +1,5 @@
 <launch>
-  <arg name="map" value="orchard2"/>
+  <arg name="map" value="orchard"/>
   <master auto="start"/>
   <param name="/use_sim_time" value="true"/>
 

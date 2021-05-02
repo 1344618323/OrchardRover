@@ -87,7 +87,7 @@ private:
     ros::Time last_obs_msg_timestamp_;
 
     //save and load map
-    std::string out_map_file_name_;
+    std::string slam_map_file_name_;
     std::string read_map_file_name_;
 
     Eigen::Isometry2d sensor_pose_;

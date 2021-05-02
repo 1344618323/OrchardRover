@@ -10,15 +10,17 @@ SlamNode::SlamNode(std::string name) {
 }
 
 SlamNode::~SlamNode() {
-    const std::map<int, Eigen::Vector2d> &global_lms = slam_ptr_->GetLandmarks();
-    auto it = global_lms.begin();
-    int idx = 0;
-    while (it != global_lms.end()) {
-        std::cout << "LM " << idx << ": " << it->second(0) << "," << it->second(1) << std::endl;
-        it++;
-        idx++;
+    if(!pure_localization_){
+        const std::map<int, Eigen::Vector2d> &global_lms = slam_ptr_->GetLandmarks();
+        auto it = global_lms.begin();
+        int idx = 0;
+        while (it != global_lms.end()) {
+            std::cout << "LM " << idx << ": " << it->second(0) << "," << it->second(1) << std::endl;
+            it++;
+            idx++;
+        }
+        SaveMaptoTxt(slam_map_file_name_, global_lms, init_pose_);
     }
-    SaveMaptoTxt(slam_map_file_name_, global_lms, init_pose_);
 }
 
 void SlamNode::LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms) {
@@ -105,7 +107,7 @@ bool SlamNode::Init() {
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
 
-    nh_.param<std::string>("or_slam/slam_map_file_name", slam_map_file_name_, "out_map.txt");
+    nh_.param<std::string>("or_slam/slam_map_file_name", slam_map_file_name_, "slam_map.txt");
     nh_.param<std::string>("or_slam/read_map_file_name", read_map_file_name_, "read_map.txt");
 
     if (use_sim_) {

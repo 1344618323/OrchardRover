@@ -17,7 +17,6 @@ namespace or_local_planner {
 
         visual_frame_ = visualize_frame;
         local_planner_ = nh.advertise<nav_msgs::Path>("trajectory", 1);
-        pose_pub_ = nh.advertise<geometry_msgs::PoseArray>("pose", 1);
 
         initialized_ = true;
     }
