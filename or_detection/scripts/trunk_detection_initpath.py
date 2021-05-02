@@ -7,6 +7,6 @@ def add_path(path):
 
 this_dir = osp.dirname(__file__)
 # Add caffe to PYTHONPATH
-add_path('/home/cxn/myfile/py-faster-rcnn/caffe-fast-rcnn/python')
+add_path('/home/cxn/myfile/OR_ws/py-faster-rcnn/caffe-fast-rcnn/python')
 # Add lib to PYTHONPATH
-add_path('/home/cxn/myfile/py-faster-rcnn/lib')
+add_path('/home/cxn/myfile/OR_ws/py-faster-rcnn/lib')

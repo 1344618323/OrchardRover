@@ -130,8 +130,8 @@ if __name__ == '__main__':
     rospy.init_node('talker', anonymous=True)
 
     # 加载 faster-RCNN 模型
-    prototxt = '/home/cxn/myfile/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
-    caffemodel = '/home/cxn/myfile/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
+    prototxt = '/home/cxn/myfile/OR_ws/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
+    caffemodel = '/home/cxn/myfile/OR_ws/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
     if not osp.isfile(caffemodel):
         raise IOError(('{:s} not found.').format(caffemodel))
     caffe.set_mode_gpu()
@@ -183,8 +183,8 @@ if __name__ == '__main__':
     #     # cv2.imshow('frame',out)
 
 
-    im_names = ['/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_171646.jpg',
-        '/home/cxn/myfile/py-faster-rcnn/data/demo/IMG_20190521_181206.jpg']
+    im_names = ['/home/cxn/myfile/OR_ws/py-faster-rcnn/data/demo/IMG_20190521_181054.jpg',
+        '/home/cxn/myfile/OR_ws/py-faster-rcnn/data/demo/IMG_20190521_182853.jpg']
     for im_name in im_names:
         print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
         print 'Demo for {}'.format(im_name)

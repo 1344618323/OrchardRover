@@ -5,7 +5,7 @@
 		<Option title="making_maps"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\;CMake Files\..\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\..\..\usr\local\share\OpenCV\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\..\..\usr\lib\cmake\;CMake Files\..\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\;CMake Files\..\..\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\..\..\..\usr\local\share\OpenCV\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug"/>
@@ -37,8 +37,8 @@
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="making_maps2">
-				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_maps2" prefix_auto="0" extension_auto="0"/>
+			<Target title="making_map_from_gmapping">
+				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_map_from_gmapping" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -57,14 +57,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_maps2"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_map_from_gmapping"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="making_maps2/fast">
-				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_maps2" prefix_auto="0" extension_auto="0"/>
+			<Target title="making_map_from_gmapping/fast">
+				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_map_from_gmapping" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -83,14 +83,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_maps2/fast"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_map_from_gmapping/fast"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="making_maps">
-				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_maps" prefix_auto="0" extension_auto="0"/>
+			<Target title="making_map">
+				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_map" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -109,14 +109,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_maps"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_map"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="making_maps/fast">
-				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_maps" prefix_auto="0" extension_auto="0"/>
+			<Target title="making_map/fast">
+				<Option output="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/making_map" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -135,42 +135,42 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_maps/fast"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 making_map/fast"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.cpp">
-			<Option target="making_maps"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_map.cpp">
+			<Option target="making_map"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps.h">
-			<Option target="making_maps"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_map.h">
+			<Option target="making_map"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps2.cpp">
-			<Option target="making_maps2"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_map_from_gmapping.cpp">
+			<Option target="making_map_from_gmapping"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_maps2.h">
-			<Option target="making_maps2"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/making_map_from_gmapping.h">
+			<Option target="making_map_from_gmapping"/>
 		</Unit>
 		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../usr/lib/cmake/eigen3/Eigen3Config.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../../usr/lib/cmake/eigen3/Eigen3Config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
+		<Unit filename="/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/../../../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

@@ -50,9 +50,11 @@ namespace leonard_serial_communication {
     } cmd_chassis_info;
 
     typedef struct {
-        int16_t vx;
-        int16_t vy;
-        int16_t vw;
+        // int16_t vx;
+        // int16_t vy;
+        // int16_t vw;
+        int16_t v;
+        int16_t w;
     } cmd_chassis_speed;
 
     typedef struct {

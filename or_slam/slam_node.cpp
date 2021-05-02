@@ -18,7 +18,7 @@ SlamNode::~SlamNode() {
         it++;
         idx++;
     }
-    SaveMaptoTxt(out_map_file_name_, global_lms, init_pose_);
+    SaveMaptoTxt(slam_map_file_name_, global_lms, init_pose_);
 }
 
 void SlamNode::LoadMapFromTxt(std::string filename, std::map<int, Eigen::Vector2d> &lms) {
@@ -90,7 +90,7 @@ void SlamNode::SaveMaptoTxt(std::string filename,
 bool SlamNode::Init() {
     nh_.param<double>("or_slam/trunk_std_radius", trunk_std_radius_, 0.2);
     nh_.param<bool>("or_slam/pure_localization", pure_localization_, false);
-    nh_.param<bool>("or_slam/use_sim", use_sim_, true);
+    nh_.param<bool>("or_slam/use_sim", use_sim_, false);
     nh_.param<std::string>("or_slam/odom_frame_id", odom_frame_, "odom");
     nh_.param<std::string>("or_slam/base_frame_id", base_frame_, "base_link");
     nh_.param<std::string>("or_slam/base_frame_id", gps_frame_, "gps_link");
@@ -105,13 +105,10 @@ bool SlamNode::Init() {
     tf_listener_ptr_ = std::make_unique<tf::TransformListener>();
     tf_broadcaster_ptr_ = std::make_unique<tf::TransformBroadcaster>();
 
-    nh_.param<std::string>("or_slam/out_map_file_name", out_map_file_name_, "out_map.txt");
+    nh_.param<std::string>("or_slam/slam_map_file_name", slam_map_file_name_, "out_map.txt");
     nh_.param<std::string>("or_slam/read_map_file_name", read_map_file_name_, "read_map.txt");
 
     if (use_sim_) {
-        //仿真器图的树半径是0.2m
-        trunk_std_radius_ = 0.2;
-
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 4; j++) {
                 C_trunkpoints_for_sim_.push_back(Eigen::Vector2d(i * 3 + 6.5, j * 3 + 5));
@@ -233,7 +230,7 @@ void SlamNode::LaserScanCallbackForSim(const sensor_msgs::LaserScan::ConstPtr &l
             int ind = diff / M_PI * 180 + 134;
             //若激光距离与到树干的距离不一致，就认为是障碍物
             if (fabs(laser_scan_msg->ranges[ind] - std::sqrt(delta_x * delta_x + delta_y * delta_y)) < 0.5) {
-                //因为画的图中树的半径是0.2m
+                //仿真时，图中树的半径是0.2m
                 geometry_msgs::Point p;
                 p.x = (laser_scan_msg->ranges[ind] + trunk_std_radius_) * cos(diff);
                 p.y = (laser_scan_msg->ranges[ind] + trunk_std_radius_) * sin(diff);
@@ -265,14 +262,17 @@ void SlamNode::TrunkObsMsgXYCallback(const or_msgs::TrunkObsMsgXY::ConstPtr &tru
 
     if (use_sim_) {
         //考虑到stage中返回的位姿是非常正确的，我们人为给他加误差
-        pose_in_odom = sim_odom_data_generator_ptr_->UpdateAction2(pose_in_odom);
+        pose_in_odom = sim_odom_data_generator_ptr_->UpdateActionForSim(pose_in_odom);
     }
 
     pose_in_odom_ = pose_in_odom;
 
     std::vector<Eigen::Vector2d> xys;
     for (auto &item :trunk_obs_msg->XYs) {
-        xys.push_back(sensor_pose_ * Eigen::Vector2d(item.x, item.y));
+        double z = sqrt(item.x*item.x+ item.y*item.y);
+        double x = item.x*(1+trunk_std_radius_/z);
+        double y = item.y*(1+trunk_std_radius_/z);
+        xys.push_back(sensor_pose_ * Eigen::Vector2d(x, y));
     }
     slam_ptr_->AddNodeData(pose_in_odom_, xys, trunk_obs_msg->header.stamp);
 

@@ -63,9 +63,15 @@ namespace leonard_serial_communication {
     void SerialComNode::ChassisSpeedCtrlCallback(const geometry_msgs::Twist::ConstPtr &vel) {
         cmd_chassis_speed chassis_speed;
 
-        chassis_speed.vx = vel->linear.x * 1000;
-        chassis_speed.vy = vel->linear.y * 1000;
-        chassis_speed.vw = vel->angular.z * 1800.0 / M_PI;
+        // chassis_speed.vx = vel->linear.x * 1000;
+        // chassis_speed.vy = vel->linear.y * 1000;
+        // chassis_speed.vw = vel->angular.z * 1800.0 / M_PI;
+
+        chassis_speed.v = vel->linear.x * 1000;
+        chassis_speed.w = vel->angular.z * 1000;
+
+        // std::cout<<"v: "<<(vel->linear.x)<<std::endl;
+        // std::cout<<"w: "<<(vel->angular.z)<<std::endl;
 
         if (!SendData((uint8_t *) &chassis_speed, sizeof(cmd_chassis_speed), CMD_SET_CHASSIS_SPEED)) {
             LOG(WARNING) << "Overflow in Chassis CB";
@@ -141,7 +147,7 @@ namespace leonard_serial_communication {
         std::lock_guard<std::mutex> guard(mutex_receive_);
         auto *p_header = (FrameHeader *) protocol_packet_;
         uint16_t data_length = p_header->pack_len - HEADER_LEN - CMD_LEN - CRC_DATA_LEN;
-        uint8_t cmd_id = *(uint16_t *) (protocol_packet_ + HEADER_LEN);
+        uint8_t cmd_id = *(uint8_t *) (protocol_packet_ + HEADER_LEN);
         uint8_t *data_addr = protocol_packet_ + HEADER_LEN + CMD_LEN;
 
         switch (cmd_id) {

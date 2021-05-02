@@ -18,7 +18,7 @@ public:
         last_sim_pose_.setZero();
     }
 
-    Eigen::Vector3d UpdateAction(const Eigen::Vector3d &odom_pose) {
+    Eigen::Vector3d UpdateActionForPf(const Eigen::Vector3d &odom_pose) {
         double delta_rot1, delta_trans, delta_rot2;
         double delta_rot1_hat, delta_trans_hat, delta_rot2_hat;
         double delta_rot1_noise, delta_rot2_noise;
@@ -68,7 +68,7 @@ public:
     }
 
 
-    Eigen::Vector3d UpdateAction2(const Eigen::Vector3d &odom_pose) {
+    Eigen::Vector3d UpdateActionForSim(const Eigen::Vector3d &odom_pose) {
         double delta_rot, delta_trans_x, delta_trans_y;
 
         Eigen::Vector3d true_delta = odom_pose - last_true_pose_;

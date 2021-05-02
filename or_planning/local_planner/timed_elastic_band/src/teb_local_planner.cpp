@@ -45,7 +45,7 @@ namespace or_local_planner {
         //(cxn)这里获得的是机器人在odom坐标系下的坐标
         UpdateRobotPose();
         //(cxn)获取odom测量的vel
-        UpdateRobotVel();
+        // UpdateRobotVel();
         //(cxn)计算实时的 Todom-map
         UpdateGlobalToPlanTranform();
 
@@ -113,7 +113,8 @@ namespace or_local_planner {
             micro_control = true;
         }
 
-        bool success = optimal_->Optimal(transformed_plan_, &robot_current_vel_, free_goal_vel_, micro_control);
+        // bool success = optimal_->Optimal(transformed_plan_, &robot_current_vel_, free_goal_vel_, micro_control);
+        bool success = optimal_->Optimal(transformed_plan_, nullptr , free_goal_vel_, micro_control);
 
         if (!success) {
             optimal_->ClearPlanner();
@@ -455,11 +456,11 @@ namespace or_local_planner {
     }
 
     void TebLocalPlanner::UpdateRobotVel() {
-        tf::Stamped<tf::Pose> robot_vel_tf;
-        odom_info_.GetVel(robot_vel_tf);
-        robot_current_vel_.linear.x = robot_vel_tf.getOrigin().getX();
-        robot_current_vel_.linear.y = robot_vel_tf.getOrigin().getY();
-        robot_current_vel_.angular.z = tf::getYaw(robot_vel_tf.getRotation());
+        // tf::Stamped<tf::Pose> robot_vel_tf;
+        // odom_info_.GetVel(robot_vel_tf);
+        // robot_current_vel_.linear.x = robot_vel_tf.getOrigin().getX();
+        // robot_current_vel_.linear.y = robot_vel_tf.getOrigin().getY();
+        // robot_current_vel_.angular.z = tf::getYaw(robot_vel_tf.getRotation());
     }
 
     //(cxn)获取全局路径起点的 Todom-map
@@ -580,7 +581,7 @@ namespace or_local_planner {
             RobotPositionCost::CalculateMinAndMaxDistances(robot_footprint_,
                                                            robot_inscribed_radius_,
                                                            robot_circumscribed_radius);
-            odom_info_.SetTopic(param_config_.opt_frame().odom_frame());
+            // odom_info_.SetTopic(param_config_.opt_frame().odom_frame());
 
             is_initialized_ = true;
             ROS_INFO("local algorithm initialize ok");

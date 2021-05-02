@@ -1,13 +1,16 @@
 or_slam:
-  pure_localization: true
+  pure_localization: false
+
+  # 仿真时无用
   use_sim: false
+  
   odom_frame_id: "odom"
   base_frame_id: "base_link"
   global_frame_id: "map"
   laser_topic_name: "scan"
   trunk_topic_name: "trunk_obs"
   transform_tolerance: 0.1
-  trunk_std_radius: 0.16
+  trunk_std_radius: 0.0668
 
   initial_pose_x: 0 #2.5
   initial_pose_y: 0 #8
@@ -16,17 +19,7 @@ or_slam:
   initial_cov_yy: 0.1
 
   #地图输出位置
-  out_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
+  slam_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
   #地图读取位置
-  read_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/out_map.txt
-
-  sim_sensor_odom:
-    alpha1: 0.03  #yaw
-    alpha2: 0.08  #x
-    alpha3: 0.08  #y
-    alpha4: 0.01
-#    alpha1: 0.1
-#    alpha2: 0.1
-#    alpha3: 0.1
-#    alpha4: 0.01
+  read_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/correct_map.txt
 

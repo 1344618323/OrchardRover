@@ -46,10 +46,10 @@ def DetectTrunkByNet(net, im):
     #        '{:d} object proposals').format(timer.total_time, boxes.shape[0])
 
     # Visualize detections for each class
-    CONF_THRESH = 0.8
-    NMS_THRESH = 0.3
+    CONF_THRESH = 0.5
+    NMS_THRESH = 0.1
     clsdict = dict()
-    for cls_ind, cls in enumerate(CLASSES[1:]):
+    for cls_ind, cls in enumerate(CLASSES[2:]):
         cls_ind += 1  # because we skipped background
         cls_boxes = boxes[:, 4*cls_ind:4*(cls_ind + 1)]
         cls_scores = scores[:, cls_ind]
@@ -199,6 +199,8 @@ class CameraLaser:
     # 在 输入图片 process_img 上绘制 激光点 投影效果
     def ShowProject(self, process_img):
         points = self.TranScanToPoints(scan_in)
+        if points == []:
+            return
         img_points = self.ProjectPoints(points)
         for i in range(img_points.shape[1]):
             # 2×N，遍历每一列
@@ -210,9 +212,11 @@ class CameraLaser:
     # 建立map关系 map(像素坐标系u分量)=激光雷达坐标系坐标
     # 若对同一个u有多个激光坐标，选近距离的
     def ProjectAndMap(self, scan_in):
-        points = self.TranScanToPoints(scan_in)
-        img_points = self.ProjectPoints(points)
         points_map = dict()
+        points = self.TranScanToPoints(scan_in)
+        if points == []:
+            return points_map
+        img_points = self.ProjectPoints(points)
         for i in range(img_points.shape[1]):
             # 2×N，遍历每一列
             new_value = points[0:2, i]
@@ -291,8 +295,8 @@ if __name__ == '__main__':
     cam_only = rospy.get_param('or_detection/cam_only', False)
 
     # ↓加载 faster-RCNN 模型↓
-    prototxt = '/home/cxn/myfile/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
-    caffemodel = '/home/cxn/myfile/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
+    prototxt = '/home/cxn/myfile/OR_ws/py-faster-rcnn/models/pascal_voc/VGG16/faster_rcnn_alt_opt/faster_rcnn_test_cxn.pt'
+    caffemodel = '/home/cxn/myfile/OR_ws/py-faster-rcnn/data/faster_rcnn_models/vgg16_faster_rcnn_iter_4000.caffemodel'
     if not osp.isfile(caffemodel):
         raise IOError(('{:s} not found.').format(caffemodel))
     caffe.set_mode_gpu()

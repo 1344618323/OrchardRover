@@ -2,8 +2,8 @@
 // Created by cxn on 2020/6/24.
 //
 
-#ifndef MAKING_MAPS_MAKING_MAPS_H
-#define MAKING_MAPS_MAKING_MAPS_H
+#ifndef MAKING_MAP_H
+#define MAKING_MAP_H
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -11,16 +11,16 @@
 #include <Eigen/Core>
 #include <memory>
 #include <string>
-//#include "icpfun.h"
 
 using namespace std;
 
 struct ExeConfig {
     double solution;
-    int raduis;
-    string read_map_file_name;
-    string out_map_file_name;
-    string out_map_pgm_name;
+    double radius;
+    string slam_map_file_name;
+    string correct_map_file_name;
+    string correct_map_pgm_name;
+    string true_map_file_name;
 };
 
 struct MapSize {
@@ -42,10 +42,6 @@ struct MapSize {
     void Expand(Eigen::Vector2d xy) {
         double x = xy.x();
         double y = xy.y();
-        Expand(x, y);
-    }
-
-    void Expand(double x, double y) {
         if (min_val_x > x)
             min_val_x = x;
         if (max_val_x < x)
@@ -56,7 +52,7 @@ struct MapSize {
             max_val_y = y;
     }
 
-    void Padding(double pad = 5) {
+    void Padding(double pad = 3) {
         min_val_x -= pad;
         min_val_y -= pad;
         max_val_x += pad;
@@ -104,17 +100,13 @@ struct VisualizeLandMarks {
     int id;
 };
 
-
-void WriteSimConfigFile();
-
 void ReadExeConfigFile(ExeConfig &exe_config);
 
-
-void LoadMapFromTxt(std::string filename, vector<VisualizeLandMarks> &lms, Eigen::Vector2d &origin, ExeConfig &exe_config);
+void
+LoadMapFromTxt(std::string filename, vector<VisualizeLandMarks> &lms, Eigen::Vector2d &origin, ExeConfig &exe_config);
 
 void SaveMaptoTxt(std::string filename, vector<VisualizeLandMarks> &lms, Eigen::Vector2d &origin);
 
-
 void OnMouseHandle(int event, int x, int y, int flag, void *param);
 
-#endif //MAKING_MAPS_MAKING_MAPS_H
+#endif //MAKING_MAPS_MAKING_MAP_H

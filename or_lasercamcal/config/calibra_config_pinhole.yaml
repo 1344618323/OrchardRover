@@ -2,7 +2,7 @@
 
 #common parameters
 savePath: "/home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_lasercamcal/log/"
-bag_path: "/home/cxn/myfile/orchardrover_ws/2020-07-07-12-49-23.bag"
+bag_path: "/home/cxn/myfile/OR_ws/orchardrover_ws/2021-04-29-22-22-10.bag"
 
 scan_topic_name: "/scan"
 img_topic_name: "/usb_cam/image_raw"
@@ -16,7 +16,7 @@ black_border: 2 # if you use kalibr_tag black_boarder = 2; if you use apriltag b
 #camera calibration 
 model_type: PINHOLE
 camera_name: camera
-image_width: 640
+image_width: 720
 image_height: 540
 
 distortion_parameters:

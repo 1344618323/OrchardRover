@@ -21,10 +21,10 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../optimized_slam_algs"
-  "/usr/include/eigen3"
-  "/home/cxn/myfile/orchardrover_ws/devel/include"
+  "/home/cxn/myfile/OR_ws/orchardrover_ws/devel/include"
   "/opt/ros/kinetic/include"
   "/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
+  "/usr/include/eigen3"
   )
 
 # Targets to which this target links.

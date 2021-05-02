@@ -15,7 +15,8 @@
  *  3. 按'c'键，保存新地图txt、pgm文件
 */
 
-#include "making_maps2.h"
+#include "making_map.h"
+#include "icp2dtool.h"
 
 using namespace std;
 using namespace cv;
@@ -34,19 +35,22 @@ int main() {
     ReadExeConfigFile(exe_config);
 
     Eigen::Vector2d origin;
+    LoadMapFromTxt(exe_config.slam_map_file_name, g_lms, origin, exe_config);
 
-    LoadMapFromTxt(exe_config.read_map_file_name, g_lms, origin, exe_config);
-
+    //根据地标坐标扩张地图尺寸
     MapSize mapSize;
     for (auto &item:g_lms) {
         mapSize.Expand(item.trueXY);
     }
+
     mapSize.Padding();
+
     Mat src_map(mapSize.height, mapSize.width, CV_8UC1, Scalar(255));
 
+    //根据地图尺寸计算地标在图像中尺寸
     for (auto &item:g_lms) {
         item.Drift(mapSize);
-        circle(src_map, Point(item.x(), item.y()), exe_config.raduis, Scalar(0), -1);
+        circle(src_map, Point(item.x(), item.y()), ceil(exe_config.radius / exe_config.solution), Scalar(0), -1);
     }
 
     namedWindow(g_window_name);
@@ -78,23 +82,43 @@ int main() {
                 mapSize.Expand(item.driftXY);
             }
             mapSize.Padding();
+
             src_map = Mat(mapSize.height, mapSize.width, CV_8UC1, Scalar(255));
+
             for (auto &item:g_lms) {
                 item.Drift(mapSize);
-                circle(src_map, Point(item.x(), item.y()), exe_config.raduis, Scalar(0), -1);
+                circle(src_map, Point(item.x(), item.y()),ceil(exe_config.radius / exe_config.solution), Scalar(0), -1);
+            }
+        } else if (key == 98) {
+            Eigen::Vector2d origin;
+            vector<VisualizeLandMarks> true_lms;
+            LoadMapFromTxt(exe_config.true_map_file_name, true_lms, origin, exe_config);
+
+            if (true_lms.size() == g_lms.size()) {
+                vector<Eigen::Vector2d> src;
+                vector<Eigen::Vector2d> dst;
+                for (auto &lm:true_lms) {
+                    src.push_back(lm.trueXY);
+                }
+                for (auto &lm:g_lms) {
+                    dst.push_back(lm.trueXY);
+                }
+                Icp2DTool icp;
+                icp.Icp2D(src, dst);
+            } else {
+                cout << "cannot icp" << endl;
             }
 
         } else if (key == 99) {
             //c键 save map
-            SaveMaptoTxt(exe_config.out_map_file_name, g_lms, origin);
-            std::cout << "Save map to " << exe_config.out_map_file_name << std::endl;
-            imwrite(exe_config.out_map_pgm_name, src_map);
+            SaveMaptoTxt(exe_config.correct_map_file_name, g_lms, origin);
+            std::cout << "Save map to " << exe_config.correct_map_file_name << std::endl;
+            imwrite(exe_config.correct_map_pgm_name, src_map);
         } else if (key == 27) {
             //ESC 退出应用
             break;
         }
     }
-
     return 0;
 }
 
@@ -107,10 +131,11 @@ void ReadExeConfigFile(ExeConfig &exe_config) {
         return;
     }
     fs["solution"] >> exe_config.solution;
-    fs["raduis"] >> exe_config.raduis;
-    fs["read_map_file_name"] >> exe_config.read_map_file_name;
-    fs["out_map_file_name"] >> exe_config.out_map_file_name;
-    fs["out_map_pgm_name"] >> exe_config.out_map_pgm_name;
+    fs["radius"] >> exe_config.radius;
+    fs["slam_map_file_name"] >> exe_config.slam_map_file_name;
+    fs["correct_map_file_name"] >> exe_config.correct_map_file_name;
+    fs["correct_map_pgm_name"] >> exe_config.correct_map_pgm_name;
+    fs["true_map_file_name"] >> exe_config.true_map_file_name;
     fs.release();
 }
 

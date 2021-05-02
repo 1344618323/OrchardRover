@@ -2,6 +2,6 @@
 
     <!--static_transform_publisher x y z yaw pitch roll frame_id child_frame_id-->
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_base_laser_link_broadcaster"
-          args="0.26 0.0 0.05 0.0 0.0 0.0 base_link laser" />
+          args="0.245 0.0 0.05 0.0 0.0 0.0 base_link laser" />
 
 </launch>

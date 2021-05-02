@@ -70,7 +70,6 @@ namespace optimized_slam {
         delta[2] = optimized_slam::common::NormalizeAngleDifference<double>(
                 ros_odom_pose[2] - last_ros_odom_pose_[2]);
 
-        // See if we should update the filter
         bool odom_update = std::fabs(delta[0]) > update_min_d_ ||
                            std::fabs(delta[1]) > update_min_d_ ||
                            std::fabs(delta[2]) > update_min_a_;
@@ -85,8 +84,6 @@ namespace optimized_slam {
 
         transform::Rigid2d odom_pose =
                 init_global_pose_ * transform::Rigid2d({ros_odom_pose.x(), ros_odom_pose.y()}, ros_odom_pose.z());
-
-//        std::cout << "!odom_pose" << odom_pose << std::endl;
 
         if (node_data_.empty()) {
             node_data_[0] = NodeSpec2D{stamp, odom_pose, odom_pose};
@@ -342,15 +339,15 @@ namespace optimized_slam {
 
             if (use_sim_) {
                 //按照模拟器的设置，在4m [-60,60]以内，应该能看到，我们收紧一点
-                if ((fabs(z_hat[0]) < M_PI_4) && (z_hat[1] < 3.5) && (lmi_in_node_frame.x()>0)) {
+                if ((fabs(z_hat[0]) < M_PI_4) && (z_hat[1] < 3.5)) {
                     landmark_node.second.visible++;
                     if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
                         culling_lms_id.push_back(landmark_node.first);
                     }
                 }
             } else {
-                //?这样搞的话，有的树干可能是因为遮挡才看不见的，这个判断没有考虑这种情况
-                if ((fabs(z_hat[0]) < M_PI/6) && (lmi_in_node_frame.x()>0)) {
+                //TODO 目前这样搞的话，有的树干可能是因为遮挡才看不见的，只能加上一个条件：距离足够近还没被看到
+                if ((fabs(z_hat[0]) < M_PI/4) && (z_hat[1] < 3.5)) {
                     landmark_node.second.visible++;
                     if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
                         culling_lms_id.push_back(landmark_node.first);
@@ -365,6 +362,7 @@ namespace optimized_slam {
     }
 
     //返回最开始node的id
+    //TODO 滑动窗口法优化
     int OptimizedSlam::TrimNodeData() {
         while (node_data_.size() > reserve_node_num_) {
             node_data_.erase(node_data_.begin());

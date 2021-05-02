@@ -25,7 +25,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../fastslamalgs"
   "../fastslamalgs/../include"
   "/usr/include/eigen3"
-  "/home/cxn/myfile/orchardrover_ws/devel/include"
+  "/home/cxn/myfile/OR_ws/orchardrover_ws/devel/include"
   "/opt/ros/kinetic/include"
   "/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   )

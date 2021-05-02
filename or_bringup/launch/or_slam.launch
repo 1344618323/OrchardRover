@@ -5,8 +5,8 @@
   <include file="$(find or_bringup)/launch/static_tf.launch" />
 
   <!-- Run the detection node -->
-  <!-- <rosparam command="load" file="$(find or_detection)/config/or_detection_parameter.yaml" />
-  <node pkg="or_detection" name="trunk_detection_node" type="trunk_detection_node.py"/> -->
+  <rosparam command="load" file="$(find or_detection)/config/or_detection_parameter.yaml" />
+  <node pkg="or_detection" name="trunk_detection_node" type="trunk_detection_node.py"/>
 
   <!-- Run the lidar node -->
   <!-- <include file="$(find rplidar_ros)/launch/rplidar_s1.launch" /> -->

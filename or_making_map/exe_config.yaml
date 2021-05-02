@@ -1,9 +1,8 @@
 %YAML:1.0
 ---
 solution: 5.0000000000000003e-02
-raduis: 4
-img_width: 740
-img_height: 400
-read_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
-out_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/out_map.txt
-out_map_pgm_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/out_map.pgm
+radius: 0.0668
+slam_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/slam_map.txt
+correct_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/correct_map.txt
+correct_map_pgm_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/correct_map.pgm
+true_map_file_name: /home/cxn/myfile/OR_ws/orchardrover_ws/src/OrchardRover/or_making_map/true_map.txt

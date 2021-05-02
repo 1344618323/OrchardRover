@@ -76,7 +76,7 @@ class TebLocalPlanner : public LocalPlannerBase {
   //! Robot circumscribed radius
   double robot_circumscribed_radius;
   //! Robot odom info
-  OdomInfo odom_info_;
+  // OdomInfo odom_info_;
   //! Global planner's solve
   nav_msgs::Path global_plan_, temp_plan_;
   //! Last velocity
