@@ -27,9 +27,12 @@ namespace optimized_slam {
 
         init_global_pose_ = transform::Rigid2d({init_pose.x(), init_pose.y()}, init_pose.z());
         last_ros_odom_pose_.setZero();
+
+        // csv_file_.open("/home/cxn/myfile/OR_ws/orchardrover_ws/data.csv", std::ios::out);
     }
 
     OptimizedSlam::~OptimizedSlam() {
+        // csv_file_.close();
     }
 
     void OptimizedSlam::SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks) {
@@ -281,7 +284,7 @@ namespace optimized_slam {
         std::chrono::duration<double> time_used = std::chrono::duration_cast<std::chrono::duration<double>>(
                 t2 - t1);
         std::cout << "solve time cost = " << time_used.count() << " seconds. " << std::endl;
-
+        
         // Store the result.
         for (const auto &C_node_id_data : C_nodes) {
             node_data_.at(C_node_id_data.first).global_pose_2d =
@@ -290,6 +293,17 @@ namespace optimized_slam {
         for (const auto &C_landmark : C_landmarks) {
             landmark_data_[C_landmark.first].global_landmark_xy = ToXY(C_landmark.second);
         }
+
+        // if (!node_data_.empty()) {
+        //     auto &node_data = prev(node_data_.end())->second;
+
+        //     // csv_file_ << summary.initial_cost << ',' << summary.final_cost << ','
+        //     //           << summary.total_time_in_seconds << ',' << summary.iterations.size() << ','
+        //     csv_file_ << node_data.global_pose_2d.translation().x() << ','
+        //               << node_data.global_pose_2d.translation().y() << ','
+        //               << node_data.odom_pose_2d.translation().x() << ','
+        //               << node_data.odom_pose_2d.translation().y() << std::endl;
+        // }
     }
 
     void OptimizedSlam::LandmarksAndNodeCulling() {
@@ -347,7 +361,7 @@ namespace optimized_slam {
                 }
             } else {
                 //TODO 目前这样搞的话，有的树干可能是因为遮挡才看不见的，只能加上一个条件：距离足够近还没被看到
-                if ((fabs(z_hat[0]) < M_PI/4) && (z_hat[1] < 3.5)) {
+                if ((fabs(z_hat[0]) < M_PI / 4) && (z_hat[1] < 3.5)) {
                     landmark_node.second.visible++;
                     if (double(landmark_node.second.found) / (landmark_node.second.visible) <= 0.25) {
                         culling_lms_id.push_back(landmark_node.first);

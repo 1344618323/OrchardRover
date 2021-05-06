@@ -15,13 +15,13 @@
   <!-- Run the slam node -->
   <rosparam command="load" file="$(find or_slam)/config/or_slam_sim.yaml" />
   <rosparam command="load" file="$(find or_slam)/optimized_slam_algs/config/optimizedslam_sim.yaml" />
-  <node pkg="or_slam" name="or_slam_node" type="or_slam_node" output="screen"/>
+  <node pkg="or_slam" name="or_slam_node" type="or_slam_node"/>
 
   <!-- Run the rviz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find or_bringup)/rviz/roborts.rviz" />
 
   <!-- Run the global planner Node -->
-  <node pkg="or_planning" type="global_planner_node" name="global_planner_node" respawn="false" />
+  <node pkg="or_planning" type="global_planner_node" name="global_planner_node" respawn="false" output="screen"/>
 
   <!-- Run the local planner node -->
   <node pkg="or_planning" type="local_planner_node" name="local_planner_node" respawn="false" />

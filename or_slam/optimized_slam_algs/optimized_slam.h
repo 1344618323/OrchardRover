@@ -6,6 +6,7 @@
 #include <chrono>
 #include <limits>
 #include <mutex>
+// #include <fstream>
 
 #include <ceres/ceres.h>
 
@@ -27,11 +28,13 @@ namespace optimized_slam {
 
     class OptimizedSlam {
     public:
-        OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization = false,const bool &use_sim=false);
+        OptimizedSlam(const Eigen::Vector3d &init_pose, ros::NodeHandle *nh, const bool &pure_localization = false,
+                      const bool &use_sim = false);
 
         ~OptimizedSlam();
 
-        void AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<Eigen::Vector2d> &XYs, const ros::Time &stamp);
+        void AddNodeData(const Eigen::Vector3d &ros_odom_pose, const std::vector<Eigen::Vector2d> &XYs,
+                         const ros::Time &stamp);
 
         void SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks);
 
@@ -85,6 +88,8 @@ namespace optimized_slam {
         const bool pure_localization_;
         const bool use_sim_;
         int reserve_node_num_;
+
+        // std::ofstream csv_file_;
     };
 }
 #endif

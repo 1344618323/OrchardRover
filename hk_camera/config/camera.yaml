@@ -3,7 +3,7 @@ camera:
   height: 1080            #图像高度
   FrameRateEnable: true
   FrameRate: 100          #帧率
-  ExposureTime: 1000      #曝光时间,室外1000，室内10000   78点5000
+  ExposureTime: 4000      #曝光时间,室外1000，室内10000   78点5000
   GammaEnable: true
   Gamma: 0.45              #伽马因子
   Gain: 5                 #亮度

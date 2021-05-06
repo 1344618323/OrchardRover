@@ -39,7 +39,6 @@ private:
     //ROS Node handle
     ros::NodeHandle nh_;
     bool pure_localization_;
-    std::vector<Eigen::Vector2d> C_trunkpoints_for_position_;
 
     /**Variables for sim**/
     bool use_sim_;

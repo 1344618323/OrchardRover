@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1/Frames1
+        - /Map2
         - /Marker1
         - /Marker1/Namespaces1
         - /Path2
@@ -31,7 +32,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
   - Class: rviz/Tool Properties
     Expanded: ~
     Name: Tool Properties
@@ -148,8 +149,7 @@ Visualization Manager:
       Marker Topic: /landmarks
       Name: Marker
       Namespaces:
-        landmark: true
-        residual: true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -177,7 +177,7 @@ Visualization Manager:
       Value: true
     - Alpha: 1
       Class: rviz/Polygon
-      Color: 25; 255; 0
+      Color: 255; 255; 0
       Enabled: true
       Name: Polygon
       Topic: /local_costmap/local_costmap/footprint
@@ -208,7 +208,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 27.7808743
+      Distance: 23.7481613
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
