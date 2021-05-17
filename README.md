@@ -44,6 +44,50 @@ costmap：全局分辨率0.5m+局部0.1m
 * or_slam：      图优化实现、Fastslam1.0 算法实现
 * or_lasercamcal： 相机雷达外参标定（[旷世开源的标定程序](https://github.com/MegviiRobot/CamLaserCalibraTool)）
 
+## 使用指令
+
+*串口内容：
+```
+cd /etc/udev/rules.d
+车子：
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE:="0777", SYMLINK+="or_7523_serial"
+213测试设备：
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE:="0777", SYMLINK+="or_7523_serial"
+```
+* 仅开启相机
+
+roslaunch hk_camera hk_camera_show.launch （hk包中config调整是否可视化结果、调整曝光）
+
+
+* 树干方位感知：
+
+roslaunch or_bringup trunk_position_online.launch  （detection包中config可调整是否使用雷达、是否可视化结果。引用了上一个launch，因此无法调整是否查看原图）
+
+* 开启相机雷达里程计
+
+roslaunch or_bringup bag.launch 
+
+* 录制数据：
+
+rosbag record /scan /usb_cam/image_raw /tf 
+
+* 串口：
+
+roslaunch or_bringup or_base.launch
+
+底盘速度控制：[0.3,0.5]
+
+* 看tf:
+
+rosrun rqt_tf_tree rqt_tf_tree
+
+rosrun tf tf_echo odom base_link
+
+* 记录planning
+
+rosbag record /global_costmap/global_costmap/costmap /global_planner_node/path /map /local_costmap/local_costmap/costmap /local_costmap/local_costmap/footprint /local_planner_node/trajectory /tf /cmd_vel 
+
+
 ## 仿真效果
 ### 图优化效果
 <img src="img/优化slam（终极版）.gif" style="zoom:80%;display: inline-block; float:middle"/>

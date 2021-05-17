@@ -7,6 +7,8 @@
 #include <std_msgs/Int32.h>
 #include <std_msgs/String.h>
 #include <rosbag/view.h>
+#include "geometry_msgs/Twist.h"
+#include <fstream>
 
 //往bag里写数据
 //int main(int argc, char **argv) {
@@ -41,19 +43,27 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "rosbag_test");
     ros::NodeHandle n;
     rosbag::Bag bag;
-    bag.open("test.bag", rosbag::bagmode::Read);
+    bag.open("/home/cxn/myfile/OR_ws2/2021-05-04-14-59-56.bag", rosbag::bagmode::Read);
     std::vector<std::string> topics;
-    topics.push_back(std::string("chatter"));
-    topics.push_back(std::string("number"));
+    topics.push_back(std::string("/cmd_vel"));
     rosbag::View view(bag, rosbag::TopicQuery(topics));
+
+    std::ofstream csv_file_;
+    csv_file_.open("/home/cxn/myfile/OR_ws/orchardrover_ws/data.csv", std::ios::out);
+
     for (rosbag::MessageInstance const m:view) {
-        std_msgs::String::ConstPtr s = m.instantiate<std_msgs::String>();
-        if (s != NULL)
-            std::cout << s->data << std::endl;
-        std_msgs::Int32::ConstPtr i = m.instantiate<std_msgs::Int32>();
-        if (i != NULL)
-            std::cout << i->data << std::endl;
+        geometry_msgs::Twist::ConstPtr vel = m.instantiate<geometry_msgs::Twist>();
+        if (vel != NULL) {
+            std::cout << vel->linear.x << std::endl;
+            std::cout << vel->angular.z << std::endl;
+
+            csv_file_ << vel->linear.x << ','
+                      << vel->angular.z << std::endl;
+        }
     }
+
+    csv_file_.close();
+
     bag.close();
     return 0;
 }

@@ -6,7 +6,7 @@
 #include <chrono>
 #include <limits>
 #include <mutex>
-// #include <fstream>
+#include <fstream>
 
 #include <ceres/ceres.h>
 
@@ -89,7 +89,7 @@ namespace optimized_slam {
         const bool use_sim_;
         int reserve_node_num_;
 
-        // std::ofstream csv_file_;
+        std::ofstream csv_file_;
     };
 }
 #endif

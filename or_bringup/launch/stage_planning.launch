@@ -21,14 +21,14 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find or_bringup)/rviz/roborts.rviz" />
 
   <!-- Run the global planner Node -->
-  <node pkg="or_planning" type="global_planner_node" name="global_planner_node" respawn="false" output="screen"/>
+  <node pkg="or_planning" type="global_planner_node" name="global_planner_node" respawn="false"/>
 
   <!-- Run the local planner node -->
-  <node pkg="or_planning" type="local_planner_node" name="local_planner_node" respawn="false" />
+  <node pkg="or_planning" type="local_planner_node" name="local_planner_node" respawn="false" output="screen" />
 
    <!-- Run the velocity converter node -->
   <node pkg="or_planning" type="vel_converter" name="vel_converter_node" respawn="false" />
 
-  <node pkg="or_executor" type="or_executor_node" name="or_executor_node" respawn="false" output="screen"/>
+  <node pkg="or_executor" type="or_executor_node" name="or_executor_node" respawn="false"/>
 
 </launch>

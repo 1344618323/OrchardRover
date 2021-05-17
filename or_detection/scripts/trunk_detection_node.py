@@ -258,8 +258,6 @@ def draw_text(img, point, text, drawType="custom"):
     return img
 
 # 输入limits（boundingBoxes）,找出每个box中心点u 对应的 激光坐标
-
-
 def CalcTrunkDepth(limits, points_map, process_img=None, visualize=False):
     laser_points = []
     for limit in limits:
@@ -286,6 +284,17 @@ def CalcTrunkDepth(limits, points_map, process_img=None, visualize=False):
                     limit[3])), text, drawType="custom")
 
     return laser_points
+
+
+def CalcTrunkDepth2(limits, points_map, process_img=None, visualize=False):
+
+    vec = []
+    for key in range(1, 719):
+        if points_map.has_key(key):
+            vec.append(points_map[key])
+            if visualize:
+                cv2.circle(process_img, (int(points_map[key][1][0]), int(
+                        points_map[key][1][1])), 3, (0, 0, 255), -1)
 
 
 if __name__ == '__main__':
@@ -329,6 +338,10 @@ if __name__ == '__main__':
 
             boxes = DetectTrunkByNet(net, process_img)
 
+            # debug_img = copy.deepcopy(process_img)
+            # CalcTrunkDepth2(
+            #     boxes, points_map, debug_img, visualize)
+
             laser_points = CalcTrunkDepth(
                 boxes, points_map, process_img, visualize)
 
@@ -339,6 +352,7 @@ if __name__ == '__main__':
 
         if visualize:
             cv2.imshow("ProcessImg", process_img)
+            # cv2.imshow("Debug",debug_img)
             cv2.waitKey(5)
 
     cv2.destroyAllWindows()

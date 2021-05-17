@@ -6,9 +6,11 @@
 namespace or_local_planner {
 
     TebLocalPlanner::TebLocalPlanner() {
+//        csv_file_.open("/home/cxn/myfile/OR_ws/orchardrover_ws/data.csv", std::ios::out);
     }
 
     TebLocalPlanner::~TebLocalPlanner() {
+//        csv_file_.close();
     }
 
     /*
@@ -113,8 +115,16 @@ namespace or_local_planner {
             micro_control = true;
         }
 
+//        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+
         // bool success = optimal_->Optimal(transformed_plan_, &robot_current_vel_, free_goal_vel_, micro_control);
         bool success = optimal_->Optimal(transformed_plan_, nullptr , free_goal_vel_, micro_control);
+
+//        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+//        std::chrono::duration<double> time_used = std::chrono::duration_cast<std::chrono::duration<double>>(
+//                t2 - t1);
+//        csv_file_ << time_used.count() << std::endl;
+//        std::cout << "solve time cost = " << time_used.count() << " seconds. " << std::endl;
 
         if (!success) {
             optimal_->ClearPlanner();

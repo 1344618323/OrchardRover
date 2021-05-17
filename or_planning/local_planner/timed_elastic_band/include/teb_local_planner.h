@@ -2,7 +2,8 @@
 #define OR_PLANNING_LOCAL_PLANNER_TEB_H
 
 #include <mutex>
-
+#include <chrono>
+#include <fstream>
 #include "proto_io/io.h"
 #include "state/error_code.h"
 
@@ -124,6 +125,7 @@ class TebLocalPlanner : public LocalPlannerBase {
   float yaw_goal_tolerance_;
   float osbtacle_behind_robot_dist_;
 
+  std::ofstream csv_file_;
 
  protected:
   //! Check if the algorithm is initialized

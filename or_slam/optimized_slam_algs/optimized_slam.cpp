@@ -28,11 +28,11 @@ namespace optimized_slam {
         init_global_pose_ = transform::Rigid2d({init_pose.x(), init_pose.y()}, init_pose.z());
         last_ros_odom_pose_.setZero();
 
-        // csv_file_.open("/home/cxn/myfile/OR_ws/orchardrover_ws/data.csv", std::ios::out);
+        csv_file_.open("/home/cxn/myfile/OR_ws/orchardrover_ws/data.csv", std::ios::out);
     }
 
     OptimizedSlam::~OptimizedSlam() {
-        // csv_file_.close();
+        csv_file_.close();
     }
 
     void OptimizedSlam::SetConstantLandmarks(const std::map<int, Eigen::Vector2d> &landmarks) {
@@ -304,6 +304,7 @@ namespace optimized_slam {
         //               << node_data.odom_pose_2d.translation().x() << ','
         //               << node_data.odom_pose_2d.translation().y() << std::endl;
         // }
+               csv_file_  << summary.total_time_in_seconds << std::endl;
     }
 
     void OptimizedSlam::LandmarksAndNodeCulling() {
