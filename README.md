@@ -1,6 +1,6 @@
 # OrchardRover
 A navigation system for orchard robot.
-OrchardRover 是一套基于 ROS 开发的果园移动机器人 SLAM 系统。此外，本项目还编写了机器人的下位机程序 [OrchardRoverFirmWare](https://github.com/1344618323/OrchardRoverFirmWare) 
+OrchardRover 是一套基于 ROS 开发的果园移动机器人导航系统。此外，本项目还编写了机器人的下位机程序 [OrchardRoverFirmWare](https://github.com/1344618323/OrchardRoverFirmWare) 
 
 方案
 * 建立以树干坐标表征的二维果园地图
@@ -47,11 +47,14 @@ IDE: Ros kinetic & C++
 ## 仿真效果
 
 ### 图优化SLAM
+
 <img src="img/slam_opt.gif" style="zoom:80%;display: inline-block; float:middle"/>
 
 ### FastSLAM
 在 Stage 仿真中使用100个粒子建图，经过重采样后，粒子集的地图趋于收敛
+
 <img src="img/slam_pf.gif" style="zoom:80%;display: inline-block; float:middle"/>
+
 * 红色粒子：机器人位姿粒子集
 * 黑色菱形：树干真实坐标
 * 蓝色方块：粒子集地图，所有粒子的地图都会绘制
