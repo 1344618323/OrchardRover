@@ -64,7 +64,7 @@ IDE: Ros kinetic & C++
 
 ### Planning
 
-<img src="img/a*&teb.png" style="zoom:80%;display: inline-block; float:middle"/>
+<img src="img/astar&teb.png" style="zoom:80%;display: inline-block; float:middle"/>
 
 
 ## 使用指令
